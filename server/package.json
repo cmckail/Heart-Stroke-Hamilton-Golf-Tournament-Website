@@ -5,9 +5,10 @@
     "main": "index.js",
     "scripts": {
         "start": "ts-node src/index.ts",
+        "build": "tsc",
         "debug": "nodemon --inspect src/index.ts",
         "dev": "nodemon src/index.ts",
-        "test": "mocha -r ts-node/register src/test/*.ts"
+        "test": "mocha --exit -r ts-node/register src/test/*.ts"
     },
     "keywords": [],
     "author": "",
