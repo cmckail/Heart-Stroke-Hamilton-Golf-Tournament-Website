@@ -8,8 +8,7 @@
         "build": "tsc",
         "debug": "nodemon --inspect src/index.ts",
         "dev": "nodemon src/index.ts",
-        "sequelize": "node_modules/.bin/sequelize",
-        "test": "mocha --exit -r ts-node/register src/tests/*.spec.ts"
+        "test": "cross-env NODE_ENV=test mocha --exit -r ts-node/register src/tests/*.spec.ts"
     },
     "keywords": [],
     "author": "",
@@ -27,6 +26,7 @@
         "@types/winston": "^2.4.4",
         "chai": "^4.2.0",
         "chai-http": "^4.3.0",
+        "cross-env": "^7.0.3",
         "mocha": "^8.2.1",
         "nodemon": "^2.0.7",
         "prettier": "2.2.1",

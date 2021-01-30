@@ -19,4 +19,14 @@ if (process.env.NODE_ENV?.toLowerCase() === "development") {
     };
 }
 
+if (process.env.NODE_ENV?.toLowerCase() === "test") {
+    connectionObj = {
+        ...connectionObj,
+        type: "sqlite",
+        database: ":memory:",
+        dropSchema: true,
+        synchronize: true,
+    };
+}
+
 export default connectionObj;

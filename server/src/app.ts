@@ -1,5 +1,5 @@
 import * as dotenv from "dotenv";
-const env = dotenv.config();
+dotenv.config();
 
 import "reflect-metadata";
 import bodyParser from "body-parser";
