@@ -1,5 +1,5 @@
 import * as dotenv from "dotenv";
-dotenv.config();
+const env = dotenv.config();
 
 import "reflect-metadata";
 import bodyParser from "body-parser";
@@ -8,6 +8,7 @@ import express from "express";
 import { createConnection } from "typeorm";
 
 import connectionObj from "./config/db";
+import logger from "./utils/logger/logger";
 
 export default class Application {
     app: express.Application;
@@ -23,7 +24,7 @@ export default class Application {
      */
     startDbAndServer = async () => {
         const connection = await createConnection(connectionObj);
-        console.log(
+        logger.info(
             `Connected to DB. Connection: ${connection.name} / ${connection.options.database}`
         );
         const router = require("./routes"); // MUST COME AFTER createConnection()
@@ -37,7 +38,7 @@ export default class Application {
     private startServer(): Promise<boolean> {
         return new Promise((resolve, reject) => {
             this.app.listen(process.env.PORT, () => {
-                console.log("App started on port " + process.env.PORT);
+                logger.info("App started on port " + process.env.PORT);
                 resolve(true);
             });
         });
