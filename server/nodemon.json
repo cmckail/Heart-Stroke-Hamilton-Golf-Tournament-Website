@@ -5,9 +5,5 @@
     "execMap": {
         "ts": "node -r ts-node/register"
     },
-    "env": {
-        "NODE_ENV": "development",
-        "PORT": 5000
-    },
     "ext": "js,json,ts"
 }

@@ -1,21 +1,21 @@
 import { doesNotMatch } from "assert";
 import chai from "chai";
 import chaiHttp from "chai-http";
-import app from "../index";
+import { app } from "./test-helper";
 
 chai.use(chaiHttp);
 chai.should();
 const assert = chai.assert;
 
-describe("Hello World test", () => {
-    it("should get hello world", (done) => {
+describe("Connection test", () => {
+    it("should connect successfully", (done) => {
         chai.request(app)
-            .get("/")
+            .get("/api")
             .end((err, res) => {
                 if (err) {
                     done(err);
                 }
-                assert.deepEqual(res.body.msg, "Hello World!");
+                assert.deepEqual(res.body.msg, "Connection successful.");
                 done();
             });
     });
