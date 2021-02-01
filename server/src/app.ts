@@ -29,6 +29,7 @@ export default class Application {
         );
         const router = require("./routes"); // MUST COME AFTER createConnection()
         this.app.use("/api", router); // MUST COME AFTER require("./routes")
+
         await this.startServer();
     };
 

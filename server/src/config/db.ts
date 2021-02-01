@@ -14,8 +14,8 @@ if (process.env.NODE_ENV?.toLowerCase() === "development") {
         ...connectionObj,
         type: "sqlite",
         database: "./database.db",
-        dropSchema: true,
-        synchronize: true,
+        // dropSchema: true,
+        // synchronize: true,
     };
 }
 
