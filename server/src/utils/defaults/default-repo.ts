@@ -6,7 +6,7 @@ import {
     FindManyOptions,
     FindOneOptions,
 } from "typeorm";
-import HttpException from "../errors/httpException";
+import HttpException from "../errors/http-exception";
 
 export default class DefaultRepository<T> {
     private repo: Repository<T>;
@@ -15,7 +15,7 @@ export default class DefaultRepository<T> {
         this.repo = getConnection().getRepository<T>(repo);
     }
 
-    async addToDB(item: T) {
+    protected async addToDB(item: T) {
         try {
             return await this.repo.save(item);
         } catch (e) {
@@ -28,14 +28,14 @@ export default class DefaultRepository<T> {
         }
     }
 
-    async find(options: FindManyOptions<T>) {
+    protected async find(options: FindManyOptions<T>) {
         const result = await this.repo.find(options);
         if (!result || result.length === 0)
             throw new HttpException(404, "Item not found.");
         return result!;
     }
 
-    async findOne(options: FindOneOptions<T>) {
+    protected async findOne(options: FindOneOptions<T>) {
         return (await this.find(options))[0];
     }
 }

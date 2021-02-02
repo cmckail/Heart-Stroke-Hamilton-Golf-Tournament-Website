@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
-import imageRouter from "./controllers/imageController";
-import HttpException from "./utils/errors/httpException";
+import imageRouter from "./controllers/image-controller";
+import controllers from "./controllers";
+import HttpException from "./utils/errors/http-exception";
 import logger from "./utils/logger/logger";
 const router = Router();
 const defaultErrorMessage =
@@ -10,7 +11,9 @@ router.get("/", (req, res) => {
     res.json({ msg: "Connection successful." });
 });
 
-router.use("/images", imageRouter);
+controllers.forEach((item) => {
+    router.use(item.route, item.router);
+});
 
 // Handle error
 router.use(

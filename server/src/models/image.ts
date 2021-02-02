@@ -9,9 +9,9 @@ import {
     FindManyOptions,
     FindOneOptions,
 } from "typeorm";
-import HttpException from "../utils/errors/httpException";
+import HttpException from "../utils/errors/http-exception";
 import logger from "../utils/logger/logger";
-import DefaultRepository from "../utils/repository/defaultRepo";
+import DefaultRepository from "../utils/defaults/default-repo";
 
 enum ImageMimeTypes {
     JPEG = "image/jpeg",
@@ -37,25 +37,6 @@ class Image {
 
     @CreateDateColumn()
     createdAt?: Date;
-}
-
-export class ImageRepository {
-    private repo: DefaultRepository<Image>;
-    constructor() {
-        this.repo = new DefaultRepository(Image);
-    }
-
-    async addToDB(image: Image) {
-        return await this.repo.addToDB(image);
-    }
-
-    async findByID(id: string) {
-        return await this.repo.findOne({ where: { id } });
-    }
-
-    async findByFileName(filename: string) {
-        return await this.repo.findOne({ where: { filename } });
-    }
 }
 
 export default Image;

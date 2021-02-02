@@ -2,8 +2,9 @@ import { Router } from "express";
 import { getConnection } from "typeorm";
 import multer from "multer";
 
-import Image, { ImageRepository } from "../models/image";
-import HttpException from "../utils/errors/httpException";
+import Image from "../models/image";
+import ImageRepository from "../repos/image-repo";
+import HttpException from "../utils/errors/http-exception";
 
 const imageRouter = Router();
 const repo = new ImageRepository();

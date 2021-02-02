@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { ConnectionOptions } from "typeorm";
-import NamingStrategy from "./namingStrategy";
+import NamingStrategy from "./naming-strategy";
 
 let connectionObj: ConnectionOptions = {
     type: "mysql",
