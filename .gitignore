@@ -40,3 +40,4 @@ yarn-error.log*
 
 # local test files
 /server/src/test.ts
+/*.html
