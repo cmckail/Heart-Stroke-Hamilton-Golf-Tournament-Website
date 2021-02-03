@@ -38,4 +38,6 @@ export default class DefaultRepository<T> {
     protected async findOne(options: FindOneOptions<T>) {
         return (await this.find(options))[0];
     }
+
+    protected async delete(id: string) {}
 }

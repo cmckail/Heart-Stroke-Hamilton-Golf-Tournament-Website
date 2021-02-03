@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { getConnection } from "typeorm";
 import multer from "multer";
 
 import Image from "../models/image";

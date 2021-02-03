@@ -2,16 +2,8 @@ import {
     Column,
     CreateDateColumn,
     Entity,
-    getConnection,
     PrimaryGeneratedColumn,
-    Repository,
-    QueryFailedError,
-    FindManyOptions,
-    FindOneOptions,
 } from "typeorm";
-import HttpException from "../utils/errors/http-exception";
-import logger from "../utils/logger/logger";
-import DefaultRepository from "../utils/defaults/default-repo";
 
 enum ImageMimeTypes {
     JPEG = "image/jpeg",
