@@ -37,3 +37,6 @@ yarn-error.log*
 
 # test databases
 *.db
+
+# local test files
+/server/src/test.ts
