@@ -1,5 +1,6 @@
 import imageRouter from "./image-controller";
 import paymentRouter from "./payment-controller";
+import userRouter from "./user-controller";
 
 export default [
     {
@@ -9,5 +10,9 @@ export default [
     {
         route: "/payment",
         router: paymentRouter,
+    },
+    {
+        route: "/users",
+        router: userRouter,
     },
 ];

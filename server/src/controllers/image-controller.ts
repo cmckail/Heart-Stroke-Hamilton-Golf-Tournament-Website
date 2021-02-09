@@ -3,7 +3,7 @@ import multer from "multer";
 
 import Image from "../models/image";
 import ImageRepository from "../repos/image-repo";
-import HttpException from "../utils/errors/http-exception";
+import HttpException from "../utils/defaults/default-exception";
 
 const imageRouter = Router();
 const repo = new ImageRepository();

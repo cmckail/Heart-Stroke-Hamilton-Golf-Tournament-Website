@@ -6,7 +6,7 @@ import {
     FindManyOptions,
     FindOneOptions,
 } from "typeorm";
-import HttpException from "../errors/http-exception";
+import { ModelValidationError, NotFoundError } from "../errors/exceptions";
 
 export default class DefaultRepository<T> {
     private repo: Repository<T>;
@@ -21,7 +21,7 @@ export default class DefaultRepository<T> {
         } catch (e) {
             switch (e.constructor) {
                 case QueryFailedError:
-                    throw new HttpException(400, "Invalid constraint.");
+                    throw new ModelValidationError();
                 default:
                     throw e;
             }
@@ -30,8 +30,7 @@ export default class DefaultRepository<T> {
 
     protected async find(options: FindManyOptions<T>) {
         const result = await this.repo.find(options);
-        if (!result || result.length === 0)
-            throw new HttpException(404, "Item not found.");
+        if (!result || result.length === 0) throw new NotFoundError();
         return result!;
     }
 
@@ -39,5 +38,7 @@ export default class DefaultRepository<T> {
         return (await this.find(options))[0];
     }
 
-    protected async delete(id: string) {}
+    protected async delete(id: string) {
+        return await this.repo.delete(id);
+    }
 }

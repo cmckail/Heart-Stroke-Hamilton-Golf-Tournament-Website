@@ -15,7 +15,7 @@ if (process.env.NODE_ENV?.toLowerCase() === "development") {
         type: "sqlite",
         database: "./database.db",
         // dropSchema: true,
-        // synchronize: true,
+        synchronize: !!process.env.SYNC_DB,
     };
 }
 

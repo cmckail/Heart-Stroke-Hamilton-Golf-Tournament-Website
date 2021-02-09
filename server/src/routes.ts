@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from "express";
 import imageRouter from "./controllers/image-controller";
 import controllers from "./controllers";
-import HttpException from "./utils/errors/http-exception";
+import HttpException from "./utils/defaults/default-exception";
 import logger from "./utils/logger/logger";
 const router = Router();
 const defaultErrorMessage =

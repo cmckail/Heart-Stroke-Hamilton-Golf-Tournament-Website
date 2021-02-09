@@ -9,6 +9,7 @@ import { createConnection } from "typeorm";
 
 import connectionObj from "./config/db";
 import logger from "./utils/logger/logger";
+import cookieParser from "cookie-parser";
 
 export default class Application {
     app: express.Application;
@@ -17,6 +18,7 @@ export default class Application {
         this.app = express();
         this.app.use(cors());
         this.app.use(bodyParser.json());
+        this.app.use(cookieParser());
     }
 
     /**
@@ -25,7 +27,11 @@ export default class Application {
     startDbAndServer = async () => {
         const connection = await createConnection(connectionObj);
         logger.info(
-            `Connected to DB. Connection: ${connection.name} / ${connection.options.database}`
+            `Connected to DB. ${
+                process.env.NODE_ENV! === "development"
+                    ? `Sync DB: ${!!process.env.SYNC_DB} / `
+                    : ""
+            } Connection: ${connection.name} / ${connection.options.database}`
         );
         const router = require("./routes"); // MUST COME AFTER createConnection()
         this.app.use("/api", router); // MUST COME AFTER require("./routes")
