@@ -11,23 +11,6 @@ const repo = new ImageRepository();
 const upload = multer();
 
 /**
- * TODO: Finish this
- * GET image route via queries
- */
-imageRouter.get("/", async (req, res, next) => {
-    try {
-        let queries = req.query;
-
-        if ("filename" in queries || "mimetype" in queries || "id" in queries) {
-        } else {
-            throw new HttpException(400, "Invalid queries");
-        }
-    } catch (e) {
-        next(e);
-    }
-});
-
-/**
  * POST image route
  */
 imageRouter.post("/upload", upload.single("photo"), async (req, res, next) => {

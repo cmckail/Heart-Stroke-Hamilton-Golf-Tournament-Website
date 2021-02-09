@@ -10,6 +10,10 @@ export default class ImageRepository extends DefaultRepository<Image> {
         return await super.addToDB(image);
     }
 
+    async find(option: object) {
+        return await super.find({ where: option });
+    }
+
     async findByID(id: string) {
         return await super.findOne({ where: { id } });
     }

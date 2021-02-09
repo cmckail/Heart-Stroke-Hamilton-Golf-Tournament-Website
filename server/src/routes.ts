@@ -2,7 +2,7 @@ import { Router, Request, Response, NextFunction } from "express";
 import imageRouter from "./controllers/image-controller";
 import controllers from "./controllers";
 import HttpException from "./utils/defaults/default-exception";
-import logger from "./utils/logger/logger";
+import logger from "./utils/logger";
 const router = Router();
 const defaultErrorMessage =
     "Something went wrong. Please try again or contact support.";

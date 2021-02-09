@@ -2,6 +2,10 @@ import "reflect-metadata";
 import { ConnectionOptions } from "typeorm";
 import NamingStrategy from "./naming-strategy";
 
+/**
+ * Sets up DB connection objects
+ */
+
 let connectionObj: ConnectionOptions = {
     type: "mysql",
     url: process.env.DB_CONNECTION,

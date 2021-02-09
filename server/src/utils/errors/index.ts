@@ -14,12 +14,18 @@ export class ForbiddenError extends HttpException {
 
 export class ModelValidationError extends HttpException {
     constructor(message?: string) {
-        super(500, message || "Item does not fit model validation rules.");
+        super(400, message || "Item does not fit model validation rules.");
     }
 }
 
 export class NotFoundError extends HttpException {
     constructor(message?: string) {
         super(404, message || "Item not found.");
+    }
+}
+
+export class InvalidArgumentError extends HttpException {
+    constructor(message?: string) {
+        super(400, message || "Invalid arguments given.");
     }
 }

@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 
 import User from "../models/user";
 import UserRepository from "../repos/user-repo";
-import { ForbiddenError, UnauthorizedError } from "../utils/errors/exceptions";
+import { ForbiddenError, UnauthorizedError } from "../utils/errors";
 
 const userRouter = Router();
 const repo = new UserRepository();

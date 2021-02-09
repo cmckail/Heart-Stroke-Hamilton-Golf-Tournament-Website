@@ -1,6 +1,9 @@
 import { DefaultNamingStrategy } from "typeorm";
 import { snakeCase } from "typeorm/util/StringUtils";
 
+/**
+ * Changes DB naming schemes to underscore case
+ */
 export default class NamingStrategy extends DefaultNamingStrategy {
     public tableName(className: string, customName: string): string {
         return customName || snakeCase(className);

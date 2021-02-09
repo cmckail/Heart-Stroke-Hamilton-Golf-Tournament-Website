@@ -8,7 +8,7 @@ import express from "express";
 import { createConnection } from "typeorm";
 
 import connectionObj from "./config/db";
-import logger from "./utils/logger/logger";
+import logger from "./utils/logger";
 import cookieParser from "cookie-parser";
 
 export default class Application {

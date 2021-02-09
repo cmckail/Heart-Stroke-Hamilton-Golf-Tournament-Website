@@ -6,7 +6,7 @@ import {
     FindManyOptions,
     FindOneOptions,
 } from "typeorm";
-import { ModelValidationError, NotFoundError } from "../errors/exceptions";
+import { ModelValidationError, NotFoundError } from "../errors";
 
 export default class DefaultRepository<T> {
     private repo: Repository<T>;
