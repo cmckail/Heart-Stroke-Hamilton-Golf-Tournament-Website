@@ -5,6 +5,13 @@ import jwt from "jsonwebtoken";
 import User from "../models/user";
 import UserRepository from "../repos/user-repo";
 import { ForbiddenError, UnauthorizedError } from "../utils/errors";
+import {
+    env,
+    accessLife,
+    accessSecret,
+    refreshLife,
+    refreshSecret,
+} from "../config";
 
 const userRouter = Router();
 const repo = new UserRepository();
@@ -30,28 +37,20 @@ userRouter.post("/login", async (req, res, next) => {
 
         if (correctPassword) {
             let payload = { user: user.email };
-            let accessToken = jwt.sign(
-                payload,
-                process.env.ACCESS_TOKEN_SECRET!,
-                {
-                    expiresIn: process.env.ACCESS_TOKEN_LIFE!,
-                }
-            );
-            let refreshToken = jwt.sign(
-                payload,
-                process.env.REFRESH_TOKEN_SECRET!,
-                {
-                    expiresIn: process.env.REFRESH_TOKEN_LIFE!,
-                }
-            );
+            let accessToken = jwt.sign(payload, accessSecret, {
+                expiresIn: accessLife,
+            });
+            let refreshToken = jwt.sign(payload, refreshSecret, {
+                expiresIn: refreshLife,
+            });
 
             res.cookie("accessToken", accessToken, {
-                secure: process.env.NODE_ENV === "production",
+                secure: env === "production",
                 httpOnly: true,
             });
 
             res.cookie("refreshToken", refreshToken, {
-                secure: process.env.NODE_ENV === "production",
+                secure: env === "production",
                 httpOnly: true,
             });
 
@@ -73,24 +72,17 @@ userRouter.get("/refresh", async (req, res, next) => {
         }
 
         try {
-            let payload = jwt.verify(
-                accessToken,
-                process.env.ACCESS_TOKEN_SECRET!
-            );
+            let payload = jwt.verify(accessToken, accessSecret);
             let refreshToken = req.cookies.refreshToken;
 
-            jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET!);
+            jwt.verify(refreshToken, refreshSecret);
 
-            let newAccessToken = jwt.sign(
-                payload,
-                process.env.ACCESS_TOKEN_SECRET!,
-                {
-                    expiresIn: process.env.ACCESS_TOKEN_LIFE!,
-                }
-            );
+            let newAccessToken = jwt.sign(payload, accessSecret, {
+                expiresIn: accessLife,
+            });
 
             res.cookie("accessToken", accessToken, {
-                secure: process.env.NODE_ENV === "production",
+                secure: env === "production",
                 httpOnly: true,
             });
 

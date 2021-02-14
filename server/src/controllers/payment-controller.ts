@@ -1,9 +1,11 @@
 import { Router } from "express";
 import Stripe from "stripe";
 
+import { baseURL, stripeSecret } from "../config";
+
 const paymentRouter = Router();
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+const stripe = new Stripe(stripeSecret, {
     apiVersion: "2020-08-27",
     typescript: true,
 });
@@ -27,8 +29,8 @@ paymentRouter.post("/", async (req, res, next) => {
             },
         ],
         mode: "payment",
-        success_url: `${process.env.BASE_URL + req.originalUrl}?success=true`,
-        cancel_url: `${process.env.BASE_URL + req.originalUrl}?canceled=true`,
+        success_url: `${baseURL + req.originalUrl}?success=true`,
+        cancel_url: `${baseURL + req.originalUrl}?canceled=true`,
     });
 
     res.json({ id: session.id });

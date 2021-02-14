@@ -1,15 +1,11 @@
-import * as dotenv from "dotenv";
-dotenv.config();
-
 import "reflect-metadata";
 import bodyParser from "body-parser";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import express from "express";
 import { createConnection } from "typeorm";
 
-import connectionObj from "./config/db";
-import logger from "./utils/logger";
-import cookieParser from "cookie-parser";
+import { env, port, connectionObj, logger } from "./config";
 
 export default class Application {
     app: express.Application;
@@ -28,7 +24,7 @@ export default class Application {
         const connection = await createConnection(connectionObj);
         logger.info(
             `Connected to DB. ${
-                process.env.NODE_ENV! === "development"
+                env === "development"
                     ? `Sync DB: ${!!process.env.SYNC_DB} / `
                     : ""
             } Connection: ${connection.name} / ${connection.options.database}`
@@ -44,8 +40,8 @@ export default class Application {
      */
     private startServer(): Promise<boolean> {
         return new Promise((resolve, reject) => {
-            this.app.listen(process.env.PORT, () => {
-                logger.info("App started on port " + process.env.PORT);
+            this.app.listen(port, () => {
+                logger.info("App started on port " + port);
                 resolve(true);
             });
         });

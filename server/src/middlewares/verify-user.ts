@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
+
 import { ForbiddenError, UnauthorizedError } from "../utils/errors";
+import { accessSecret } from "../config";
 
 export default (req: Request, res: Response, next: NextFunction) => {
     let accessToken = req.cookies.jwt;
@@ -10,7 +12,7 @@ export default (req: Request, res: Response, next: NextFunction) => {
     }
 
     try {
-        jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET!);
+        jwt.verify(accessToken, accessSecret);
         next();
     } catch (e) {
         throw new UnauthorizedError();

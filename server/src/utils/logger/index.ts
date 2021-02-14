@@ -1,4 +1,4 @@
-import { createLogger, format, loggers, transports } from "winston";
+import { createLogger, format, transports } from "winston";
 
 export default createLogger({
     level: "info",

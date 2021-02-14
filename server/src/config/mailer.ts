@@ -7,8 +7,8 @@ if (process.env.NODE_ENV !== "production") {
         host: "smtp.mailtrap.io",
         port: 2525,
         auth: {
-            user: process.env.MAILTRAP_USER,
-            pass: process.env.MAILTRAP_PASS,
+            user: process.env.MAILTRAP_USER!,
+            pass: process.env.MAILTRAP_PASS!,
         },
     };
 } else {

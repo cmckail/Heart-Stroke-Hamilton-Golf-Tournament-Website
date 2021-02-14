@@ -1,8 +1,9 @@
 import { Router, Request, Response, NextFunction } from "express";
-import imageRouter from "./controllers/image-controller";
+
 import controllers from "./controllers";
 import HttpException from "./utils/defaults/default-exception";
-import logger from "./utils/logger";
+import { env, logger } from "./config";
+
 const router = Router();
 const defaultErrorMessage =
     "Something went wrong. Please try again or contact support.";
@@ -21,12 +22,10 @@ router.use(
         const message = err.message || defaultErrorMessage;
         const statusCode = err.statusCode || 500;
         logger.error(
-            process.env.NODE_ENV === "development" ||
-                process.env.NODE_ENV === "test"
+            env === "development" || env === "test"
                 ? err.stack
                 : `[${statusCode}] - ${err.message || "Unknown error"}}`
         );
-        // logger.error(err.stack);
 
         res.status(statusCode).json({ statusCode, message });
     }
