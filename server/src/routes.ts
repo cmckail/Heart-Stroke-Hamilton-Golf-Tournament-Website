@@ -16,19 +16,26 @@ controllers.forEach((item) => {
     router.use(item.route, item.router);
 });
 
-// Handle error
-router.use(
-    (err: HttpException, req: Request, res: Response, next: NextFunction) => {
-        const message = err.message || defaultErrorMessage;
-        const statusCode = err.statusCode || 500;
-        logger.error(
-            env === "development" || env === "test"
-                ? err.stack
-                : `[${statusCode}] - ${err.message || "Unknown error"}}`
-        );
+// Handle error in production
+if (env === "production") {
+    router.use(
+        (
+            err: HttpException,
+            req: Request,
+            res: Response,
+            next: NextFunction
+        ) => {
+            const message = err.message || defaultErrorMessage;
+            const statusCode = err.statusCode || 500;
+            logger.error(
+                env === "development" || env === "test"
+                    ? err.stack
+                    : `[${statusCode}] - ${err.message || "Unknown error"}}`
+            );
 
-        res.status(statusCode).json({ statusCode, message });
-    }
-);
+            res.status(statusCode).json({ statusCode, message });
+        }
+    );
+}
 
 module.exports = router;

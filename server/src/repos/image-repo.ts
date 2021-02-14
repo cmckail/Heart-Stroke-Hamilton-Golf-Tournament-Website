@@ -6,7 +6,7 @@ export default class ImageRepository extends DefaultRepository<Image> {
         super(Image);
     }
 
-    async addToDB(image: Image) {
+    async addToDB(image: Image | Image[]) {
         return await super.addToDB(image);
     }
 
@@ -15,10 +15,14 @@ export default class ImageRepository extends DefaultRepository<Image> {
     }
 
     async findByID(id: string) {
-        return await super.findOne({ where: { id } });
+        return await super.findByID(id);
     }
 
     async findByFileName(filename: string) {
         return await super.findOne({ where: { filename } });
+    }
+
+    async delete(id: string) {
+        return await super.delete(id);
     }
 }

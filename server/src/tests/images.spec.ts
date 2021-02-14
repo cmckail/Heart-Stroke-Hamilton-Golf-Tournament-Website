@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 chai.should();
 const assert = chai.assert;
 
-const jpg = readFileSync("src/tests/assets/dog.jpg");
+const jpg = readFileSync("src/assets/test-data/dog.jpg");
 const tiff = readFileSync("src/tests/assets/dog.tiff");
 
 let id = "";

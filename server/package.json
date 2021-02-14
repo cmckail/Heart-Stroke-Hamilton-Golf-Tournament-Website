@@ -9,7 +9,7 @@
         "debug": "nodemon --inspect src/index.ts",
         "dev": "nodemon src/index.ts",
         "test": "cross-env NODE_ENV=test mocha --exit -r ts-node/register src/tests/*.spec.ts",
-        "sync": "ts-node src/sync-db.ts && nodemon src/index.ts"
+        "sync": "ts-node src/initialize.ts && nodemon src/index.ts"
     },
     "keywords": [],
     "author": "",

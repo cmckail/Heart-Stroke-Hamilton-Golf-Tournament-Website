@@ -18,8 +18,16 @@ if (process.env.NODE_ENV?.toLowerCase() === "development") {
         ...connectionObj,
         type: "sqlite",
         database: "./database.db",
-        // dropSchema: true,
-        synchronize: !!process.env.SYNC_DB,
+    };
+}
+
+if (process.env.NODE_ENV?.toLowerCase() === "sync") {
+    connectionObj = {
+        ...connectionObj,
+        type: "sqlite",
+        database: "./database.db",
+        synchronize: true,
+        dropSchema: true,
     };
 }
 
