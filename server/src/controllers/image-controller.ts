@@ -5,6 +5,7 @@ import Image from "../models/image";
 import ImageRepository from "../repos/image-repo";
 import HttpException from "../utils/defaults/default-exception";
 import { baseURL } from "../config";
+import verifyUser from "../middlewares/verify-user";
 
 const imageRouter = Router();
 const repo = new ImageRepository();
@@ -15,7 +16,7 @@ const upload = multer();
  * GET image route
  * Queries can be passed for filter searches
  */
-imageRouter.get("/", async (req, res, next) => {
+imageRouter.get("/", verifyUser, async (req, res, next) => {
     try {
         let queries = req.query;
 
@@ -40,39 +41,44 @@ imageRouter.get("/", async (req, res, next) => {
 /**
  * POST image route
  */
-imageRouter.post("/upload", upload.array("photo"), async (req, res, next) => {
-    try {
-        let files = req.files as Express.Multer.File[];
+imageRouter.post(
+    "/upload",
+    verifyUser,
+    upload.array("photo"),
+    async (req, res, next) => {
+        try {
+            let files = req.files as Express.Multer.File[];
 
-        const data = files.map((item) => {
-            let image: Image = {
-                mimetype: item.mimetype,
-                data: item.buffer,
-            };
+            const data = files.map((item) => {
+                let image: Image = {
+                    mimetype: item.mimetype,
+                    data: item.buffer,
+                };
 
-            if (item.originalname && item.originalname !== "") {
-                image.filename = item.originalname;
+                if (item.originalname && item.originalname !== "") {
+                    image.filename = item.originalname;
+                }
+
+                return image;
+            });
+
+            const results = await repo.addToDB(data);
+
+            let resp;
+            if (Array.isArray(results)) {
+                resp = results.map((item) => {
+                    return { url: baseURL + "/images/" + item.id };
+                });
+            } else {
+                resp = { url: baseURL + "/images/" + results.id };
             }
 
-            return image;
-        });
-
-        const results = await repo.addToDB(data);
-
-        let resp;
-        if (Array.isArray(results)) {
-            resp = results.map((item) => {
-                return { url: baseURL + "/images/" + item.id };
-            });
-        } else {
-            resp = { url: baseURL + "/images/" + results.id };
+            res.json(resp);
+        } catch (e) {
+            next(e);
         }
-
-        res.json(resp);
-    } catch (e) {
-        next(e);
     }
-});
+);
 
 /**
  * DELETE image route

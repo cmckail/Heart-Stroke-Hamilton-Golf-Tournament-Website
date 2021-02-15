@@ -9,13 +9,21 @@ import {
     env,
     accessLife,
     accessSecret,
+    accessName,
     refreshLife,
     refreshSecret,
+    refreshName,
 } from "../config";
+import RefreshTokenRepository from "../repos/refresh-repo";
+import verifyUser from "../middlewares/verify-user";
 
 const userRouter = Router();
 const repo = new UserRepository();
+const tokenRepo = new RefreshTokenRepository();
 
+/**
+ * User POST Route
+ */
 userRouter.post("/add", async (req, res, next) => {
     try {
         const result = await repo.addToDB(req.body as User);
@@ -36,23 +44,19 @@ userRouter.post("/login", async (req, res, next) => {
         );
 
         if (correctPassword) {
-            let payload = { user: user.email };
-            let accessToken = jwt.sign(payload, accessSecret, {
-                expiresIn: accessLife,
-            });
-            let refreshToken = jwt.sign(payload, refreshSecret, {
-                expiresIn: refreshLife,
-            });
+            const { accessToken, refreshToken } = generateNewTokens(user.email);
 
-            res.cookie("accessToken", accessToken, {
+            res.cookie(accessName, accessToken, {
                 secure: env === "production",
                 httpOnly: true,
             });
 
-            res.cookie("refreshToken", refreshToken, {
+            res.cookie(refreshName, refreshToken, {
                 secure: env === "production",
                 httpOnly: true,
             });
+
+            await tokenRepo.add(refreshToken);
 
             res.json({ msg: "ok" });
         } else {
@@ -63,36 +67,78 @@ userRouter.post("/login", async (req, res, next) => {
     }
 });
 
-userRouter.get("/refresh", async (req, res, next) => {
+userRouter.get("/logout", verifyUser, async (req, res, next) => {
     try {
-        let accessToken = req.cookies.accessToken;
-
-        if (!accessToken) {
-            throw new ForbiddenError();
-        }
-
-        try {
-            let payload = jwt.verify(accessToken, accessSecret);
-            let refreshToken = req.cookies.refreshToken;
-
-            jwt.verify(refreshToken, refreshSecret);
-
-            let newAccessToken = jwt.sign(payload, accessSecret, {
-                expiresIn: accessLife,
-            });
-
-            res.cookie("accessToken", accessToken, {
-                secure: env === "production",
-                httpOnly: true,
-            });
-
-            res.json({ msg: "ok" });
-        } catch (e) {
-            throw new UnauthorizedError();
-        }
+        res.clearCookie(accessName);
+        res.clearCookie(refreshName);
+        res.status(200);
     } catch (e) {
         next(e);
     }
 });
+
+/**
+ * TODO: fix POST reroute 404 error
+ * TODO: add Referer header to automatically redirect
+ */
+userRouter.get("/refresh", async (req, res, next) => {
+    try {
+        console.log("hit");
+        const currentAccessToken = req.cookies[accessName];
+        const currentRefreshToken = req.cookies[refreshName];
+
+        // access or refresh token missing
+        if (!currentAccessToken || !currentRefreshToken) {
+            throw new ForbiddenError();
+        }
+
+        try {
+            jwt.verify(currentRefreshToken, refreshSecret);
+        } catch (e) {
+            throw new UnauthorizedError();
+        }
+
+        let payload = jwt.decode(currentAccessToken) as {
+            user: string;
+            iat: number;
+            exp: number;
+        };
+        if (!("user" in payload) || payload.user === "") throw new Error();
+        tokenRepo.verifyToken(currentRefreshToken);
+
+        const {
+            accessToken: newAccessToken,
+            refreshToken: newRefreshToken,
+        } = generateNewTokens(payload.user);
+
+        res.cookie(accessName, newAccessToken, {
+            secure: env === "production",
+            httpOnly: true,
+        });
+
+        res.cookie(refreshName, newRefreshToken, {
+            secure: env === "production",
+            httpOnly: true,
+        });
+
+        await tokenRepo.delete(currentRefreshToken);
+        await tokenRepo.add(newRefreshToken);
+
+        res.json({ msg: "ok" });
+    } catch (e) {
+        next(e);
+    }
+});
+
+const generateNewTokens = (email: string) => {
+    let payload = { user: email };
+    let accessToken = jwt.sign(payload, accessSecret, {
+        expiresIn: accessLife,
+    });
+    let refreshToken = jwt.sign(payload, refreshSecret, {
+        expiresIn: refreshLife,
+    });
+    return { accessToken, refreshToken };
+};
 
 export default userRouter;

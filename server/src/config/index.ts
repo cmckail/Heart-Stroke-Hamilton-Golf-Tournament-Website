@@ -32,6 +32,10 @@ const Config = {
      */
     accessLife: parseInt(process.env.ACCESS_TOKEN_LIFE!),
     /**
+     * JWT access token name
+     */
+    accessName: process.env.ACCESS_TOKEN_NAME!,
+    /**
      * JWT refresh token secret key
      */
     refreshSecret: process.env.REFRESH_TOKEN_SECRET!,
@@ -39,6 +43,10 @@ const Config = {
      * JWT refresh token life in seconds
      */
     refreshLife: parseInt(process.env.REFRESH_TOKEN_LIFE!),
+    /**
+     * JWT refresh token name
+     */
+    refreshName: process.env.REFRESH_TOKEN_NAME!,
     /**
      * Application base URL
      */
@@ -57,8 +65,10 @@ export const {
     stripeSecret,
     accessSecret,
     accessLife,
+    accessName,
     refreshLife,
     refreshSecret,
+    refreshName,
     baseURL,
     logger,
 } = Config;
