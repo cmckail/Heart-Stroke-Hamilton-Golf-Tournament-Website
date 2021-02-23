@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Request, Response, NextFunction, Router } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -15,7 +15,7 @@ import {
     refreshName,
 } from "../config";
 import RefreshTokenRepository from "../repos/refresh-repo";
-import verifyUser from "../middlewares/verify-user";
+import verifyUser, { generateNewTokens } from "../middlewares/verify-user";
 
 const userRouter = Router();
 const repo = new UserRepository();
@@ -77,68 +77,56 @@ userRouter.get("/logout", verifyUser, async (req, res, next) => {
     }
 });
 
-/**
- * TODO: fix POST reroute 404 error
- * TODO: add Referer header to automatically redirect
- */
-userRouter.get("/refresh", async (req, res, next) => {
-    try {
-        console.log("hit");
-        const currentAccessToken = req.cookies[accessName];
-        const currentRefreshToken = req.cookies[refreshName];
+// const refreshPath = async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//         const currentAccessToken = req.cookies[accessName];
+//         const currentRefreshToken = req.cookies[refreshName];
 
-        // access or refresh token missing
-        if (!currentAccessToken || !currentRefreshToken) {
-            throw new ForbiddenError();
-        }
+//         let body = req.body;
 
-        try {
-            jwt.verify(currentRefreshToken, refreshSecret);
-        } catch (e) {
-            throw new UnauthorizedError();
-        }
+//         console.log(body);
 
-        let payload = jwt.decode(currentAccessToken) as {
-            user: string;
-            iat: number;
-            exp: number;
-        };
-        if (!("user" in payload) || payload.user === "") throw new Error();
-        tokenRepo.verifyToken(currentRefreshToken);
+//         // access or refresh token missing
+//         if (!currentAccessToken || !currentRefreshToken) {
+//             throw new ForbiddenError();
+//         }
 
-        const {
-            accessToken: newAccessToken,
-            refreshToken: newRefreshToken,
-        } = generateNewTokens(payload.user);
+//         try {
+//             jwt.verify(currentRefreshToken, refreshSecret);
+//         } catch (e) {
+//             throw new UnauthorizedError();
+//         }
 
-        res.cookie(accessName, newAccessToken, {
-            secure: env === "production",
-            httpOnly: true,
-        });
+//         let payload = jwt.decode(currentAccessToken) as {
+//             user: string;
+//             iat: number;
+//             exp: number;
+//         };
+//         if (!("user" in payload) || payload.user === "") throw new Error();
+//         tokenRepo.verifyToken(currentRefreshToken);
 
-        res.cookie(refreshName, newRefreshToken, {
-            secure: env === "production",
-            httpOnly: true,
-        });
+//         const {
+//             accessToken: newAccessToken,
+//             refreshToken: newRefreshToken,
+//         } = generateNewTokens(payload.user);
 
-        await tokenRepo.delete(currentRefreshToken);
-        await tokenRepo.add(newRefreshToken);
+//         res.cookie(accessName, newAccessToken, {
+//             secure: env === "production",
+//             httpOnly: true,
+//         });
 
-        res.json({ msg: "ok" });
-    } catch (e) {
-        next(e);
-    }
-});
+//         res.cookie(refreshName, newRefreshToken, {
+//             secure: env === "production",
+//             httpOnly: true,
+//         });
 
-const generateNewTokens = (email: string) => {
-    let payload = { user: email };
-    let accessToken = jwt.sign(payload, accessSecret, {
-        expiresIn: accessLife,
-    });
-    let refreshToken = jwt.sign(payload, refreshSecret, {
-        expiresIn: refreshLife,
-    });
-    return { accessToken, refreshToken };
-};
+//         await tokenRepo.delete(currentRefreshToken);
+//         await tokenRepo.add(newRefreshToken);
+
+//         res.json({ msg: "ok" });
+//     } catch (e) {
+//         next(e);
+//     }
+// };
 
 export default userRouter;

@@ -15,6 +15,12 @@ export default class DefaultRepository<T> {
         this.repo = getConnection().getRepository<T>(repo);
     }
 
+    /**
+     * Adds given item(s) to DB
+     * @param item item(s) to add
+     * @returns The added item(s)
+     * @throws `ModelValidationError` if item does not match validation rules
+     */
     protected async addToDB(item: T | T[]) {
         try {
             if (Array.isArray(item)) {
@@ -32,6 +38,12 @@ export default class DefaultRepository<T> {
         }
     }
 
+    /**
+     * Searches through DB given a set of options
+     * @param {FindManyOptions} options Syntax found [here](https://typeorm.delightful.studio/interfaces/_find_options_findmanyoptions_.findmanyoptions.html)
+     * @returns Array of items
+     * @throws `NotFoundError` if no items are found
+     */
     protected async find(options: FindManyOptions<T>) {
         const result = await this.repo.find(options);
         if (!result || result.length === 0)
@@ -39,12 +51,24 @@ export default class DefaultRepository<T> {
         return result;
     }
 
+    /**
+     * Searches the item with the given ID
+     * @param id id of item
+     * @returns item with given ID
+     * @throws `NotFoundError` if no items are found
+     */
     protected async findByID(id: string) {
         const result = await this.repo.findOne(id);
         if (!result) throw new NotFoundError(`Item not found (ID: ${id})`);
         return result;
     }
 
+    /**
+     * Searches through DB given a set of options
+     * @param options Syntax found [here](https://typeorm.delightful.studio/interfaces/_find_options_findoneoptions_.findoneoptions.html)
+     * @returns the first item found
+     * @throws `NotFoundError` if no items are found
+     */
     protected async findOne(options: FindOneOptions<T>) {
         const result = await this.repo.findOne(options);
         if (!result)
@@ -52,6 +76,12 @@ export default class DefaultRepository<T> {
         return result;
     }
 
+    /**
+     * Deletes item(s) of the given ID
+     * @param {string|string[]} id id(s) of item
+     * @returns {int} number of rows affected
+     * @throws `NotFoundError` if no items are found
+     */
     protected async delete(id: string | string[]) {
         let result: T[] = [];
 

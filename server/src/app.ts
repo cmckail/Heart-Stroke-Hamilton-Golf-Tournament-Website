@@ -5,7 +5,6 @@ import "reflect-metadata";
 import bodyParser from "body-parser";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-// import cookieSession from "cookie-session";
 import helmet from "helmet";
 import express from "express";
 import { createConnection } from "typeorm";
@@ -20,11 +19,7 @@ export default class Application {
         this.app.use(cors());
         this.app.use(bodyParser.json());
         this.app.use(cookieParser());
-        // this.app.use(
-        //     helmet({
-        //         referrerPolicy: { policy: ["same-origin", "unsafe-url"] },
-        //     })
-        // );
+        this.app.use(helmet());
     }
 
     /**

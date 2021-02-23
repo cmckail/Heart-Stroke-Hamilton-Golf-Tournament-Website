@@ -2,7 +2,7 @@ import chai from "chai";
 import chaiHttp from "chai-http";
 import { readFileSync } from "fs";
 
-import { app } from "./test-helper";
+import { agent } from "./test-helper";
 
 chai.use(chaiHttp);
 chai.should();
@@ -15,7 +15,7 @@ let id = "";
 
 describe("Image POST test", () => {
     it("should POST JPG successfully", (done) => {
-        chai.request(app)
+        agent
             .post("/api/images/upload")
             .attach("photo", jpg, "dog.jpg")
             .end((err, res) => {
@@ -41,24 +41,22 @@ describe("Image POST test", () => {
 
 describe("Image GET test", () => {
     it("should retrieve JPG successfully", (done) => {
-        chai.request(app)
-            .get(`/api/images/${id}`)
-            .end((err, res) => {
-                if (err) {
-                    done(err);
-                }
+        agent.get(`/api/images/${id}`).end((err, res) => {
+            if (err) {
+                done(err);
+            }
 
-                assert.strictEqual(res.status, 200);
-                assert.isOk(Buffer.isBuffer(res.body));
+            assert.strictEqual(res.status, 200);
+            assert.isOk(Buffer.isBuffer(res.body));
 
-                done();
-            });
+            done();
+        });
     });
 });
 
 describe("Invalid type Image POST test", () => {
     it("should return 400", (done) => {
-        chai.request(app)
+        agent
             .post("/api/images/upload")
             .attach("photo", tiff, "dog.tiff")
             .end((err, res) => {
@@ -73,16 +71,14 @@ describe("Invalid type Image POST test", () => {
 
 describe("Image DELETE test", () => {
     it("should delete the image", (done) => {
-        chai.request(app)
-            .delete("/api/images/delete/" + id)
-            .end((err, res) => {
-                if (err) {
-                    done(err);
-                }
-                assert.strictEqual(res.status, 200);
-                assert.strictEqual(res.body.rows, 1);
+        agent.delete("/api/images/delete/" + id).end((err, res) => {
+            if (err) {
+                done(err);
+            }
+            assert.strictEqual(res.status, 200);
+            assert.strictEqual(res.body.rows, 1);
 
-                done();
-            });
+            done();
+        });
     });
 });
