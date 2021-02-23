@@ -32,7 +32,7 @@ export default class Application {
                 env === "development"
                     ? `Sync DB: ${!!process.env.SYNC_DB} / `
                     : ""
-            } Connection: ${connection.name} / ${connection.options.database}`
+            } Connection: ${connection.options.database}`
         );
         const router = require("./routes"); // MUST COME AFTER createConnection()
         this.app.use("/api", router); // MUST COME AFTER require("./routes")
