@@ -11,40 +11,59 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          8TH ANNUAL TOURNAMENT
         </h1>
 
         <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
+          Register today for the 8th Annual Dan D. Segin - Southwest Ontario Heart and Stroke Golf Tournament! {' '}
         </p>
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
+        <a href="https://nextjs.org/docs" className={styles.card}>
+            <h3>Register &rarr;</h3>
           </a>
 
+        <div className={styles.grid}>
           <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
+            <h3>Support Heart and Stroke &rarr;</h3>
+            <p>All proceeds are donated to the South West Ontario Heart and Stroke Foundation</p>
           </a>
 
           <a
             href="https://github.com/vercel/next.js/tree/master/examples"
             className={styles.card}
           >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
+            <h3>Virtual Silent Auction &rarr;</h3>
+            <p>Virtual Silent Auction with a chance to win sport memoriabilia such as [Examples] from our partners (Company Hosting Auction)</p>
           </a>
 
+          <a
+            href="https://github.com/vercel/next.js/tree/master/examples"
+            className={styles.card}
+          >
+            <h3>Scheduled Tee Times &rarr;</h3>
+            <p>To keep you safe, tee off is in groups of up to 4 players every 15 minutes. Tee times selected during registration.</p>
+          </a>
+          <a
+            href="https://github.com/vercel/next.js/tree/master/examples"
+            className={styles.card}
+          >
+            <h3>Raffle Prizes Day &rarr;</h3>
+            <p>Buy raffle tickets on our Web Store or the day of the tournament! Prizes include: Prize 1, Prize 2 etc.</p>
+          </a>
+          <a
+            href="https://github.com/vercel/next.js/tree/master/examples"
+            className={styles.card}
+          >
+            <h3>Dinner or Lunch Included &rarr;</h3>
+            <p>Every Registrant gets to choose between a BBQ Lunch or Dinner! Options include Beef, Chicken, or a Vegetarian option.</p>
+          </a>
           <a
             href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
             className={styles.card}
           >
-            <h3>Deploy &rarr;</h3>
+            <h3>Corporate Sponsorships &rarr;</h3>
             <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
+              Does your business want to give back? Business donation can pay for Hole Sponsorship, Website Footer space and a feature on our Sponsor Page!
             </p>
           </a>
         </div>
