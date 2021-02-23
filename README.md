@@ -1,4 +1,4 @@
-## SETUP
+# SETUP
 
 1. Install node
 2. Clone project
