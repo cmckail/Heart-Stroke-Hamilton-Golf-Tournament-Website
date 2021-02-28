@@ -54,11 +54,12 @@ export default abstract class DefaultRepository<T> {
     /**
      * Searches the item with the given ID
      * @param id id of item
+     * @param options Syntax found [here](https://typeorm.delightful.studio/interfaces/_find_options_findoneoptions_.findoneoptions.html)
      * @returns item with given ID
      * @throws `NotFoundError` if no items are found
      */
-    protected async findByID(id: string) {
-        const result = await this.repo.findOne(id);
+    protected async findByID(id: string, options?: FindOneOptions<T>) {
+        const result = await this.repo.findOne(id, options);
         if (!result) throw new NotFoundError(`Item not found (ID: ${id})`);
         return result;
     }
@@ -74,6 +75,22 @@ export default abstract class DefaultRepository<T> {
         if (!result)
             throw new NotFoundError(`Item not found (Options: ${options})`);
         return result;
+    }
+
+    /**
+     * Updates the item with the given ID
+     * @param id id of item
+     * @param newItem data of item to be updated
+     * @param options Syntax found [here](https://typeorm.delightful.studio/interfaces/_find_options_findoneoptions_.findoneoptions.html)
+     * @returns the updated item
+     */
+    protected async update(
+        id: string,
+        newItem: T,
+        options?: FindOneOptions<T>
+    ) {
+        await this.repo.update(id, newItem);
+        return await this.findByID(id, options);
     }
 
     /**

@@ -9,7 +9,7 @@
         "debug": "nodemon --inspect src/index.ts",
         "dev": "nodemon src/index.ts",
         "test": "mocha --exit -r ts-node/register src/tests/index.ts",
-        "sync": "ts-node src/initialize.ts && nodemon src/index.ts"
+        "sync": "ts-node src/initialize.ts"
     },
     "keywords": [],
     "author": "",

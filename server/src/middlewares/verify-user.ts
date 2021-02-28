@@ -30,7 +30,7 @@ export const generateNewTokens = (email: string) => {
     return { accessToken, refreshToken };
 };
 
-export default async (req: Request, res: Response, next: NextFunction) => {
+const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const currentAccessToken = req.cookies[accessName];
         const currentRefreshToken = req.cookies[refreshName];
@@ -105,3 +105,5 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         next(e);
     }
 };
+
+export default verifyUser;

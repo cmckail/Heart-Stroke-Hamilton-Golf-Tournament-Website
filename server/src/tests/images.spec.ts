@@ -12,6 +12,7 @@ const jpg = readFileSync("src/assets/test-data/dog.jpg");
 const tiff = readFileSync("src/tests/assets/dog.tiff");
 
 let id = "";
+let publicId = "";
 
 describe("Image POST test", () => {
     it("should POST JPG successfully", (done) => {
@@ -26,14 +27,11 @@ describe("Image POST test", () => {
 
                 assert.strictEqual(res.status, 200);
 
-                assert.match(
-                    result.url,
-                    /^http:\/\/localhost:5000\/api\/images\/[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/g
-                );
+                assert.isNotNull(result.id);
+                assert.isNotNull(result.publicId);
 
-                id = (result.url as string).match(
-                    /[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$/g
-                )![0];
+                id = result.id;
+                publicId = result.publicId;
                 done();
             });
     });
@@ -41,7 +39,7 @@ describe("Image POST test", () => {
 
 describe("Image GET test", () => {
     it("should retrieve JPG successfully", (done) => {
-        agent.get(`/api/images/${id}`).end((err, res) => {
+        agent.get(`/api/images/${publicId}`).end((err, res) => {
             if (err) {
                 done(err);
             }

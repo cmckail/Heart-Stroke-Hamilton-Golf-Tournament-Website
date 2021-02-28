@@ -4,7 +4,6 @@ import multer from "multer";
 import Image from "../models/image";
 import ImageRepository from "../repos/image-repo";
 import HttpException from "../utils/defaults/default-exception";
-import { baseURL } from "../config";
 import verifyUser from "../middlewares/verify-user";
 
 const imageRouter = Router();
@@ -16,31 +15,35 @@ const upload = multer().array("photo");
  * GET image route
  * Queries can be passed for filter searches
  */
-imageRouter.get("/", verifyUser, async (req, res, next) => {
+imageRouter.get("/", async (req, res, next) => {
     try {
-        let queries = req.query;
+        let result = await repo.find({});
 
-        if (queries) {
-            let result = await repo.find(queries);
+        let resp = result.map((item) => item.publicId);
 
-            let resp = result.map((item) => {
-                return {
-                    url: baseURL + "/images/" + item.publicId,
-                    filename: item.filename,
-                    mimetype: item.mimetype,
-                };
-            });
-
-            res.json(resp);
-        }
+        res.json(resp);
     } catch (e) {
         next(e);
     }
 });
 
-imageRouter.post("/test", verifyUser, async (req, res, next) => {
-    console.log(req.body);
-    res.json(req.body);
+imageRouter.get("/search", verifyUser, async (req, res, next) => {
+    try {
+        let result = await repo.find({ where: req.query });
+
+        let resp = result.map((item) => {
+            return {
+                id: item.id,
+                publicId: item.publicId,
+                filename: item.filename,
+                mimetype: item.mimetype,
+            };
+        });
+
+        res.json(resp);
+    } catch (e) {
+        next(e);
+    }
 });
 
 /**
@@ -68,10 +71,10 @@ imageRouter.post("/upload", upload, verifyUser, async (req, res, next) => {
         let resp;
         if (Array.isArray(results)) {
             resp = results.map((item) => {
-                return { url: baseURL + "/images/" + item.id };
+                return { ...item, data: undefined };
             });
         } else {
-            resp = { url: baseURL + "/images/" + results.id };
+            resp = { ...results, data: undefined };
         }
 
         res.json(resp);

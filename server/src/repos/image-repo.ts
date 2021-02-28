@@ -1,5 +1,6 @@
 import DefaultRepository from "../utils/defaults/default-repo";
 import Image from "../models/image";
+import { FindManyOptions } from "typeorm";
 
 export default class ImageRepository extends DefaultRepository<Image> {
     constructor() {
@@ -10,8 +11,8 @@ export default class ImageRepository extends DefaultRepository<Image> {
         return await super.addToDB(image);
     }
 
-    async find(option: object) {
-        return await super.find({ where: option });
+    async find(option: FindManyOptions<Image>) {
+        return await super.find(option);
     }
 
     async findByID(id: string) {
