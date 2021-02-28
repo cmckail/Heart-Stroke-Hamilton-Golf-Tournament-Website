@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 import { ModelValidationError, NotFoundError } from "../errors";
 
-export default class DefaultRepository<T> {
+export default abstract class DefaultRepository<T> {
     private repo: Repository<T>;
 
     constructor(repo: EntityTarget<T>) {

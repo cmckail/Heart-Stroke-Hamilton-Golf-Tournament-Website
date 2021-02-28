@@ -25,7 +25,7 @@ imageRouter.get("/", verifyUser, async (req, res, next) => {
 
             let resp = result.map((item) => {
                 return {
-                    url: baseURL + "/images/" + item.id,
+                    url: baseURL + "/images/" + item.publicId,
                     filename: item.filename,
                     mimetype: item.mimetype,
                 };
@@ -101,7 +101,7 @@ imageRouter.get("/:id", async (req, res, next) => {
         if (!req.params.id || req.params.id === "")
             throw new Error("Missing ID.");
 
-        const image = await repo.findByID(req.params.id);
+        const image = await repo.findByPublicID(req.params.id);
 
         if (typeof image === "undefined")
             throw new HttpException(404, "Cannot find image with specified ID");
