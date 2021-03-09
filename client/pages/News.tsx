@@ -1,7 +1,11 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { makeStyles } from '@material-ui/core/styles';
-import NavigationBar from './components/navigationBar'
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,26 +25,55 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>DEVELOPMENT - Dan Segin Golf Tournament Website</title>
+        <title>DEVELOPMENT - Dan Segin Golf Tournament Website - News</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
         <div className={classes.root}>
-        <NavigationBar/>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          </IconButton>
+          <Typography variant="h6" className={classes.title}>
+            Registration
+          </Typography>
+          <Typography variant="h6" className={classes.title}>
+            Donate
+          </Typography>
+          <Typography variant="h6" className={classes.title}>
+            Sponsors
+          </Typography>
+          <Typography variant="h6" className={classes.title}>
+            Events
+          </Typography>
+          <Typography variant="h6" className={classes.title}>
+            Photos
+          </Typography>
+          <Typography variant="h6" className={classes.title}>
+            Auction
+          </Typography>
+          <Typography variant="h6" className={classes.title}>
+            Store
+          </Typography>
+          <Typography variant="h6" className={classes.title}>
+            News
+          </Typography>
+          <Button color="inherit">Login</Button>
+        </Toolbar>
+      </AppBar>
     </div>
       <main className={styles.main}>
-        <div>  
-          <h1 className={styles.title}>
-            8TH ANNUAL TOURNAMENT
-          </h1>
+        <h1 className={styles.title}>
+          8TH ANNUAL TOURNAMENT
+        </h1>
 
-          <p className={styles.description}>
-            Register today for the 8th Annual Dan D. Segin - Southwest Ontario Heart and Stroke Golf Tournament! {' '}
-          </p>
+        <p className={styles.description}>
+          Register today for the 8th Annual Dan D. Segin - Southwest Ontario Heart and Stroke Golf Tournament! {' '}
+        </p>
 
-          <a href="https://nextjs.org/docs" className={styles.card}>
-              <h3>Register &rarr;</h3>
-            </a>
-        </div>
+        <a href="https://nextjs.org/docs" className={styles.card}>
+            <h3>Register &rarr;</h3>
+          </a>
+
         <div className={styles.grid}>
           <a href="https://nextjs.org/learn" className={styles.card}>
             <h3>Support Heart and Stroke &rarr;</h3>
