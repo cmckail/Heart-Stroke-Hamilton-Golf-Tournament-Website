@@ -14,3 +14,18 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.jumbotron {
+  background-image: url('../public/landing_page_background.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  height: 500px;
+}
+
+.NavigationBar {
+  background-color: grey;
+}
+
+.WhiteText {
+  color: #ffebee;
+}

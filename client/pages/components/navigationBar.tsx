@@ -1,14 +1,9 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import Link from 'next/link'
-import SvgIcon from '@material-ui/core/SvgIcon';
+import { palette } from '@material-ui/system';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,7 +22,7 @@ export default function NavigationBar() {
 
   return (
       <div>
-        <AppBar position="static">
+        <AppBar position="static" style={{ background: '#2a2929' }}>
           <Toolbar>
             <Link href="/">
               <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
@@ -35,31 +30,45 @@ export default function NavigationBar() {
               </IconButton>
             </Link>
             <Link href="/registration">
-              <Typography variant="h6" className={classes.title}>
+              <a className={classes.title}>
                 Registration
-              </Typography>
+              </a>
             </Link>
-            <Typography variant="h6" className={classes.title}>
-              Donate
-            </Typography>
-            <Typography variant="h6" className={classes.title}>
-              Sponsors
-            </Typography>
-            <Typography variant="h6" className={classes.title}>
-              Events
-            </Typography>
-            <Typography variant="h6" className={classes.title}>
-              Photos
-            </Typography>
-            <Typography variant="h6" className={classes.title}>
-              Auction
-            </Typography>
-            <Typography variant="h6" className={classes.title}>
-              Store
-            </Typography>
-            <Typography variant="h6" className={classes.title}>
-              News
-            </Typography>
+            <Link href="/donate">
+            <a className={classes.title}>
+                Donate
+              </a>
+            </Link>
+            <Link href="/sponsors">
+            <a className={classes.title}>
+                Sponsors
+              </a>
+            </Link>
+            <Link href="/events">
+            <a className={classes.title}>
+                Events
+              </a>
+            </Link>
+            <Link href="/photos">
+            <a className={classes.title}>
+                Photos
+              </a>
+            </Link>
+            <Link href="/auction">
+            <a className={classes.title}>
+                Auction
+              </a>
+            </Link>
+            <Link href="/store">
+            <a className={classes.title}>
+                Store
+              </a>
+            </Link>
+            <Link href="/about">
+            <a className={classes.title}>
+                About
+              </a>
+            </Link>
           </Toolbar>
         </AppBar>
        </div>
