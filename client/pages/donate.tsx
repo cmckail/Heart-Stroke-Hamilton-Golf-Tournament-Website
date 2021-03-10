@@ -73,20 +73,6 @@ export default function Home() {
             <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
             <p> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
  </p>
-          <form className={classes.root} noValidate autoComplete="off">
-            <TextField
-              id="standard-select-currency"
-              select
-              label="Tee Time"
-              helperText="Please select your number of players"
-            />
-            <TextField
-              id="standard-select-currency"
-              select
-              label="# of Players"
-              helperText="Please select your Tee Time"
-            />
-          </form>
 
             <h3> Donation Info </h3>
             <hr></hr>

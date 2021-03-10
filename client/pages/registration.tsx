@@ -29,7 +29,7 @@ export default function Home() {
         </Head>
         <main className={styles.main}>
             <h2> Tournament Registration </h2>
-            <p> Please choose a Tee Time and number of players in your gorup (max of 4). Choose continue to checkout to pay for registration, or add to cart to continue shopping </p>
+            <p> Please choose a Tee Time and number of players in your group (max of 4). Choose continue to checkout to pay for registration, or add to cart to continue shopping </p>
             <br></br>
             <p>** $165 Per Player </p>
             <h3> OTHER OTHER INFORMATION ABOUT THE TOURNAMENT HERE</h3>

@@ -36,7 +36,7 @@ export default function Home() {
               <CardActionArea>
                 <CardMedia
                   className={classes.media}
-                  image="../public/companyName.png"
+                  image="companyName.png"
                   title="Contemplative Reptile"
                 />
                 <CardContent>
@@ -50,8 +50,71 @@ export default function Home() {
               </CardActionArea>
               <CardActions>
                 <Button size="small" color="primary">
-                  Share
+                  Learn More
                 </Button>
+              </CardActions>
+            </Card>
+            <Card className={classes.root}>
+              <CardActionArea>
+                <CardMedia
+                  className={classes.media}
+                  image="companyName.png"
+                  title="Contemplative Reptile"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    Company Name
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+              <CardActions>
+                <Button size="small" color="primary">
+                  Learn More
+                </Button>
+              </CardActions>
+            </Card>
+            <Card className={classes.root}>
+              <CardActionArea>
+                <CardMedia
+                  className={classes.media}
+                  image="companyName.png"
+                  title="Contemplative Reptile"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    Company Name
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+              <CardActions>
+                <Button size="small" color="primary">
+                  Learn More
+                </Button>
+              </CardActions>
+            </Card>
+            <Card className={classes.root}>
+              <CardActionArea>
+                <CardMedia
+                  className={classes.media}
+                  image="microsoft_logo.jpg"
+                  title="Contemplative Reptile"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    Company Name
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+              <CardActions>
                 <Button size="small" color="primary">
                   Learn More
                 </Button>

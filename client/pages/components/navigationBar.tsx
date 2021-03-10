@@ -3,7 +3,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Link from 'next/link'
-import { palette } from '@material-ui/system';
+import ShoppingCart from '@material-ui/icons/ShoppingCart';
+import MenuItem from '@material-ui/core/MenuItem';
+import Badge from '@material-ui/core/Badge';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,6 +71,13 @@ export default function NavigationBar() {
                 About
               </a>
             </Link>
+            <MenuItem>
+        <IconButton aria-label="show 11 new notifications" color="inherit">
+          <Badge badgeContent={11} color="secondary">
+            <ShoppingCart />
+          </Badge>
+        </IconButton>
+      </MenuItem>
           </Toolbar>
         </AppBar>
        </div>
