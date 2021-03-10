@@ -3,6 +3,8 @@ import styles from '../styles/Home.module.css'
 import { makeStyles } from '@material-ui/core/styles';
 import NavigationBar from './components/navigationBar'
 import Link from 'next/link'
+import Button from '@material-ui/core/Button';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -30,11 +32,10 @@ export default function Home() {
               Register today for the 8th Annual Dan D. Segin - Southwest Ontario Heart and Stroke Golf Tournament! {' '}
             </p>
 
-            <Link href="/registration">
-              <a className={styles.card}>
-                <h3>Register &rarr;</h3>
-              </a>
-            </Link>
+            <a className={styles.card}>
+              <h3>Register &rarr;</h3>
+            </a>
+
           </div>
       <div className={styles.container}>
         <Head>
@@ -43,6 +44,7 @@ export default function Home() {
         </Head>
           <div className={styles.grid}>
             <a href="https://nextjs.org/learn" className={styles.card}>
+              <img src="../public/support_heart_and_stroke.png" />
               <h3>Support Heart and Stroke &rarr;</h3>
               <p>All proceeds are donated to the South West Ontario Heart and Stroke Foundation</p>
             </a>

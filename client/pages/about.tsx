@@ -26,9 +26,9 @@ export default function Home() {
           <title>DEVELOPMENT - Dan Segin Golf Tournament Website</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <main className={styles.main}>
-          
-        </main>
+        <div className="aboutPageHeader">
+
+        </div>
       </div>
     </div>
   )

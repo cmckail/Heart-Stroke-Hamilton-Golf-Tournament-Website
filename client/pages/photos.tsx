@@ -29,8 +29,7 @@ export default function Home() {
         <main className={styles.main}>
         <div className={styles.grid}>
             <a href="https://nextjs.org/learn" className={styles.card}>
-              <h3>Support Heart and Stroke &rarr;</h3>
-              <p>All proceeds are donated to the South West Ontario Heart and Stroke Foundation</p>
+            <img src="../public/landing_page_background.png" alt="Golfing with your buddies" width="500" height="600"/> 
             </a>
 
             <a
