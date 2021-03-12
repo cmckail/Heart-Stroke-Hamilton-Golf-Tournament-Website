@@ -80,7 +80,7 @@ export default function Home() {
               <CardActionArea>
                 <CardMedia
                   className={classes.media}
-                  image="companyName.png"
+                  image="microsoft_logo.jpg"
                   title="Contemplative Reptile"
                 />
                 <CardContent>
