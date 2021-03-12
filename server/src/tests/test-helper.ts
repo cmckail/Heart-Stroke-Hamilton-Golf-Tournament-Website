@@ -12,7 +12,6 @@ try {
 import Application from "../app";
 import UserRepository from "../repos/user-repo";
 import { readFileSync } from "fs";
-import { connectionObj } from "../config";
 
 chai.use(chaiHttp);
 chai.should();
