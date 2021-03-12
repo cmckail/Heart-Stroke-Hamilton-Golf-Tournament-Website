@@ -35,40 +35,40 @@ export default function Home() {
         <h2> Photo Album </h2>
         <div className={styles.grid}>
             <a href="https://nextjs.org/learn" className={styles.card}>
-            <img src="golfing.jpeg" alt="Golfing with your buddies" width="300" height="200"/> 
+            <img src="pictures/golfing.jpeg" alt="Golfing with your buddies" width="300" height="200"/> 
             </a>
 
             <a
               href="https://github.com/vercel/next.js/tree/master/examples"
               className={styles.card}
             >
-            <img src="golfing.jpeg" alt="Golfing with your buddies" width="300" height="200"/> 
+            <img src="pictures/golfing.jpeg" alt="Golfing with your buddies" width="300" height="200"/> 
             </a>
 
             <a
               href="https://github.com/vercel/next.js/tree/master/examples"
               className={styles.card}
             >
-            <img src="golfing.jpeg" alt="Golfing with your buddies" width="300" height="200"/> 
+            <img src="pictures/golfing.jpeg" alt="Golfing with your buddies" width="300" height="200"/> 
             </a>
             <a
               href="https://github.com/vercel/next.js/tree/master/examples"
               className={styles.card}
             >
-            <img src="golfing.jpeg" alt="Golfing with your buddies" width="300" height="200"/> 
+            <img src="pictures/golfing.jpeg" alt="Golfing with your buddies" width="300" height="200"/> 
             </a>
             <a
               href="https://github.com/vercel/next.js/tree/master/examples"
               className={styles.card}
             >
-            <img src="golfing.jpeg" alt="Golfing with your buddies" width="300" height="200"/> 
+            <img src="pictures/golfing.jpeg" alt="Golfing with your buddies" width="300" height="200"/> 
             </a>
             <a
               href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
               className={styles.card}
             >
               <h3>Golf April 23 2021</h3>
-              <img src="golfing.jpeg" alt="Golfing with your buddies" width="300" height="200"/> 
+              <img src="pictures/golfing.jpeg" alt="Golfing with your buddies" width="300" height="200"/> 
             </a>
           </div>
         </main>
