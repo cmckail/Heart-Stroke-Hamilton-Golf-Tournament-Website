@@ -1,3 +1,8 @@
+/*
+    Author: David Melnyk
+    This page serves as the about page for the website.
+*/
+
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,7 +25,7 @@ export default function Home() {
 
   return (
     <div>
-                <NavigationBar/>
+      <NavigationBar/>
       <div className={styles.container}>
         <Head>
           <title>DEVELOPMENT - Dan Segin Golf Tournament Website</title>

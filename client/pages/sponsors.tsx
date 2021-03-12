@@ -1,3 +1,8 @@
+/*
+    Author: David Melnyk
+    This page serves as the sponsors page for the website.
+*/
+
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import NavigationBar from './components/navigationBar'
