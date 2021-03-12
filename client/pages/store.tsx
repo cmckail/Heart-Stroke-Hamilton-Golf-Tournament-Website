@@ -20,7 +20,7 @@ export default function Home() {
 
   return (
     <div>
-                <NavigationBar/>
+      <NavigationBar/>
       <div className={styles.container}>
         <Head>
           <title>DEVELOPMENT - Dan Segin Golf Tournament Website</title>
