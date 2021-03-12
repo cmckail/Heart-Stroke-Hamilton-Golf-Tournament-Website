@@ -41,7 +41,7 @@ export default function Home() {
               <CardActionArea>
                 <CardMedia
                   className={classes.media}
-                  image="companyName.png"
+                  image="sponsors/companyName.png"
                   title="Contemplative Reptile"
                 />
                 <CardContent>
@@ -63,7 +63,7 @@ export default function Home() {
               <CardActionArea>
                 <CardMedia
                   className={classes.media}
-                  image="companyName.png"
+                  image="sponsors/companyName.png"
                   title="Contemplative Reptile"
                 />
                 <CardContent>
@@ -85,7 +85,7 @@ export default function Home() {
               <CardActionArea>
                 <CardMedia
                   className={classes.media}
-                  image="microsoft_logo.jpg"
+                  image="sponsors/microsoft_logo.jpg"
                   title="Contemplative Reptile"
                 />
                 <CardContent>
@@ -107,7 +107,7 @@ export default function Home() {
               <CardActionArea>
                 <CardMedia
                   className={classes.media}
-                  image="microsoft_logo.jpg"
+                  image="sponsors/microsoft_logo.jpg"
                   title="Contemplative Reptile"
                 />
                 <CardContent>
