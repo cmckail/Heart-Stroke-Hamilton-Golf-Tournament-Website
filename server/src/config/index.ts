@@ -1,6 +1,7 @@
 import * as connection from "./db";
 import transportObj from "./mailer";
 import loggerObj from "../utils/logger";
+import stripeObj from "./stripe";
 
 const Config = {
     /**
@@ -23,6 +24,10 @@ const Config = {
      * Stripe secret key
      */
     stripeSecret: process.env.STRIPE_SECRET_KEY!,
+    /**
+     * Stripe object
+     */
+    stripe: stripeObj,
     /**
      * JWT access token secret key
      */
@@ -71,6 +76,7 @@ export const {
     refreshName,
     baseURL,
     logger,
+    stripe,
 } = Config;
 
 export default Config;
