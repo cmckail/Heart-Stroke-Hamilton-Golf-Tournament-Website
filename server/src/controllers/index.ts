@@ -1,6 +1,7 @@
 import imageRouter from "./image-controller";
 import mailRouter from "./mail-controller";
 import paymentRouter from "./payment-controller";
+import sponsorRouter from "./sponsor-controller";
 import userRouter from "./user-controller";
 
 export default [
@@ -19,5 +20,9 @@ export default [
     {
         route: "/mail",
         router: mailRouter,
+    },
+    {
+        route: "/sponsors",
+        router: sponsorRouter,
     },
 ];

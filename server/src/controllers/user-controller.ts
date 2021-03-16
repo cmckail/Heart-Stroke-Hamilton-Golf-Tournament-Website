@@ -1,14 +1,29 @@
-import { Router } from "express";
+import { Request, Response, NextFunction, Router } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 import User from "../models/user";
 import UserRepository from "../repos/user-repo";
 import { ForbiddenError, UnauthorizedError } from "../utils/errors";
+import {
+    env,
+    accessLife,
+    accessSecret,
+    accessName,
+    refreshLife,
+    refreshSecret,
+    refreshName,
+} from "../config";
+import RefreshTokenRepository from "../repos/refresh-repo";
+import verifyUser, { generateNewTokens } from "../middlewares/verify-user";
 
 const userRouter = Router();
 const repo = new UserRepository();
+const tokenRepo = new RefreshTokenRepository();
 
+/**
+ * User POST Route
+ */
 userRouter.post("/add", async (req, res, next) => {
     try {
         const result = await repo.addToDB(req.body as User);
@@ -29,31 +44,19 @@ userRouter.post("/login", async (req, res, next) => {
         );
 
         if (correctPassword) {
-            let payload = { user: user.email };
-            let accessToken = jwt.sign(
-                payload,
-                process.env.ACCESS_TOKEN_SECRET!,
-                {
-                    expiresIn: process.env.ACCESS_TOKEN_LIFE!,
-                }
-            );
-            let refreshToken = jwt.sign(
-                payload,
-                process.env.REFRESH_TOKEN_SECRET!,
-                {
-                    expiresIn: process.env.REFRESH_TOKEN_LIFE!,
-                }
-            );
+            const { accessToken, refreshToken } = generateNewTokens(user.email);
 
-            res.cookie("accessToken", accessToken, {
-                secure: process.env.NODE_ENV === "production",
+            res.cookie(accessName, accessToken, {
+                secure: env === "production",
                 httpOnly: true,
             });
 
-            res.cookie("refreshToken", refreshToken, {
-                secure: process.env.NODE_ENV === "production",
+            res.cookie(refreshName, refreshToken, {
+                secure: env === "production",
                 httpOnly: true,
             });
+
+            await tokenRepo.add(refreshToken);
 
             res.json({ msg: "ok" });
         } else {
@@ -64,40 +67,11 @@ userRouter.post("/login", async (req, res, next) => {
     }
 });
 
-userRouter.get("/refresh", async (req, res, next) => {
+userRouter.get("/logout", verifyUser, async (req, res, next) => {
     try {
-        let accessToken = req.cookies.accessToken;
-
-        if (!accessToken) {
-            throw new ForbiddenError();
-        }
-
-        try {
-            let payload = jwt.verify(
-                accessToken,
-                process.env.ACCESS_TOKEN_SECRET!
-            );
-            let refreshToken = req.cookies.refreshToken;
-
-            jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET!);
-
-            let newAccessToken = jwt.sign(
-                payload,
-                process.env.ACCESS_TOKEN_SECRET!,
-                {
-                    expiresIn: process.env.ACCESS_TOKEN_LIFE!,
-                }
-            );
-
-            res.cookie("accessToken", accessToken, {
-                secure: process.env.NODE_ENV === "production",
-                httpOnly: true,
-            });
-
-            res.json({ msg: "ok" });
-        } catch (e) {
-            throw new UnauthorizedError();
-        }
+        res.clearCookie(accessName);
+        res.clearCookie(refreshName);
+        res.status(200);
     } catch (e) {
         next(e);
     }

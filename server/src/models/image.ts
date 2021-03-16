@@ -27,6 +27,9 @@ class Image {
     @Column({ nullable: true })
     filename?: string;
 
+    @Column({ type: "uuid", generated: "uuid" })
+    publicId?: string;
+
     @CreateDateColumn()
     createdAt?: Date;
 }

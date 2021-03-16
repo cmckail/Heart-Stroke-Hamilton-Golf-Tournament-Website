@@ -21,8 +21,6 @@ export default class UserRepository extends DefaultRepository<User> {
     async deleteUser(email: string) {
         const user = await this.findUserByEmail(email);
 
-        const res = await this.delete(user.id!);
-
-        return Boolean(res.affected && res.affected > 0);
+        return await this.delete(user.id!);
     }
 }

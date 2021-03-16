@@ -1,12 +1,8 @@
 import { Router } from "express";
-import Stripe from "stripe";
+
+import { baseURL, stripe } from "../config";
 
 const paymentRouter = Router();
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion: "2020-08-27",
-    typescript: true,
-});
 
 paymentRouter.post("/", async (req, res, next) => {
     const session = await stripe.checkout.sessions.create({
@@ -27,11 +23,28 @@ paymentRouter.post("/", async (req, res, next) => {
             },
         ],
         mode: "payment",
-        success_url: `${process.env.BASE_URL + req.originalUrl}?success=true`,
-        cancel_url: `${process.env.BASE_URL + req.originalUrl}?canceled=true`,
+        success_url: `${baseURL + req.originalUrl}?success=true`,
+        cancel_url: `${baseURL + req.originalUrl}?canceled=true`,
     });
 
     res.json({ id: session.id });
+});
+
+paymentRouter.post("/create-payment-intent", async (req, res) => {
+    const name = req.body.name;
+    const email = req.body.email;
+    const amount = req.body.amount;
+
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount: amount * 100,
+        currency: "cad",
+        receipt_email: email,
+    });
+
+    console.log(paymentIntent.client_secret);
+    res.send({
+        clientSecret: paymentIntent.client_secret,
+    });
 });
 
 export default paymentRouter;

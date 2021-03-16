@@ -7,30 +7,42 @@ import NamingStrategy from "./naming-strategy";
  */
 
 let connectionObj: ConnectionOptions = {
-    type: "mysql",
-    url: process.env.DB_CONNECTION,
+    type: "sqlite",
+    database: ":memory:",
     entities: ["src/models/*.ts"],
     namingStrategy: new NamingStrategy(),
 };
 
-if (process.env.NODE_ENV?.toLowerCase() === "development") {
-    connectionObj = {
-        ...connectionObj,
-        type: "sqlite",
-        database: "./database.db",
-        // dropSchema: true,
-        synchronize: !!process.env.SYNC_DB,
-    };
-}
-
-if (process.env.NODE_ENV?.toLowerCase() === "test") {
-    connectionObj = {
-        ...connectionObj,
-        type: "sqlite",
-        database: ":memory:",
-        dropSchema: true,
-        synchronize: true,
-    };
+switch (process.env.NODE_ENV?.toLowerCase()) {
+    case "development":
+        connectionObj = {
+            ...connectionObj,
+            database: "./database.db",
+        };
+        break;
+    case "sync":
+        connectionObj = {
+            ...connectionObj,
+            database: "./database.db",
+            synchronize: true,
+            dropSchema: true,
+        };
+        break;
+    case "test":
+        connectionObj = {
+            ...connectionObj,
+            dropSchema: true,
+            synchronize: true,
+        };
+        break;
+    default:
+        connectionObj = {
+            ...connectionObj,
+            type: "mysql",
+            url: process.env.DB_CONNECTION,
+            database: undefined,
+        };
+        break;
 }
 
 export default connectionObj;
