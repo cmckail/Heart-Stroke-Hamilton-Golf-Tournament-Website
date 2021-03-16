@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 
 import DefaultRepository from "../utils/defaults/default-repo";
-import User from "../models/user";
+import User from "@local/shared/models/user";
 
 export default class UserRepository extends DefaultRepository<User> {
     private saltRounds = 10;

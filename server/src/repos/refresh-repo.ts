@@ -1,5 +1,5 @@
 import DefaultRepository from "../utils/defaults/default-repo";
-import RefreshToken from "../models/refresh-token";
+import RefreshToken from "@local/shared/models/refresh-token";
 
 export default class RefreshTokenRepository extends DefaultRepository<RefreshToken> {
     constructor() {

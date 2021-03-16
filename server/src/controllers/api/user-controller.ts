@@ -1,7 +1,7 @@
 import { Router } from "express";
 import bcrypt from "bcrypt";
 
-import User from "../../models/user";
+import User from "@local/shared/models/user";
 import UserRepository from "../../repos/user-repo";
 import { ForbiddenError, UnauthorizedError } from "../../utils/errors";
 import { env, accessName, refreshName } from "../../config";
