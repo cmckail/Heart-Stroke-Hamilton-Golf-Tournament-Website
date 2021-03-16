@@ -2,7 +2,6 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import "reflect-metadata";
-import bodyParser from "body-parser";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
@@ -17,7 +16,7 @@ export default class Application {
     constructor() {
         this.app = express();
         this.app.use(cors());
-        this.app.use(bodyParser.json());
+        this.app.use(express.json());
         this.app.use(cookieParser());
         this.app.use(helmet());
     }
@@ -34,8 +33,9 @@ export default class Application {
                     : ""
             } Connection: ${connection.options.database}`
         );
-        const router = require("./routes"); // MUST COME AFTER createConnection()
-        this.app.use("/api", router); // MUST COME AFTER require("./routes")
+        const { router, apiRouter } = require("./routes"); // MUST COME AFTER createConnection()
+        this.app.use("/", router);
+        this.app.use("/api", apiRouter); // MUST COME AFTER require("./routes")
 
         await this.startServer();
     };

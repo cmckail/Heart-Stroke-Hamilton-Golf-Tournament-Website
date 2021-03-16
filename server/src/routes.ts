@@ -1,34 +1,46 @@
 import { Router, Request, Response, NextFunction } from "express";
 
-import controllers from "./controllers";
+import apiControllers from "./controllers/api";
+import controllers from "./controllers/non-api";
 import HttpException from "./utils/defaults/default-exception";
 import { env, logger } from "./config";
 
 const router = Router();
+const apiRouter = Router();
 const defaultErrorMessage =
     "Something went wrong. Please try again or contact support.";
 
-router.get("/", (req, res, next) => {
+apiRouter.get("/", (req, res, next) => {
     res.json({ msg: "Connection successful." });
+});
+
+apiControllers.forEach((item) => {
+    apiRouter.use(item.route, item.router);
 });
 
 controllers.forEach((item) => {
     router.use(item.route, item.router);
 });
 
+const errorHandler = (
+    err: HttpException,
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const message = err.message || defaultErrorMessage;
+    const statusCode = err.statusCode || 500;
+    logger.error(
+        env === "development" || env === "test"
+            ? err.stack
+            : `[${statusCode}] - ${err.message || "Unknown error"}}`
+    );
+
+    res.status(statusCode).json({ statusCode, message });
+};
+
 // Handle error
-router.use(
-    (err: HttpException, req: Request, res: Response, next: NextFunction) => {
-        const message = err.message || defaultErrorMessage;
-        const statusCode = err.statusCode || 500;
-        logger.error(
-            env === "development" || env === "test"
-                ? err.stack
-                : `[${statusCode}] - ${err.message || "Unknown error"}}`
-        );
+router.use(errorHandler);
+apiRouter.use(errorHandler);
 
-        res.status(statusCode).json({ statusCode, message });
-    }
-);
-
-module.exports = router;
+module.exports = { router, apiRouter };

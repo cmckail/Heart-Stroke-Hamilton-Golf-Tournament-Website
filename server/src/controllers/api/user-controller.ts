@@ -1,21 +1,12 @@
-import { Request, Response, NextFunction, Router } from "express";
+import { Router } from "express";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
-import User from "../models/user";
-import UserRepository from "../repos/user-repo";
-import { ForbiddenError, UnauthorizedError } from "../utils/errors";
-import {
-    env,
-    accessLife,
-    accessSecret,
-    accessName,
-    refreshLife,
-    refreshSecret,
-    refreshName,
-} from "../config";
-import RefreshTokenRepository from "../repos/refresh-repo";
-import verifyUser, { generateNewTokens } from "../middlewares/verify-user";
+import User from "../../models/user";
+import UserRepository from "../../repos/user-repo";
+import { ForbiddenError, UnauthorizedError } from "../../utils/errors";
+import { env, accessName, refreshName } from "../../config";
+import RefreshTokenRepository from "../../repos/refresh-repo";
+import verifyUser, { generateNewTokens } from "../../middlewares/verify-user";
 
 const userRouter = Router();
 const repo = new UserRepository();

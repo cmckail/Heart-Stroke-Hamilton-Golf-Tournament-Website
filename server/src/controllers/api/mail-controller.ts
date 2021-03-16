@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { MailOptions } from "nodemailer/lib/sendmail-transport";
-import { InvalidArgumentError } from "../utils/errors";
-import transport from "../utils/mailer";
+import { InvalidArgumentError } from "../../utils/errors";
+import transport from "../../utils/mailer";
 
 const mailRouter = Router();
 

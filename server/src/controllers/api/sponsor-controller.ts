@@ -1,10 +1,10 @@
 import { Router } from "express";
 import multer from "multer";
-import verifyUser from "../middlewares/verify-user";
-import Image from "../models/image";
-import Sponsor from "../models/sponsor";
-import ImageRepository from "../repos/image-repo";
-import SponsorRepository from "../repos/sponsor-repo";
+import verifyUser from "../../middlewares/verify-user";
+import Image from "../../models/image";
+import Sponsor from "../../models/sponsor";
+import ImageRepository from "../../repos/image-repo";
+import SponsorRepository from "../../repos/sponsor-repo";
 
 const upload = multer().single("logo");
 

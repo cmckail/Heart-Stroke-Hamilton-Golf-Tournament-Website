@@ -1,10 +1,10 @@
 import { Router } from "express";
 import multer from "multer";
 
-import Image from "../models/image";
-import ImageRepository from "../repos/image-repo";
-import HttpException from "../utils/defaults/default-exception";
-import verifyUser from "../middlewares/verify-user";
+import Image from "../../models/image";
+import ImageRepository from "../../repos/image-repo";
+import HttpException from "../../utils/defaults/default-exception";
+import verifyUser from "../../middlewares/verify-user";
 
 const imageRouter = Router();
 const repo = new ImageRepository();
@@ -91,26 +91,6 @@ imageRouter.delete("/delete/:id", verifyUser, async (req, res, next) => {
         const resp = await repo.delete(req.params.id);
 
         res.json({ rows: resp });
-    } catch (e) {
-        next(e);
-    }
-});
-
-/**
- * GET image route given ID
- */
-imageRouter.get("/:id", async (req, res, next) => {
-    try {
-        if (!req.params.id || req.params.id === "")
-            throw new Error("Missing ID.");
-
-        const image = await repo.findByPublicID(req.params.id);
-
-        if (typeof image === "undefined")
-            throw new HttpException(404, "Cannot find image with specified ID");
-
-        res.contentType(image!.mimetype);
-        res.send(image!.data);
     } catch (e) {
         next(e);
     }

@@ -16,7 +16,6 @@
     "license": "ISC",
     "devDependencies": {
         "@types/bcrypt": "^3.0.0",
-        "@types/body-parser": "^1.19.0",
         "@types/chai": "^4.2.14",
         "@types/chai-http": "^4.2.0",
         "@types/cookie-parser": "^1.4.2",
@@ -46,7 +45,6 @@
     },
     "dependencies": {
         "bcrypt": "^5.0.0",
-        "body-parser": "^1.19.0",
         "class-validator": "^0.13.1",
         "cookie-parser": "^1.4.5",
         "cookie-session": "^1.4.0",
