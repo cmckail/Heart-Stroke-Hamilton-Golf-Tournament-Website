@@ -154,7 +154,11 @@ export default function Home() {
           </Button>
           <Elements stripe={promise}>
             <CheckoutForm
-              donator={{ name: [firstName], email: [email], amount: [amount] }}
+              donator={{
+                name: firstName,
+                email: email,
+                amount: parseInt(amount),
+              }}
             />
           </Elements>
         </main>
