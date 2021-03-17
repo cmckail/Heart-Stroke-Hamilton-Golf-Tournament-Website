@@ -2,6 +2,7 @@ import { Router } from "express";
 import multer from "multer";
 
 import Image from "@local/shared/models/image";
+import { IImageViewModel } from "@local/shared/view-models/image-viewmodel";
 import ImageRepository from "../../repos/image-repo";
 import HttpException from "../../utils/defaults/default-exception";
 import verifyUser from "../../middlewares/verify-user";
@@ -19,7 +20,7 @@ imageRouter.get("/", async (req, res, next) => {
     try {
         let result = await repo.find({});
 
-        let resp = result.map((item) => item.publicId);
+        let resp = result.map((item) => item.publicId!);
 
         res.json(resp);
     } catch (e) {
@@ -31,11 +32,11 @@ imageRouter.get("/search", verifyUser, async (req, res, next) => {
     try {
         let result = await repo.find({ where: req.query });
 
-        let resp = result.map((item) => {
+        let resp: IImageViewModel[] = result.map((item) => {
             return {
-                id: item.id,
-                publicId: item.publicId,
-                filename: item.filename,
+                id: item.id!,
+                publicId: item.publicId!,
+                filename: item.filename!,
                 mimetype: item.mimetype,
             };
         });

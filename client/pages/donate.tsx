@@ -19,7 +19,11 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Button from "@material-ui/core/Button";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import CheckoutForm from "./components/checkoutForm";
 
+const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -120,6 +124,9 @@ export default function Home() {
           <Button variant="contained" color="secondary">
             Add to Cart
           </Button>
+          <Elements stripe={promise}>
+        <CheckoutForm />
+      </Elements>
         </main>
       </div>
     </div>
