@@ -2,7 +2,7 @@ import React, { useState, useEffect, FormEvent } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { StripeCardElementChangeEvent } from "@stripe/stripe-js";
 
-export default function CheckoutForm() {
+export default function CheckoutForm(props: any) {
   const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
@@ -10,7 +10,7 @@ export default function CheckoutForm() {
   const [clientSecret, setClientSecret] = useState("");
   const stripe = useStripe();
   const elements = useElements();
-
+  const donator = props.donator;
   const testDonation = {
     name: "Anthony",
     email: "test@test.com",
@@ -25,7 +25,7 @@ export default function CheckoutForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(testDonation),
+        body: JSON.stringify(donator),
       })
       .then((res) => {
         return res.json();
