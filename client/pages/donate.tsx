@@ -3,7 +3,7 @@
     This page serves as the donation page for the website.
 */
 
-import React from "react";
+import React, { useState, useEffect, FormEvent } from "react";
 import clsx from "clsx";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
@@ -42,7 +42,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home() {
   // useEffect(() => {}, []);
+  const [amount, setAmount] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [email, setEmail] = useState("");
   const classes = useStyles();
+  const handleEmail = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setEmail(event.target.value as string);
+  };
+  const handleAmount = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setAmount(event.target.value as string);
+  };
+  const handleFirstName = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setFirstName(event.target.value as string);
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <div>
@@ -74,6 +88,7 @@ export default function Home() {
                 Amount
               </InputLabel>
               <OutlinedInput
+                onChange={handleAmount}
                 id="outlined-adornment-amount"
                 startAdornment={
                   <InputAdornment position="start">$</InputAdornment>
@@ -86,6 +101,7 @@ export default function Home() {
                 First Name
               </InputLabel>
               <OutlinedInput
+                onChange={handleFirstName}
                 id="outlined-adornment-amount"
                 startAdornment={
                   <InputAdornment position="start"></InputAdornment>
@@ -106,6 +122,18 @@ export default function Home() {
               />
             </FormControl>
             <br />
+            <FormControl className={classes.margin} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-amount">Email</InputLabel>
+              <OutlinedInput
+                onChange={handleEmail}
+                id="outlined-adornment-amount"
+                startAdornment={
+                  <InputAdornment position="start"></InputAdornment>
+                }
+                labelWidth={60}
+              />
+            </FormControl>
+            <br></br>
           </form>
           <FormControl component="fieldset" className={classes.margin}>
             <FormLabel component="legend">Sponsor a Hole</FormLabel>
@@ -122,11 +150,13 @@ export default function Home() {
           </FormControl>
           <br />
           <Button variant="contained" color="secondary">
-            Add to Cart
+            Pay Now
           </Button>
           <Elements stripe={promise}>
-        <CheckoutForm />
-      </Elements>
+            <CheckoutForm
+              donator={{ name: [firstName], email: [email], amount: [amount] }}
+            />
+          </Elements>
         </main>
       </div>
     </div>
