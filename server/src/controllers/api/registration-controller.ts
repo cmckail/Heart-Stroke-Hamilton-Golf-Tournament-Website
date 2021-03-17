@@ -6,11 +6,17 @@ const registrationRouter = Router();
 const repo = new RegistrationRepository();
 
 registrationRouter.post("/", async (req, res, next) => {
-    let item: Registration = req.body;
+    try {
+        let item: Registration = req.body;
 
-    let result = await repo.addToDB(item);
+        // item.teeTime = new Date();
 
-    res.json(result);
+        let result = await repo.addToDB(item);
+
+        res.json(result);
+    } catch (e) {
+        next(e);
+    }
 });
 
 export default registrationRouter;

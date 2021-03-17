@@ -6,9 +6,12 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import express from "express";
+import expressSession from "express-session";
 import { createConnection } from "typeorm";
 
 import { env, port, connectionObj, logger } from "./config";
+import { TypeormStore } from "connect-typeorm/out";
+import Session from "./models/session";
 
 export default class Application {
     app: express.Application;
@@ -33,6 +36,21 @@ export default class Application {
                     : ""
             } Connection: ${connection.options.database}`
         );
+
+        // Setup session
+        this.app.use(
+            expressSession({
+                secret: "asdf",
+                resave: false,
+                saveUninitialized: false,
+                store: new TypeormStore({
+                    cleanupLimit: 2,
+                    limitSubquery: true,
+                    ttl: 86400,
+                }).connect(connection.getRepository(Session)),
+            })
+        );
+
         const { router, apiRouter } = require("./routes"); // MUST COME AFTER createConnection()
         this.app.use("/", router);
         this.app.use("/api", apiRouter); // MUST COME AFTER require("./routes")

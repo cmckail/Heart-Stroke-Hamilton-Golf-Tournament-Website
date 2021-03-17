@@ -38,6 +38,7 @@ imageRouter.get("/search", verifyUser, async (req, res, next) => {
                 publicId: item.publicId!,
                 filename: item.filename!,
                 mimetype: item.mimetype,
+                createdAt: item.createdAt,
             };
         });
 

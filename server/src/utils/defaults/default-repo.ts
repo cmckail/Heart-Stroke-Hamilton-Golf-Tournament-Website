@@ -7,6 +7,7 @@ import {
     FindOneOptions,
 } from "typeorm";
 import { ModelValidationError, NotFoundError } from "../errors";
+import logger from "../logger";
 
 export default abstract class DefaultRepository<T> {
     private repo: Repository<T>;
@@ -29,6 +30,7 @@ export default abstract class DefaultRepository<T> {
                 return await this.repo.save(item as T);
             }
         } catch (e) {
+            logger.error(e);
             switch (e.constructor) {
                 case QueryFailedError:
                     throw new ModelValidationError();

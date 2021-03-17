@@ -9,7 +9,7 @@ import NamingStrategy from "./naming-strategy";
 let connectionObj: ConnectionOptions = {
     type: "sqlite",
     database: ":memory:",
-    entities: ["node_modules/@local/shared/models/*.ts"],
+    entities: ["node_modules/@local/shared/models/*.ts", "src/models/*.ts"],
     namingStrategy: new NamingStrategy(),
 };
 

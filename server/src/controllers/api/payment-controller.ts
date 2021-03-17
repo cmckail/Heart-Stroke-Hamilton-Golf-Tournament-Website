@@ -22,11 +22,4 @@ paymentRouter.post("/create-payment-intent", async (req, res) => {
     });
 });
 
-paymentRouter.post("/webhook", (req, res, next) => {
-    const event: Stripe.Event = req.body;
-
-    switch (event.type) {
-    }
-});
-
 export default paymentRouter;

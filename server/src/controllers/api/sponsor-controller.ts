@@ -50,7 +50,7 @@ sponsorRouter.get("/search", verifyUser, async (req, res, next) => {
     }
 });
 
-sponsorRouter.post("/add", upload, verifyUser, async (req, res, next) => {
+sponsorRouter.post("/register", upload, verifyUser, async (req, res, next) => {
     try {
         let logo = req.file;
         let body = { ...req.body } as Sponsor;
@@ -69,7 +69,11 @@ sponsorRouter.post("/add", upload, verifyUser, async (req, res, next) => {
             body.logo = logoResult;
         }
 
-        const result = await repo.addToDB(body);
+        const result = body;
+
+        req.session.sponsor = { paid: false, data: result };
+
+        // const result = await repo.addToDB(body);
         const output = convertSponsorToResponse(result);
 
         res.json(output);
