@@ -5,19 +5,22 @@ import {
     PrimaryGeneratedColumn,
 } from "typeorm";
 
-@Entity("users")
-class User {
+@Entity("appointments")
+class Appointment {
     @PrimaryGeneratedColumn("uuid")
     id?: string;
 
-    @Column({ unique: true })
-    email!: string;
+    @Column()
+    stripeId!: string;
 
     @Column()
-    password!: string;
+    timeStart!: Date;
+
+    @Column()
+    timeEnd!: Date;
 
     @CreateDateColumn()
     createdAt?: Date;
 }
 
-export default User;
+export default Appointment;
