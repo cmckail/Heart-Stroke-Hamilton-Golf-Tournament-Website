@@ -5,22 +5,22 @@ import {
     PrimaryGeneratedColumn,
 } from "typeorm";
 
-@Entity("appointments")
-class Appointment {
+@Entity()
+class Registration {
     @PrimaryGeneratedColumn("uuid")
     id?: string;
 
     @Column()
-    stripeId!: string;
+    stripeCustomerId!: string;
 
     @Column()
-    timeStart!: Date;
+    teeTime!: Date;
 
     @Column()
-    timeEnd!: Date;
+    foodChoice!: string;
 
     @CreateDateColumn()
     createdAt?: Date;
 }
 
-export default Appointment;
+export default Registration;
