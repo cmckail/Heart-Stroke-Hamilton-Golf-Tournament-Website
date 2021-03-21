@@ -150,17 +150,8 @@ export default function Home() {
           </FormControl>
           <br />
           <Button variant="contained" color="secondary">
-            Pay Now
+            Add to Cart
           </Button>
-          <Elements stripe={promise}>
-            <CheckoutForm
-              donator={{
-                name: firstName,
-                email: email,
-                amount: parseInt(amount),
-              }}
-            />
-          </Elements>
         </main>
       </div>
     </div>

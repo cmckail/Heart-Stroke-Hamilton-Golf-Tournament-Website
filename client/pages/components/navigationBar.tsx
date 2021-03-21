@@ -72,11 +72,13 @@ export default function NavigationBar() {
               </a>
             </Link>
             <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <ShoppingCart />
-          </Badge>
-        </IconButton>
+            <Link href="/shoppingCart">
+              <IconButton aria-label="show 11 new notifications" color="inherit">
+                <Badge badgeContent={11} color="secondary">
+                  <ShoppingCart />
+                </Badge>
+              </IconButton>
+            </Link>
       </MenuItem>
           </Toolbar>
         </AppBar>
