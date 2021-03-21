@@ -9,8 +9,6 @@ registrationRouter.post("/", async (req, res, next) => {
     try {
         let item: Registration = req.body;
 
-        // item.teeTime = new Date();
-
         let result = await repo.addToDB(item);
 
         res.json(result);

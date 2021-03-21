@@ -71,7 +71,7 @@ sponsorRouter.post("/register", upload, verifyUser, async (req, res, next) => {
 
         const result = body;
 
-        req.session.sponsor = { paid: false, data: result };
+        req.session.sponsor = result;
 
         // const result = await repo.addToDB(body);
         const output = convertSponsorToResponse(result);

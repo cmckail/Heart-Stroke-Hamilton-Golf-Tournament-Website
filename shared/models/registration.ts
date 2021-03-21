@@ -14,7 +14,7 @@ class Registration {
     stripeCustomerId!: string;
 
     @Column()
-    teeTime!: Date;
+    teeRange?: string;
 
     @Column()
     foodChoice!: string;

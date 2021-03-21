@@ -2,7 +2,7 @@ import { Router } from "express";
 import multer from "multer";
 
 import Image from "@local/shared/models/image";
-import { IImageViewModel } from "@local/shared/view-models/image-viewmodel";
+import { IImageViewModel } from "@local/shared/view-models/image";
 import ImageRepository from "../../repos/image-repo";
 import HttpException from "../../utils/defaults/default-exception";
 import verifyUser from "../../middlewares/verify-user";

@@ -8,27 +8,27 @@ import {
 } from "typeorm";
 import Image from "./image";
 
-enum SponsorTypes {
-    GOLD = "gold",
-}
+// enum SponsorTypes {
+//     GOLD = "gold",
+// }
 
 @Entity("sponsors")
 export default class Sponsor {
     @PrimaryGeneratedColumn("uuid")
-    id?: string;
+    id: string = "";
 
     @Column()
-    name?: string;
+    name!: string;
 
     @OneToOne((type) => Image, { nullable: true })
     @JoinColumn()
     logo?: Image;
 
-    @Column({
-        type: "simple-enum",
-        enum: SponsorTypes,
-    })
-    type?: SponsorTypes;
+    // @Column({
+    //     type: "simple-enum",
+    //     enum: SponsorTypes,
+    // })
+    // type?: SponsorTypes;
 
     @CreateDateColumn()
     createdAt?: Date;

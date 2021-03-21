@@ -25,7 +25,7 @@ export default function CheckoutForm(props: any) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(donator),
+        body: JSON.stringify(testDonation),
       })
       .then((res) => {
         return res.json();

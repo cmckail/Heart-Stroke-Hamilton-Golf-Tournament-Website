@@ -8,8 +8,6 @@ import ImageRepository from "./repos/image-repo";
 import logger from "./utils/logger";
 import UserRepository from "./repos/user-repo";
 import SponsorRepository from "./repos/sponsor-repo";
-import Session from "./models/session";
-import RefreshTokenRepository from "./repos/refresh-repo";
 createConnection(connectionObj).then((connection) => {
     // Images
     const imageRepo = new ImageRepository();
