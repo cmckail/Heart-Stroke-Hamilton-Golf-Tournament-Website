@@ -1,6 +1,7 @@
-export default interface IRegistrationView {
+import IItemViewModel from "./item";
+
+export default interface IRegistrationView extends IItemViewModel {
     players: IPlayerView[];
-    amount: number;
     teeTime?: Date;
 }
 
