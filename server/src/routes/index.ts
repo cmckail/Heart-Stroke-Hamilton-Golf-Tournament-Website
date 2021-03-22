@@ -1,9 +1,9 @@
 import { Router, Request, Response, NextFunction } from "express";
 
-import apiControllers from "./controllers/api";
-import controllers from "./controllers/non-api";
-import HttpException from "./utils/defaults/default-exception";
-import { env, logger } from "./config";
+import apiControllers from "./api";
+import controllers from "./non-api";
+import HttpException from "../utils/defaults/default-exception";
+import { env, logger } from "../config";
 
 const router = Router();
 const apiRouter = Router();

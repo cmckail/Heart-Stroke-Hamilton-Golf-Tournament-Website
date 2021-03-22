@@ -1,4 +1,3 @@
-export default interface IItemViewModel {
-    name: string;
-    amount: number;
+export default interface IItemView {
+    amount?: number;
 }
