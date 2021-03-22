@@ -22,11 +22,12 @@ import Button from "@material-ui/core/Button";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./components/checkoutForm";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import axios from "../utils/axios";
 const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,18 +54,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const products = [
-  { name: 'Product 1', desc: 'A nice thing', price: '$9.99' },
-  { name: 'Product 2', desc: 'Another thing', price: '$3.45' },
-  { name: 'Product 3', desc: 'Something else', price: '$6.51' },
-  { name: 'Product 4', desc: 'Best thing of all', price: '$14.11' },
-  { name: 'Shipping', desc: '', price: 'Free' },
+  { name: "Product 1", desc: "A nice thing", price: "$9.99" },
+  { name: "Product 2", desc: "Another thing", price: "$3.45" },
+  { name: "Product 3", desc: "Something else", price: "$6.51" },
+  { name: "Product 4", desc: "Best thing of all", price: "$14.11" },
+  { name: "Shipping", desc: "", price: "Free" },
 ];
-const addresses = ['1 Material-UI Drive', 'Reactville', 'Anytown', '99999', 'USA'];
+const addresses = [
+  "1 Material-UI Drive",
+  "Reactville",
+  "Anytown",
+  "99999",
+  "USA",
+];
 const payments = [
-  { name: 'Card type', detail: 'Visa' },
-  { name: 'Card holder', detail: 'Mr John Smith' },
-  { name: 'Card number', detail: 'xxxx-xxxx-xxxx-1234' },
-  { name: 'Expiry date', detail: '04/2024' },
+  { name: "Card type", detail: "Visa" },
+  { name: "Card holder", detail: "Mr John Smith" },
+  { name: "Card number", detail: "xxxx-xxxx-xxxx-1234" },
+  { name: "Expiry date", detail: "04/2024" },
 ];
 export default function Home() {
   // useEffect(() => {}, []);
@@ -82,7 +89,12 @@ export default function Home() {
     setFirstName(event.target.value as string);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    axios
+      .get("/cart")
+      .then((data) => console.log(data))
+      .catch((err) => console.error(err));
+  }, []);
 
   return (
     <div>
@@ -96,48 +108,48 @@ export default function Home() {
           <h3> Shopping Cart </h3>
           <hr />
           <Typography variant="h6" gutterBottom>
-        Order summary
-      </Typography>
-      <List disablePadding>
-        {products.map((product) => (
-          <ListItem className={classes.listItem} key={product.name}>
-            <ListItemText primary={product.name} secondary={product.desc} />
-            <Typography variant="body2">{product.price}</Typography>
-          </ListItem>
-        ))}
-        <ListItem className={classes.listItem}>
-          <ListItemText primary="Total" />
-          <Typography variant="subtitle1" className={classes.total}>
-            $34.06
+            Order summary
           </Typography>
-        </ListItem>
-      </List>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <Typography variant="h6" gutterBottom className={classes.title}>
-            Shipping
-          </Typography>
-          <Typography gutterBottom>John Smith</Typography>
-          <Typography gutterBottom>{addresses.join(', ')}</Typography>
-        </Grid>
-        <Grid item container direction="column" xs={12} sm={6}>
-          <Typography variant="h6" gutterBottom className={classes.title}>
-            Payment details
-          </Typography>
-          <Grid container>
-            {payments.map((payment) => (
-              <React.Fragment key={payment.name}>
-                <Grid item xs={6}>
-                  <Typography gutterBottom>{payment.name}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography gutterBottom>{payment.detail}</Typography>
-                </Grid>
-              </React.Fragment>
+          <List disablePadding>
+            {products.map((product) => (
+              <ListItem className={classes.listItem} key={product.name}>
+                <ListItemText primary={product.name} secondary={product.desc} />
+                <Typography variant="body2">{product.price}</Typography>
+              </ListItem>
             ))}
+            <ListItem className={classes.listItem}>
+              <ListItemText primary="Total" />
+              <Typography variant="subtitle1" className={classes.total}>
+                $34.06
+              </Typography>
+            </ListItem>
+          </List>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="h6" gutterBottom className={classes.title}>
+                Shipping
+              </Typography>
+              <Typography gutterBottom>John Smith</Typography>
+              <Typography gutterBottom>{addresses.join(", ")}</Typography>
+            </Grid>
+            <Grid item container direction="column" xs={12} sm={6}>
+              <Typography variant="h6" gutterBottom className={classes.title}>
+                Payment details
+              </Typography>
+              <Grid container>
+                {payments.map((payment) => (
+                  <React.Fragment key={payment.name}>
+                    <Grid item xs={6}>
+                      <Typography gutterBottom>{payment.name}</Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography gutterBottom>{payment.detail}</Typography>
+                    </Grid>
+                  </React.Fragment>
+                ))}
+              </Grid>
+            </Grid>
           </Grid>
-        </Grid>
-      </Grid>
           <br />
           <Button variant="contained" color="secondary">
             Checkout

@@ -1,12 +1,12 @@
-import IItemViewModel from "./item";
+import IItemView from "./item";
+import IPersonView from "./person";
 
-export default interface IRegistrationView extends IItemViewModel {
+export default interface IRegistrationView extends IItemView {
     players: IPlayerView[];
-    teeTime?: Date;
+    teeRange: string;
 }
 
 export interface IPlayerView {
-    firstName: string;
-    lastName: string;
+    player: IPersonView;
     mealChoice: string;
 }
