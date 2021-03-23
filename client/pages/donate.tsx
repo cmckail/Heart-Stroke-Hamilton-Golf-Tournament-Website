@@ -23,6 +23,9 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./components/checkoutForm";
 
+import axios from "../utils/axios";
+import IDonationView from "@local/shared/view-models/donation";
+
 const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,18 +45,46 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home() {
   // useEffect(() => {}, []);
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(0);
   const [firstName, setFirstName] = useState("");
+  const [lastName, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const classes = useStyles();
-  const handleEmail = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setEmail(event.target.value as string);
+  const handleEmail = (event: React.ChangeEvent<{ value: string }>) => {
+    setEmail(event.target.value);
   };
-  const handleAmount = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setAmount(event.target.value as string);
+  const handleAmount = (event: React.ChangeEvent<{ value: string }>) => {
+    setAmount(parseInt(event.target.value));
   };
-  const handleFirstName = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setFirstName(event.target.value as string);
+  const handleFirstName = (event: React.ChangeEvent<{ value: string }>) => {
+    setFirstName(event.target.value);
+  };
+  const handleLastName = (event: React.ChangeEvent<{ value: string }>) => {
+    setLastname(event.target.value);
+  };
+
+  const handleClick = (e: React.MouseEvent) => {
+    console.log("running");
+
+    let body: IDonationView = {
+      amount,
+      donor: {
+        firstName,
+        lastName,
+        email,
+      },
+    };
+
+    console.log(body);
+
+    axios
+      .post("/donations", body)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   useEffect(() => {}, []);
@@ -114,6 +145,7 @@ export default function Home() {
                 Last Name
               </InputLabel>
               <OutlinedInput
+                onChange={handleLastName}
                 id="outlined-adornment-amount"
                 startAdornment={
                   <InputAdornment position="start"></InputAdornment>
@@ -149,7 +181,7 @@ export default function Home() {
             </FormHelperText>
           </FormControl>
           <br />
-          <Button variant="contained" color="secondary">
+          <Button variant="contained" color="secondary" onClick={handleClick}>
             Add to Cart
           </Button>
         </main>

@@ -1,4 +1,4 @@
-import imageRouter from "./image-controller";
+import imageRouter from "./image-route";
 
 export default [
     {

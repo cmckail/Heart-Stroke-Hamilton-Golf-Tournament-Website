@@ -23,11 +23,12 @@ import Button from "@material-ui/core/Button";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./components/checkoutForm";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import axios from "../utils/axios";
 const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,12 +59,11 @@ const products = [
   { name: 'Sponsor a hole', desc: 'Another thing', price: '$5.00' },
   { name: 'Golf Tournament Registration', desc: 'Something else', price: '$7.50' },
 ];
-const addresses = ['1 Material-UI Drive', 'Reactville', 'Anytown', '99999', 'USA'];
 const payments = [
-  { name: 'Card type', detail: 'Visa' },
-  { name: 'Card holder', detail: 'Mr John Smith' },
-  { name: 'Card number', detail: 'xxxx-xxxx-xxxx-1234' },
-  { name: 'Expiry date', detail: '04/2024' },
+  { name: "Card type", detail: "Visa" },
+  { name: "Card holder", detail: "Mr John Smith" },
+  { name: "Card number", detail: "xxxx-xxxx-xxxx-1234" },
+  { name: "Expiry date", detail: "04/2024" },
 ];
 export default function Home() {
   // useEffect(() => {}, []);
@@ -81,7 +81,12 @@ export default function Home() {
     setFirstName(event.target.value as string);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    axios
+      .get("/cart")
+      .then((data) => console.log(data))
+      .catch((err) => console.error(err));
+  }, []);
 
   return (
     <div>

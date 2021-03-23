@@ -1,6 +1,6 @@
-import IItemViewModel from "./item";
+import IItemView from "./item";
+import IPersonView from "./person";
 
-export default interface IDonationViewModel extends IItemViewModel {
-    firstName: string;
-    lastName: string;
+export default interface IDonationView extends IItemView {
+    donor: IPersonView;
 }
