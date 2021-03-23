@@ -7,7 +7,6 @@ import React, { useState, useEffect, FormEvent } from "react";
 import clsx from "clsx";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import Link from 'next/link'
 import { makeStyles } from "@material-ui/core/styles";
 import NavigationBar from "./components/navigationBar";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -92,31 +91,7 @@ export default function Home() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <main className={styles.main}>
-          <h3> Shopping Cart </h3>
-          <hr />
-          <Typography variant="h6" gutterBottom>
-        Order summary
-      </Typography>
-      <List disablePadding>
-        {products.map((product) => (
-          <ListItem className={classes.listItem} key={product.name}>
-            <ListItemText primary={product.name} secondary={product.desc} />
-            <Typography variant="body2">{product.price}</Typography>
-          </ListItem>
-        ))}
-        <ListItem className={classes.listItem}>
-          <ListItemText primary="Total" />
-          <Typography variant="subtitle1" className={classes.total}>
-            $34.06
-          </Typography>
-        </ListItem>
-      </List>
-          <br />
-          <Link href="/checkout">
-            <Button variant="contained" color="secondary">
-              Checkout
-            </Button>
-          </Link>
+
         </main>
       </div>
     </div>
