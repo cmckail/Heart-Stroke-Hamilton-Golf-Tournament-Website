@@ -4,31 +4,61 @@
 */
 
 import React, { useState, useEffect, FormEvent } from "react";
-import clsx from "clsx";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import Link from "next/link";
 import { makeStyles } from "@material-ui/core/styles";
 import NavigationBar from "./components/navigationBar";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormLabel from "@material-ui/core/FormLabel";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import Button from "@material-ui/core/Button";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./components/checkoutForm";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import axios from "../utils/axios";
+
+const checkoutData = {
+  "registration":[
+     {
+        "amount":15000,
+        "players":[
+           {
+              "firstName":"testing",
+              "lastName":"hello",
+              "mealChoice":"chicken"
+           }
+        ],
+        "teeRange":"10AM-2PM"
+     },
+     {
+        "amount":15000,
+        "players":[
+           {
+              "firstName":"testing",
+              "lastName":"hello",
+              "mealChoice":"chicken"
+           }
+        ],
+        "teeRange":"10AM-2PM",
+        "foodChoice":"beef"
+     }
+  ],
+  "donation":[
+     {
+        "amount":150,
+        "donor":{
+           "firstName":"testing",
+           "lastName":"testing 2",
+           "email":"test@test.com"
+        }
+     }
+  ]
+}
+
 const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -110,6 +140,7 @@ export default function Home() {
           <Typography variant="h6" gutterBottom>
             Order summary
           </Typography>
+
           <List disablePadding>
             {products.map((product) => (
               <ListItem className={classes.listItem} key={product.name}>
@@ -117,12 +148,16 @@ export default function Home() {
                 <Typography variant="body2">{product.price}</Typography>
               </ListItem>
             ))}
+
+            
+
             <ListItem className={classes.listItem}>
               <ListItemText primary="Total" />
               <Typography variant="subtitle1" className={classes.total}>
                 $34.06
               </Typography>
             </ListItem>
+
           </List>
           <form className={classes.root} noValidate autoComplete="off">
             <FormControl className={classes.margin} variant="outlined">
