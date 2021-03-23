@@ -7,7 +7,7 @@ import React, { useState, useEffect, FormEvent } from "react";
 import clsx from "clsx";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import Link from 'next/link'
+import Link from "next/link";
 import { makeStyles } from "@material-ui/core/styles";
 import NavigationBar from "./components/navigationBar";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -54,16 +54,14 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
 }));
-const handleFirstName = (event: React.ChangeEvent<{ value: string }>) => {
-  setFirstName(event.target.value);
-};
-const handleLastName = (event: React.ChangeEvent<{ value: string }>) => {
-  setLastname(event.target.value);
-};
 const products = [
-  { name: 'Donation ', desc: 'Thank you for the donation!', price: '$50.00' },
-  { name: 'Sponsor a hole', desc: 'Another thing', price: '$5.00' },
-  { name: 'Golf Tournament Registration', desc: 'Something else', price: '$7.50' },
+  { name: "Donation ", desc: "Thank you for the donation!", price: "$50.00" },
+  { name: "Sponsor a hole", desc: "Another thing", price: "$5.00" },
+  {
+    name: "Golf Tournament Registration",
+    desc: "Something else",
+    price: "$7.50",
+  },
 ];
 const payments = [
   { name: "Card type", detail: "Visa" },
@@ -75,6 +73,7 @@ export default function Home() {
   // useEffect(() => {}, []);
   const [amount, setAmount] = useState("");
   const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const classes = useStyles();
   const handleEmail = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -83,8 +82,11 @@ export default function Home() {
   const handleAmount = (event: React.ChangeEvent<{ value: unknown }>) => {
     setAmount(event.target.value as string);
   };
-  const handleFirstName = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setFirstName(event.target.value as string);
+  const handleFirstName = (event: React.ChangeEvent<{ value: string }>) => {
+    setFirstName(event.target.value);
+  };
+  const handleLastName = (event: React.ChangeEvent<{ value: string }>) => {
+    setLastName(event.target.value);
   };
 
   useEffect(() => {
@@ -106,23 +108,23 @@ export default function Home() {
           <h3> Check Out </h3>
           <hr />
           <Typography variant="h6" gutterBottom>
-        Order summary
-      </Typography>
-      <List disablePadding>
-        {products.map((product) => (
-          <ListItem className={classes.listItem} key={product.name}>
-            <ListItemText primary={product.name} secondary={product.desc} />
-            <Typography variant="body2">{product.price}</Typography>
-          </ListItem>
-        ))}
-        <ListItem className={classes.listItem}>
-          <ListItemText primary="Total" />
-          <Typography variant="subtitle1" className={classes.total}>
-            $34.06
+            Order summary
           </Typography>
-        </ListItem>
-      </List>
-      <form className={classes.root} noValidate autoComplete="off">
+          <List disablePadding>
+            {products.map((product) => (
+              <ListItem className={classes.listItem} key={product.name}>
+                <ListItemText primary={product.name} secondary={product.desc} />
+                <Typography variant="body2">{product.price}</Typography>
+              </ListItem>
+            ))}
+            <ListItem className={classes.listItem}>
+              <ListItemText primary="Total" />
+              <Typography variant="subtitle1" className={classes.total}>
+                $34.06
+              </Typography>
+            </ListItem>
+          </List>
+          <form className={classes.root} noValidate autoComplete="off">
             <FormControl className={classes.margin} variant="outlined">
               <InputLabel htmlFor="outlined-adornment-amount">
                 First Name

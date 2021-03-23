@@ -6,29 +6,29 @@ import { SessionUserData } from "../../@types";
 
 export default function addToSession(req: Request, data: IItemView) {
     let key: keyof SessionUserData;
+    // let item: IItemView;
     if (isRegistration(data)) {
         key = "registration";
+        // item = <IRegistrationView>{
+        //     amount: data.amount,
+        //     players: (<IRegistrationView>data).players,
+        //     teeRange: (<IRegistrationView>data).teeRange,
+        // }
     } else if (isDonation(data)) {
         key = "donation";
     } else {
         throw new Error();
     }
 
-    let array;
-    // req.session[key]?.length === 0 ? [data] : [...req.session[key]!, data];
-
     if (!req.session.data) {
         req.session.data = {};
     }
 
-    if (
+    let array =
         !Array.isArray(req.session.data[key]) ||
         req.session.data[key]?.length === 0
-    ) {
-        array = [data];
-    } else {
-        array = [...req.session.data[key]!, data];
-    }
+            ? [data]
+            : [...req.session.data[key]!, data];
 
     Object.assign(req.session.data, { [key]: array });
 }
