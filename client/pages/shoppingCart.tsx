@@ -42,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
 }));
+
 const products = [
   { name: 'Donation ', desc: 'Thank you for the donation!', price: '$50.00' },
   { name: 'Sponsor a hole', desc: 'Another thing', price: '$5.00' },
@@ -51,10 +52,10 @@ const products = [
 
 export default function Home() {
   const classes = useStyles();
-  const deleteItem = (event: React.ChangeEvent<{ value: unknown }>) => {
-
+  const deleteItem = () => {
+    products.pop();
   };
-  
+
   useEffect(() => {
     axios
       .get("/cart")
@@ -74,27 +75,33 @@ export default function Home() {
           <h3> Shopping Cart </h3>
           <hr />
         <Typography variant="h6" gutterBottom>
-        Order summary
-      </Typography>
-      <List disablePadding>
-        {products.map((product) => (
-          <ListItem className={classes.listItem} key={product.name}>
-            <ListItemText primary={product.name} secondary={product.desc} />
-            <Typography variant="body2">{product.price}</Typography>
-            <IconButton aria-label="delete" className={classes.margin}>
-          <DeleteIcon fontSize="large" />
-        </IconButton>
+           Order summary
+        </Typography>
+        <List disablePadding>
+          {products.map((product) => (
+            <ListItem className={classes.listItem} key={product.name}>
+
+              <ListItemText primary={product.name} secondary={product.desc} />
+              
+              <Typography variant="body2">{product.price}</Typography>
+
+              <IconButton aria-label="delete" className={classes.margin} onClick={deleteItem}>
+                <DeleteIcon fontSize="large" />
+              </IconButton>
+
+            </ListItem>
+          ))}
+
+          <ListItem className={classes.listItem}>
+            <ListItemText primary="Total" />
+            <Typography variant="subtitle1" className={classes.total}>
+              $34.06
+            </Typography>
           </ListItem>
-        ))}
-        <ListItem className={classes.listItem}>
-          <ListItemText primary="Total" />
-          <Typography variant="subtitle1" className={classes.total}>
-            $34.06
-          </Typography>
-        </ListItem>
-      </List>
-          <br />
-          <Link href="/checkout">
+
+          </List>
+            <br />
+            <Link href="/checkout">
             <Button variant="contained" color="secondary">
               Checkout
             </Button>
