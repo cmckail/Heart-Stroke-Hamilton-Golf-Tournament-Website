@@ -4,32 +4,20 @@
 */
 
 import React, { useState, useEffect, FormEvent } from "react";
-import clsx from "clsx";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import Link from 'next/link'
 import { makeStyles } from "@material-ui/core/styles";
 import NavigationBar from "./components/navigationBar";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormLabel from "@material-ui/core/FormLabel";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import Button from "@material-ui/core/Button";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import CheckoutForm from "./components/checkoutForm";
+import IconButton from '@material-ui/core/IconButton';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import axios from "../utils/axios";
-const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
+import DeleteIcon from '@material-ui/icons/Delete';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -59,28 +47,14 @@ const products = [
   { name: 'Sponsor a hole', desc: 'Another thing', price: '$5.00' },
   { name: 'Golf Tournament Registration', desc: 'Something else', price: '$7.50' },
 ];
-const payments = [
-  { name: "Card type", detail: "Visa" },
-  { name: "Card holder", detail: "Mr John Smith" },
-  { name: "Card number", detail: "xxxx-xxxx-xxxx-1234" },
-  { name: "Expiry date", detail: "04/2024" },
-];
-export default function Home() {
-  // useEffect(() => {}, []);
-  const [amount, setAmount] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [email, setEmail] = useState("");
-  const classes = useStyles();
-  const handleEmail = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setEmail(event.target.value as string);
-  };
-  const handleAmount = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setAmount(event.target.value as string);
-  };
-  const handleFirstName = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setFirstName(event.target.value as string);
-  };
 
+
+export default function Home() {
+  const classes = useStyles();
+  const deleteItem = (event: React.ChangeEvent<{ value: unknown }>) => {
+
+  };
+  
   useEffect(() => {
     axios
       .get("/cart")
@@ -99,7 +73,7 @@ export default function Home() {
         <main className={styles.main}>
           <h3> Shopping Cart </h3>
           <hr />
-          <Typography variant="h6" gutterBottom>
+        <Typography variant="h6" gutterBottom>
         Order summary
       </Typography>
       <List disablePadding>
@@ -107,6 +81,9 @@ export default function Home() {
           <ListItem className={classes.listItem} key={product.name}>
             <ListItemText primary={product.name} secondary={product.desc} />
             <Typography variant="body2">{product.price}</Typography>
+            <IconButton aria-label="delete" className={classes.margin}>
+          <DeleteIcon fontSize="large" />
+        </IconButton>
           </ListItem>
         ))}
         <ListItem className={classes.listItem}>

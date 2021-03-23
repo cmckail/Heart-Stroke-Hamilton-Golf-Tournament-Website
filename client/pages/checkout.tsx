@@ -7,6 +7,7 @@ import React, { useState, useEffect, FormEvent } from "react";
 import clsx from "clsx";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import Link from 'next/link'
 import { makeStyles } from "@material-ui/core/styles";
 import NavigationBar from "./components/navigationBar";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -22,11 +23,12 @@ import Button from "@material-ui/core/Button";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./components/checkoutForm";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import axios from "../utils/axios";
 const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,17 +54,22 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
 }));
+const handleFirstName = (event: React.ChangeEvent<{ value: string }>) => {
+  setFirstName(event.target.value);
+};
+const handleLastName = (event: React.ChangeEvent<{ value: string }>) => {
+  setLastname(event.target.value);
+};
 const products = [
   { name: 'Donation ', desc: 'Thank you for the donation!', price: '$50.00' },
   { name: 'Sponsor a hole', desc: 'Another thing', price: '$5.00' },
   { name: 'Golf Tournament Registration', desc: 'Something else', price: '$7.50' },
 ];
-const addresses = ['1 Material-UI Drive', 'Reactville', 'Anytown', '99999', 'USA'];
 const payments = [
-  { name: 'Card type', detail: 'Visa' },
-  { name: 'Card holder', detail: 'Mr John Smith' },
-  { name: 'Card number', detail: 'xxxx-xxxx-xxxx-1234' },
-  { name: 'Expiry date', detail: '04/2024' },
+  { name: "Card type", detail: "Visa" },
+  { name: "Card holder", detail: "Mr John Smith" },
+  { name: "Card number", detail: "xxxx-xxxx-xxxx-1234" },
+  { name: "Expiry date", detail: "04/2024" },
 ];
 export default function Home() {
   // useEffect(() => {}, []);
@@ -80,7 +87,12 @@ export default function Home() {
     setFirstName(event.target.value as string);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    axios
+      .get("/cart")
+      .then((data) => console.log(data))
+      .catch((err) => console.error(err));
+  }, []);
 
   return (
     <div>
@@ -91,7 +103,64 @@ export default function Home() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <main className={styles.main}>
-
+          <h3> Check Out </h3>
+          <hr />
+          <Typography variant="h6" gutterBottom>
+        Order summary
+      </Typography>
+      <List disablePadding>
+        {products.map((product) => (
+          <ListItem className={classes.listItem} key={product.name}>
+            <ListItemText primary={product.name} secondary={product.desc} />
+            <Typography variant="body2">{product.price}</Typography>
+          </ListItem>
+        ))}
+        <ListItem className={classes.listItem}>
+          <ListItemText primary="Total" />
+          <Typography variant="subtitle1" className={classes.total}>
+            $34.06
+          </Typography>
+        </ListItem>
+      </List>
+      <form className={classes.root} noValidate autoComplete="off">
+            <FormControl className={classes.margin} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-amount">
+                First Name
+              </InputLabel>
+              <OutlinedInput
+                onChange={handleFirstName}
+                id="outlined-adornment-amount"
+                startAdornment={
+                  <InputAdornment position="start"></InputAdornment>
+                }
+                labelWidth={60}
+              />
+            </FormControl>
+            <FormControl className={classes.margin} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-amount">
+                Last Name
+              </InputLabel>
+              <OutlinedInput
+                onChange={handleLastName}
+                id="outlined-adornment-amount"
+                startAdornment={
+                  <InputAdornment position="start"></InputAdornment>
+                }
+                labelWidth={60}
+              />
+            </FormControl>
+            <br></br>
+          </form>
+          <br />
+          <Elements stripe={promise}>
+            <CheckoutForm
+              donator={{
+                name: firstName,
+                email: email,
+                amount: parseInt(amount),
+              }}
+            />
+          </Elements>
         </main>
       </div>
     </div>
