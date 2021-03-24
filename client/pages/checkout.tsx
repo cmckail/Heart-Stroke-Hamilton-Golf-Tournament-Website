@@ -93,15 +93,10 @@ const products = [
     price: "$7.50",
   },
 ];
-const payments = [
-  { name: "Card type", detail: "Visa" },
-  { name: "Card holder", detail: "Mr John Smith" },
-  { name: "Card number", detail: "xxxx-xxxx-xxxx-1234" },
-  { name: "Expiry date", detail: "04/2024" },
-];
 export default function Home() {
   // useEffect(() => {}, []);
-  const [amount, setAmount] = useState("");
+  var [donateAmount, setAmount] = useState("");
+  var [totalAmount, setAmount] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -118,6 +113,12 @@ export default function Home() {
   const handleLastName = (event: React.ChangeEvent<{ value: string }>) => {
     setLastName(event.target.value);
   };
+
+  donateAmount = checkoutData.donation[0].amount; 
+  donateAmount = donateAmount.toFixed(2)
+
+  totalAmount = (parseInt(donateAmount) + 150000)/100
+  totalAmount = totalAmount.toFixed(2)
 
   useEffect(() => {
     axios
@@ -142,13 +143,6 @@ export default function Home() {
           </Typography>
 
           <List disablePadding>
-            {products.map((product) => (
-              <ListItem className={classes.listItem} key={product.name}>
-                <ListItemText primary={product.name} secondary={product.desc} />
-                <Typography variant="body2">{product.price}</Typography>
-              </ListItem>
-            ))}
-
             {
               checkoutData.hasOwnProperty('registration') &&
                 <React.Fragment>
@@ -162,8 +156,8 @@ export default function Home() {
               checkoutData.hasOwnProperty('donation') &&
                 <React.Fragment>
                 <ListItem className={classes.listItem} key="Registration">
-                  <ListItemText primary="Registration" secondary="Test" />
-                  <Typography variant="body2">$150.00</Typography>
+                  <ListItemText primary="Donation" secondary="Thank you for the donation!" />
+                  <Typography variant="body2">${donateAmount}</Typography>
                 </ListItem>
               </React.Fragment>
 
@@ -172,7 +166,7 @@ export default function Home() {
             <ListItem className={classes.listItem}>
               <ListItemText primary="Total" />
               <Typography variant="subtitle1" className={classes.total}>
-                $34.06
+                ${totalAmount}
               </Typography>
             </ListItem>
 
@@ -212,7 +206,7 @@ export default function Home() {
               donator={{
                 name: firstName,
                 email: email,
-                amount: parseInt(amount),
+                amount: parseInt(donateAmount),
               }}
             />
           </Elements>
