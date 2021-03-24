@@ -21,6 +21,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import axios from "../utils/axios";
 
+// Dummy data to use to test the json rendering
 const checkoutData = {
   "registration":[
      {
@@ -58,7 +59,7 @@ const checkoutData = {
      }
   ]
 }
-
+// A few constants and jss used on this page. 
 const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -84,17 +85,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
 }));
-const products = [
-  { name: "Donation ", desc: "Thank you for the donation!", price: "$50.00" },
-  { name: "Sponsor a hole", desc: "Another thing", price: "$5.00" },
-  {
-    name: "Golf Tournament Registration",
-    desc: "Something else",
-    price: "$7.50",
-  },
-];
+
+// The constructor for checkout.
 export default function Home() {
-  // useEffect(() => {}, []);
   var [donateAmount, setAmount] = useState("");
   var [totalAmount, setAmount] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -114,12 +107,14 @@ export default function Home() {
     setLastName(event.target.value);
   };
 
+  // Getting the amounts and setting them to data from the json. toFixed sets the decimals points to two.
   donateAmount = checkoutData.donation[0].amount; 
   donateAmount = donateAmount.toFixed(2)
 
   totalAmount = (parseInt(donateAmount) + 150000)/100
   totalAmount = totalAmount.toFixed(2)
 
+  // Getting the /cart json data into the system.
   useEffect(() => {
     axios
       .get("/cart")
@@ -127,6 +122,7 @@ export default function Home() {
       .catch((err) => console.error(err));
   }, []);
 
+  // Returning the jsx used in this page.
   return (
     <div>
       <NavigationBar />
