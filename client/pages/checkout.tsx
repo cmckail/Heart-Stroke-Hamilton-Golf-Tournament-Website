@@ -149,7 +149,25 @@ export default function Home() {
               </ListItem>
             ))}
 
-            
+            {
+              checkoutData.hasOwnProperty('registration') &&
+                <React.Fragment>
+                  <ListItem className={classes.listItem} key="Registration">
+                    <ListItemText primary="Registration" secondary="Test" />
+                    <Typography variant="body2">$1500.00</Typography>
+                  </ListItem>
+                </React.Fragment>
+            }
+            {
+              checkoutData.hasOwnProperty('donation') &&
+                <React.Fragment>
+                <ListItem className={classes.listItem} key="Registration">
+                  <ListItemText primary="Registration" secondary="Test" />
+                  <Typography variant="body2">$150.00</Typography>
+                </ListItem>
+              </React.Fragment>
+
+            }
 
             <ListItem className={classes.listItem}>
               <ListItemText primary="Total" />
