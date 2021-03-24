@@ -73,7 +73,7 @@ export default function Home() {
           <h3> OTHER OTHER INFORMATION ABOUT THE TOURNAMENT HERE</h3>
           <FormControl className={classes.formControl}>
             <InputLabel id="tee-time-selector-label">
-              Number Of Players
+              Tee Times
             </InputLabel>
             <Select
               className={classes.root}
@@ -85,27 +85,29 @@ export default function Home() {
                 //Request server for valid tee times
                 //<MenuItem value={Value}>value in string </MenuItem>
               }
-              <MenuItem value={1}>5:00AM</MenuItem>
-              <MenuItem value={2}>5:15AM</MenuItem>
-              <MenuItem value={3}>5:30AM</MenuItem>
-              <MenuItem value={4}>5:45AM</MenuItem>
+              <MenuItem value={1}>Early Morning</MenuItem>
+              <MenuItem value={2}>Morning</MenuItem>
+              <MenuItem value={3}>Afternoon</MenuItem>
             </Select>
           </FormControl>
-          <FormControl className={classes.root}>
-            <InputLabel id="player-number-selector-label">
-              Number Of Players
+          <FormControl className={classes.formControl}>
+            <InputLabel id="tee-time-selector-label">
+              Players
             </InputLabel>
             <Select
-              id="player-number-selector"
-              labelId="player-number-selector-label"
-              value={numPlayers}
-              onChange={handleNumPlayers}
               className={classes.root}
+              id="tee-time-selector"
+              labelId="tee-time-selector-label"
+              onChange={handleNumPlayers}
             >
+              {
+                //Request server for valid tee times
+                //<MenuItem value={Value}>value in string </MenuItem>
+              }
               <MenuItem value={1}>One</MenuItem>
               <MenuItem value={2}>Two</MenuItem>
               <MenuItem value={3}>Three</MenuItem>
-              <MenuItem value={4}>Four</MenuItem>
+              <MenuItem value={3}>Four</MenuItem>
             </Select>
           </FormControl>
           <h3> Player 1</h3>
