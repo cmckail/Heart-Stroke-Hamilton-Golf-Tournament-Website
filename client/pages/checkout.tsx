@@ -15,51 +15,51 @@ import OutlinedInput from "@material-ui/core/OutlinedInput";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./components/checkoutForm";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import axios from "../utils/axios";
+import ItemList from "./components/itemList";
+import IItemView from "@local/shared/view-models/item";
+import ICartView from "../utils/interfaces/cartview";
 
 // Dummy data to use to test the json rendering
 const checkoutData = {
-  "registration":[
-     {
-        "amount":15000,
-        "players":[
-           {
-              "firstName":"testing",
-              "lastName":"hello",
-              "mealChoice":"chicken"
-           }
-        ],
-        "teeRange":"10AM-2PM"
-     },
-     {
-        "amount":15000,
-        "players":[
-           {
-              "firstName":"testing",
-              "lastName":"hello",
-              "mealChoice":"chicken"
-           }
-        ],
-        "teeRange":"10AM-2PM",
-        "foodChoice":"beef"
-     }
+  registration: [
+    {
+      amount: 15000,
+      players: [
+        {
+          firstName: "testing",
+          lastName: "hello",
+          mealChoice: "chicken",
+        },
+      ],
+      teeRange: "10AM-2PM",
+    },
+    {
+      amount: 15000,
+      players: [
+        {
+          firstName: "testing",
+          lastName: "hello",
+          mealChoice: "chicken",
+        },
+      ],
+      teeRange: "10AM-2PM",
+      foodChoice: "beef",
+    },
   ],
-  "donation":[
-     {
-        "amount":150,
-        "donor":{
-           "firstName":"testing",
-           "lastName":"testing 2",
-           "email":"test@test.com"
-        }
-     }
-  ]
-}
-// A few constants and jss used on this page. 
+  donation: [
+    {
+      amount: 150,
+      donor: {
+        firstName: "testing",
+        lastName: "testing 2",
+        email: "test@test.com",
+      },
+    },
+  ],
+};
+// A few constants and jss used on this page.
 const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -88,17 +88,15 @@ const useStyles = makeStyles((theme) => ({
 
 // The constructor for checkout.
 export default function Home() {
-  var [donateAmount, setAmount] = useState("");
-  var [totalAmount, setAmount] = useState("");
+  const [total, setTotal] = useState(0);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [data, setData] = useState<ICartView>();
   const classes = useStyles();
-  const handleEmail = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setEmail(event.target.value as string);
-  };
-  const handleAmount = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setAmount(event.target.value as string);
+
+  const handleEmail = (event: React.ChangeEvent<{ value: string }>) => {
+    setEmail(event.target.value);
   };
   const handleFirstName = (event: React.ChangeEvent<{ value: string }>) => {
     setFirstName(event.target.value);
@@ -107,20 +105,50 @@ export default function Home() {
     setLastName(event.target.value);
   };
 
-  // Getting the amounts and setting them to data from the json. toFixed sets the decimals points to two.
-  donateAmount = checkoutData.donation[0].amount; 
-  donateAmount = donateAmount.toFixed(2)
+  const getTotal = () => {
+    let total = 0;
+    if (data) {
+      let keys = Object.keys(data) as Array<keyof ICartView>;
+      keys.forEach((item) => {
+        if (data[item]) {
+          let x = data[item]!;
 
-  totalAmount = (parseInt(donateAmount) + 150000)/100
-  totalAmount = totalAmount.toFixed(2)
+          (x as IItemView[]).forEach((item) => {
+            if (item.amount) {
+              total += item.amount;
+            }
+          });
+        }
+      });
+    }
+    return total;
+  };
 
   // Getting the /cart json data into the system.
   useEffect(() => {
+    let mounted = true;
     axios
       .get("/cart")
-      .then((data) => console.log(data))
+      .then((response) => {
+        if (mounted) setData(response.data);
+      })
       .catch((err) => console.error(err));
+
+    return function cleanup() {
+      mounted = false;
+    };
   }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    if (mounted) {
+      setTotal(getTotal());
+    }
+
+    return function cleanup() {
+      mounted = false;
+    };
+  }, [data]);
 
   // Returning the jsx used in this page.
   return (
@@ -138,41 +166,15 @@ export default function Home() {
             Order summary
           </Typography>
 
-          <List disablePadding>
-            {
-              checkoutData.hasOwnProperty('registration') &&
-                <React.Fragment>
-                  <ListItem className={classes.listItem} key="Registration">
-                    <ListItemText primary="Registration" secondary="Test" />
-                    <Typography variant="body2">$1500.00</Typography>
-                  </ListItem>
-                </React.Fragment>
-            }
-            {
-              checkoutData.hasOwnProperty('donation') &&
-                <React.Fragment>
-                <ListItem className={classes.listItem} key="Registration">
-                  <ListItemText primary="Donation" secondary="Thank you for the donation!" />
-                  <Typography variant="body2">${donateAmount}</Typography>
-                </ListItem>
-              </React.Fragment>
+          {data ? <ItemList data={data} /> : null}
 
-            }
-
-            <ListItem className={classes.listItem}>
-              <ListItemText primary="Total" />
-              <Typography variant="subtitle1" className={classes.total}>
-                ${totalAmount}
-              </Typography>
-            </ListItem>
-
-          </List>
           <form className={classes.root} noValidate autoComplete="off">
             <FormControl className={classes.margin} variant="outlined">
               <InputLabel htmlFor="outlined-adornment-amount">
                 First Name
               </InputLabel>
               <OutlinedInput
+                value={firstName}
                 onChange={handleFirstName}
                 id="outlined-adornment-amount"
                 startAdornment={
@@ -186,6 +188,7 @@ export default function Home() {
                 Last Name
               </InputLabel>
               <OutlinedInput
+                value={lastName}
                 onChange={handleLastName}
                 id="outlined-adornment-amount"
                 startAdornment={
@@ -194,18 +197,30 @@ export default function Home() {
                 labelWidth={60}
               />
             </FormControl>
+            <FormControl className={classes.margin} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-amount">Email</InputLabel>
+              <OutlinedInput
+                value={email}
+                onChange={handleEmail}
+                id="outlined-adornment-amount"
+                startAdornment={
+                  <InputAdornment position="start">@</InputAdornment>
+                }
+                labelWidth={60}
+              />
+            </FormControl>
             <br></br>
           </form>
           <br />
-          <Elements stripe={promise}>
-            <CheckoutForm
-              donator={{
-                name: firstName,
-                email: email,
-                amount: parseInt(donateAmount),
-              }}
-            />
-          </Elements>
+          {total > 0 ? (
+            <Elements stripe={promise}>
+              <CheckoutForm
+                name={(firstName + " " + lastName).trim()}
+                email={email}
+                amount={total}
+              />
+            </Elements>
+          ) : null}
         </main>
       </div>
     </div>

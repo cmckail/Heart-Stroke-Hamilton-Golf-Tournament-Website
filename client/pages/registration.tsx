@@ -9,10 +9,9 @@ import styles from "../styles/Home.module.css";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import NavigationBar from "./components/navigationBar";
 import TextField from "@material-ui/core/TextField";
-import { FormControl } from "@material-ui/core";
+import { Button, FormControl } from "@material-ui/core";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import Select from "@material-ui/core/Select";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -39,15 +38,12 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function Home() {
   const classes = useStyles();
 
-  const [numPlayers, setNumPlayers] = useState("");
+  const [numPlayers, setNumPlayers] = useState(1);
   const [teeTimes, setTeeTimes] = useState("");
+  // const [selectedNumPlayers, setSelectedNumPlayers] = useState("One");
 
-  const handleNumPlayers = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setNumPlayers(event.target.value as string);
-  };
-
-  const handleTeeTimes = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setTeeTimes(event.target.value as string);
+  const handleTeeTimes = (event: React.ChangeEvent<{ value: string }>) => {
+    setTeeTimes(event.target.value);
   };
 
   useEffect(() => {}, []);
@@ -71,15 +67,13 @@ export default function Home() {
           <br></br>
           <p>** $165 Per Player </p>
           <h3> OTHER OTHER INFORMATION ABOUT THE TOURNAMENT HERE</h3>
-          <FormControl className={classes.formControl}>
-            <InputLabel id="tee-time-selector-label">
-              Tee Times
-            </InputLabel>
+          {/* <FormControl className={classes.formControl}>
+            <InputLabel id="tee-time-selector-label">Tee Times</InputLabel>
             <Select
               className={classes.root}
               id="tee-time-selector"
               labelId="tee-time-selector-label"
-              onChange={handleTeeTimes}
+              // onSelect={handleTeeTimes}
             >
               {
                 //Request server for valid tee times
@@ -89,16 +83,15 @@ export default function Home() {
               <MenuItem value={2}>Morning</MenuItem>
               <MenuItem value={3}>Afternoon</MenuItem>
             </Select>
-          </FormControl>
+          </FormControl> */}
           <FormControl className={classes.formControl}>
-            <InputLabel id="tee-time-selector-label">
-              Players
-            </InputLabel>
+            <InputLabel id="tee-time-selector-label">Players</InputLabel>
             <Select
               className={classes.root}
               id="tee-time-selector"
               labelId="tee-time-selector-label"
-              onChange={handleNumPlayers}
+              value={numPlayers}
+              onChange={(e) => setNumPlayers(e.target.value as number)}
             >
               {
                 //Request server for valid tee times
@@ -107,97 +100,45 @@ export default function Home() {
               <MenuItem value={1}>One</MenuItem>
               <MenuItem value={2}>Two</MenuItem>
               <MenuItem value={3}>Three</MenuItem>
-              <MenuItem value={3}>Four</MenuItem>
+              <MenuItem value={4}>Four</MenuItem>
             </Select>
           </FormControl>
-          <h3> Player 1</h3>
-          <hr></hr>
-          <form className={classes.root} noValidate autoComplete="off">
-            <TextField
-              required
-              id="standard-required"
-              label="First Name"
-              defaultValue="First Name"
-            />
-            <TextField
-              required
-              id="standard-required"
-              label="Last Name"
-              defaultValue="Last Name"
-            />
-            <TextField
-              id="standard-select-currency"
-              select
-              label="Meal Choice"
-              helperText="Please select your meal"
-            />
-          </form>
-          <h3> Player 2</h3>
-          <hr></hr>
-          <form className={classes.root} noValidate autoComplete="off">
-            <TextField
-              required
-              id="standard-required"
-              label="First Name"
-              defaultValue="First Name"
-            />
-            <TextField
-              required
-              id="standard-required"
-              label="Last Name"
-              defaultValue="Last Name"
-            />
-            <TextField
-              id="standard-select-currency"
-              select
-              label="Meal Choice"
-              helperText="Please select your meal"
-            />
-          </form>
-          <h3> Player 3</h3>
-          <hr></hr>
-          <form className={classes.root} noValidate autoComplete="off">
-            <TextField
-              required
-              id="standard-required"
-              label="First Name"
-              defaultValue="First Name"
-            />
-            <TextField
-              required
-              id="standard-required"
-              label="Last Name"
-              defaultValue="Last Name"
-            />
-            <TextField
-              id="standard-select-currency"
-              select
-              label="Meal Choice"
-              helperText="Please select your meal"
-            />
-          </form>
-          <h3> Player 4</h3>
-          <hr></hr>
-          <form className={classes.root} noValidate autoComplete="off">
-            <TextField
-              required
-              id="standard-required"
-              label="First Name"
-              defaultValue="First Name"
-            />
-            <TextField
-              required
-              id="standard-required"
-              label="Last Name"
-              defaultValue="Last Name"
-            />
-            <TextField
-              id="standard-select-currency"
-              select
-              label="Meal Choice"
-              helperText="Please select your meal"
-            />
-          </form>
+          {[...Array(numPlayers)].map((item, index) => {
+            console.log(index);
+            return (
+              <React.Fragment key={index}>
+                <h3> Player {index + 1}</h3>
+                <hr></hr>
+                <form className={classes.root} noValidate autoComplete="off">
+                  <TextField
+                    required
+                    className="standard-required"
+                    label="First Name"
+                    defaultValue="First Name"
+                  />
+                  <TextField
+                    required
+                    className="standard-required"
+                    label="Last Name"
+                    defaultValue="Last Name"
+                  />
+                  <TextField
+                    className="standard-select-currency"
+                    select
+                    label="Meal Choice"
+                    helperText="Please select your meal"
+                  />
+                </form>
+              </React.Fragment>
+            );
+          })}
+          <Button
+            variant="contained"
+            color="secondary"
+            // onClick={handleClick}
+          >
+            Add to Cart
+          </Button>
         </main>
       </div>
     </div>

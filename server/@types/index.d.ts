@@ -8,6 +8,7 @@ import Stripe from "stripe";
 
 declare module "express-session" {
     interface SessionData {
+        paymentIntent?: string;
         data: SessionUserData;
     }
 }

@@ -1,15 +1,20 @@
 import React, { useState, useEffect, FormEvent } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { StripeCardElementChangeEvent } from "@stripe/stripe-js";
-import Button from "@material-ui/core/Button";
+import axios from "../../utils/axios";
+
 export default function CheckoutForm(props: any) {
   const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [processing, setProcessing] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
+
+  const { name, email, amount } = props;
+
   const stripe = useStripe();
   const elements = useElements();
+
   const donator = props.donator;
   const testDonation = {
     name: "Anthony",
@@ -17,23 +22,26 @@ export default function CheckoutForm(props: any) {
     amount: 50.0,
   };
 
+  // Create/retrieve PaymentIntent as soon as the page loads and amount is known
   useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
-    window
-      .fetch("/api/payment/create-payment-intent", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(testDonation),
+    let mounted = true;
+    console.log(props);
+    axios
+      .post("/payment", {
+        name,
+        email,
+        amount,
       })
       .then((res) => {
-        return res.json();
+        console.log(res.data);
+        if (mounted && res.data) setClientSecret(res.data.clientSecret);
       })
-      .then((data) => {
-        setClientSecret(data.clientSecret);
-      });
-  }, []);
+      .catch((err) => console.error(err));
+
+    return function cleanup() {
+      mounted = false;
+    };
+  }, [props]);
 
   const cardStyle = {
     style: {
@@ -108,14 +116,16 @@ export default function CheckoutForm(props: any) {
         </div>
       )}
       {/* Show a success message upon completion */}
-      <p className={succeeded ? "result-message" : "result-message hidden"}>
-        Payment succeeded, see the result in your
-        <a href={`https://dashboard.stripe.com/test/payments`}>
-          {" "}
-          Stripe dashboard.
-        </a>{" "}
-        Refresh the page to pay again.
-      </p>
+      {succeeded ? (
+        <p className="result-message">
+          Payment succeeded, see the result in your
+          <a href={`https://dashboard.stripe.com/test/payments`}>
+            {" "}
+            Stripe dashboard.
+          </a>{" "}
+          Refresh the page to pay again.
+        </p>
+      ) : null}
     </form>
   );
 }

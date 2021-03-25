@@ -6,17 +6,14 @@
 import React, { useState, useEffect, FormEvent } from "react";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import Link from 'next/link'
+import Link from "next/link";
 import { makeStyles } from "@material-ui/core/styles";
 import NavigationBar from "./components/navigationBar";
 import Button from "@material-ui/core/Button";
-import IconButton from '@material-ui/core/IconButton';
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import axios from "../utils/axios";
-import DeleteIcon from '@material-ui/icons/Delete';
+import ItemList from "./components/itemList";
+import ICartView from "../utils/interfaces/cartview";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,23 +40,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const products = [
-  { name: 'Donation ', desc: 'Thank you for the donation!', price: '$50.00' },
-  { name: 'Sponsor a hole', desc: 'Another thing', price: '$5.00' },
-  { name: 'Golf Tournament Registration', desc: 'Something else', price: '$7.50' },
-];
-
+// const products = [
+//   { name: 'Donation ', desc: 'Thank you for the donation!', price: '$50.00' },
+//   { name: 'Sponsor a hole', desc: 'Another thing', price: '$5.00' },
+//   { name: 'Golf Tournament Registration', desc: 'Something else', price: '$7.50' },
+// ];
 
 export default function Home() {
   const classes = useStyles();
-  const deleteItem = () => {
-    products.pop();
-  };
+  const [data, setData] = useState<ICartView>();
 
   useEffect(() => {
     axios
       .get("/cart")
-      .then((data) => console.log(data))
+      .then((res) => {
+        if (res.data) {
+          setData(res.data);
+        }
+      })
       .catch((err) => console.error(err));
   }, []);
 
@@ -74,34 +72,12 @@ export default function Home() {
         <main className={styles.main}>
           <h3> Shopping Cart </h3>
           <hr />
-        <Typography variant="h6" gutterBottom>
-           Order summary
-        </Typography>
-        <List disablePadding>
-          {products.map((product) => (
-            <ListItem className={classes.listItem} key={product.name}>
-
-              <ListItemText primary={product.name} secondary={product.desc} />
-              
-              <Typography variant="body2">{product.price}</Typography>
-
-              <IconButton aria-label="delete" className={classes.margin} onClick={deleteItem}>
-                <DeleteIcon fontSize="large" />
-              </IconButton>
-
-            </ListItem>
-          ))}
-
-          <ListItem className={classes.listItem}>
-            <ListItemText primary="Total" />
-            <Typography variant="subtitle1" className={classes.total}>
-              $34.06
-            </Typography>
-          </ListItem>
-
-          </List>
-            <br />
-            <Link href="/checkout">
+          <Typography variant="h6" gutterBottom>
+            Order summary
+          </Typography>
+          {data ? <ItemList data={data} allowDelete={true} /> : null}
+          <br />
+          <Link href="/checkout">
             <Button variant="contained" color="secondary">
               Checkout
             </Button>

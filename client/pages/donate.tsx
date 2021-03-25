@@ -46,15 +46,17 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
   // useEffect(() => {}, []);
   const [amount, setAmount] = useState(0);
+  const [amountInput, setAmountInput] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const classes = useStyles();
+
   const handleEmail = (event: React.ChangeEvent<{ value: string }>) => {
     setEmail(event.target.value);
   };
-  const handleAmount = (event: React.ChangeEvent<{ value: string }>) => {
-    setAmount(parseInt(event.target.value));
+  const handleAmountInput = (event: React.ChangeEvent<{ value: string }>) => {
+    setAmountInput(event.target.value);
   };
   const handleFirstName = (event: React.ChangeEvent<{ value: string }>) => {
     setFirstName(event.target.value);
@@ -64,8 +66,6 @@ export default function Home() {
   };
 
   const handleClick = (e: React.MouseEvent) => {
-    console.log("running");
-
     let body: IDonationView = {
       amount,
       donor: {
@@ -75,16 +75,37 @@ export default function Home() {
       },
     };
 
-    console.log(body);
-
     axios
       .post("/donations", body)
       .then((res) => {
-        console.log(res);
+        window.location.href = "/shoppingCart";
       })
       .catch((err) => {
         console.error(err);
       });
+  };
+
+  // const handleKeyDown = (event: React.KeyboardEvent) => {
+  //   let code = event.key;
+
+  //   if (isNaN(parseInt(code)) && code !== ".")
+
+  //   try {
+  //     let x = parseInt(code);
+  //     console.log(typeof x);
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
+
+  const handleAmountBlur = () => {
+    let temp: number;
+    if (!/^\d+\.\d{2}$/.test(amountInput)) {
+      temp = parseFloat(amountInput);
+      if (isNaN(temp)) temp = 0;
+      setAmountInput(temp.toFixed(2));
+    }
+    setAmount(parseInt(amountInput) * 100);
   };
 
   useEffect(() => {}, []);
@@ -119,7 +140,10 @@ export default function Home() {
                 Amount
               </InputLabel>
               <OutlinedInput
-                onChange={handleAmount}
+                // onKeyDown={handleKeyDown}
+                value={amountInput}
+                onChange={handleAmountInput}
+                onBlur={handleAmountBlur}
                 id="outlined-adornment-amount"
                 startAdornment={
                   <InputAdornment position="start">$</InputAdornment>
