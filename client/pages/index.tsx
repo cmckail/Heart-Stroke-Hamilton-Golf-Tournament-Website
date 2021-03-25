@@ -7,6 +7,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { makeStyles } from "@material-ui/core/styles";
 import NavigationBar from "./components/navigationBar";
+import Link from 'next/link'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,9 +33,11 @@ export default function Home() {
           Register today for the 8th Annual Dan D. Segin - Southwest Ontario
           Heart and Stroke Golf Tournament!{" "}
         </p>
-        <a className={styles.card}>
-          <h3>Register &rarr;</h3>
+        <Link href="/registration">
+        <a className={styles.textAlignCenter}>
+          <h3 className={styles.cardRegister}>Register &rarr;</h3>
         </a>
+        </Link>
       </div>
       <div className={styles.container}>
         <Head>
@@ -42,6 +45,7 @@ export default function Home() {
           <link rel="icon" href="/favicon.png" />
         </Head>
         <div className={styles.grid}>
+        <Link href="/donate">
           <a href="https://nextjs.org/learn" className={styles.card}>
             <img
               src="icons/support_heart_and_stroke.png"
@@ -55,6 +59,8 @@ export default function Home() {
               Stroke Foundation
             </p>
           </a>
+          </Link>
+          <Link href="/auction">
           <a
             href="https://github.com/vercel/next.js/tree/master/examples"
             className={styles.card}
@@ -71,6 +77,8 @@ export default function Home() {
               such as [Examples] from our partners (Company Hosting Auction)
             </p>
           </a>
+          </Link>
+          <Link href="/registration">
           <a
             href="https://github.com/vercel/next.js/tree/master/examples"
             className={styles.card}
@@ -87,6 +95,8 @@ export default function Home() {
               minutes. Tee times selected during registration.
             </p>
           </a>
+          </Link>
+          <Link href="/store">
           <a
             href="https://github.com/vercel/next.js/tree/master/examples"
             className={styles.card}
@@ -103,6 +113,8 @@ export default function Home() {
               Prizes include: Prize 1, Prize 2 etc.
             </p>
           </a>
+          </Link>
+          <Link href="/registration">
           <a
             href="https://github.com/vercel/next.js/tree/master/examples"
             className={styles.card}
@@ -119,6 +131,8 @@ export default function Home() {
               Options include Beef, Chicken, or a Vegetarian option.
             </p>
           </a>
+          </Link>
+          <Link href="/sponsors">
           <a
             href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
             className={styles.card}
@@ -136,6 +150,7 @@ export default function Home() {
               Sponsor Page!
             </p>
           </a>
+          </Link>
         </div>
       </div>
     </div>

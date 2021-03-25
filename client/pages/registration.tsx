@@ -104,7 +104,6 @@ export default function Home() {
             </Select>
           </FormControl>
           {[...Array(numPlayers)].map((item, index) => {
-            console.log(index);
             return (
               <React.Fragment key={index}>
                 <h3> Player {index + 1}</h3>
