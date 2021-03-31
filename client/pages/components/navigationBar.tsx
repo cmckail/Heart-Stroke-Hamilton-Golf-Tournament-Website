@@ -46,11 +46,6 @@ export default function NavigationBar() {
                 Sponsors
               </a>
             </Link>
-            <Link href="/events">
-            <a className={classes.title}>
-                Events
-              </a>
-            </Link>
             <Link href="/photos">
             <a className={classes.title}>
                 Photos
