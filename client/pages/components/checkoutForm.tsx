@@ -25,15 +25,11 @@ export default function CheckoutForm(props: any) {
   // Create/retrieve PaymentIntent as soon as the page loads and amount is known
   useEffect(() => {
     let mounted = true;
-    console.log(props);
     axios
       .post("/payment", {
-        name,
-        email,
         amount,
       })
       .then((res) => {
-        console.log(res.data);
         if (mounted && res.data) setClientSecret(res.data.clientSecret);
       })
       .catch((err) => console.error(err));
@@ -41,7 +37,7 @@ export default function CheckoutForm(props: any) {
     return function cleanup() {
       mounted = false;
     };
-  }, [props]);
+  }, []);
 
   const cardStyle = {
     style: {
@@ -75,6 +71,10 @@ export default function CheckoutForm(props: any) {
     if (!stripe || !elements) {
       return;
     }
+
+    const res = await axios.post("/payment/customer", { name, email });
+
+    if (res) setClientSecret(res.data.clientSecret);
 
     const payload = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
@@ -116,7 +116,7 @@ export default function CheckoutForm(props: any) {
         </div>
       )}
       {/* Show a success message upon completion */}
-      {succeeded ? (
+      {succeeded && (
         <p className="result-message">
           Payment succeeded, see the result in your
           <a href={`https://dashboard.stripe.com/test/payments`}>
@@ -125,7 +125,7 @@ export default function CheckoutForm(props: any) {
           </a>{" "}
           Refresh the page to pay again.
         </p>
-      ) : null}
+      )}
     </form>
   );
 }

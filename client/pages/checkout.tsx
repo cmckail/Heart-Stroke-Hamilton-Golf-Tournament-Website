@@ -177,9 +177,9 @@ export default function Home() {
                 value={firstName}
                 onChange={handleFirstName}
                 id="outlined-adornment-amount"
-                startAdornment={
-                  <InputAdornment position="start"></InputAdornment>
-                }
+                // startAdornment={
+                //   <InputAdornment position="start"></InputAdornment>
+                // }
                 labelWidth={60}
               />
             </FormControl>
@@ -191,9 +191,9 @@ export default function Home() {
                 value={lastName}
                 onChange={handleLastName}
                 id="outlined-adornment-amount"
-                startAdornment={
-                  <InputAdornment position="start"></InputAdornment>
-                }
+                // startAdornment={
+                //   <InputAdornment position="start"></InputAdornment>
+                // }
                 labelWidth={60}
               />
             </FormControl>
@@ -212,15 +212,17 @@ export default function Home() {
             <br></br>
           </form>
           <br />
-          {total > 0 ? (
-            <Elements stripe={promise}>
-              <CheckoutForm
-                name={(firstName + " " + lastName).trim()}
-                email={email}
-                amount={total}
-              />
-            </Elements>
-          ) : null}
+          {total > 0 && (
+            <div style={{ width: "100%" }}>
+              <Elements stripe={promise}>
+                <CheckoutForm
+                  name={(firstName + " " + lastName).trim()}
+                  email={email}
+                  amount={total}
+                />
+              </Elements>
+            </div>
+          )}
         </main>
       </div>
     </div>

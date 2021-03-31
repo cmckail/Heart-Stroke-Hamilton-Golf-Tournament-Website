@@ -6,4 +6,6 @@ const paymentRouter = Router();
 
 paymentRouter.post("/", PaymentController.createOrUpdatePaymentIntent);
 
+paymentRouter.post("/customer", PaymentController.addCustomerToPaymentIntent);
+
 export default paymentRouter;
