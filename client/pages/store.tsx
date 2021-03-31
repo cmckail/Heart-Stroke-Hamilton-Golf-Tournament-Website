@@ -27,7 +27,7 @@ export default function Home() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <main className={styles.main}>
-          
+          <h3> WORK IN PROGRESS*</h3>
         </main>
       </div>
     </div>
