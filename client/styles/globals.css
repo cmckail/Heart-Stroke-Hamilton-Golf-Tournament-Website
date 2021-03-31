@@ -30,6 +30,15 @@ a {
   width: 100%;
 }
 
+.aboutPageContent {
+  background-color: black;
+  height: 100%;
+  width: 100%;
+}
+
+.aboutPageContentText {
+  color: white;
+}
 
 .NavigationBar {
   background-color: #0A0200;
