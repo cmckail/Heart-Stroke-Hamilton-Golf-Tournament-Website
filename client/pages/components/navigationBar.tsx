@@ -51,7 +51,7 @@ export default function NavigationBar() {
                 Photos
               </a>
             </Link>
-            <Link href="/auction">
+            <Link href="https://app.autographauthentic.com/bid-now">
             <a className={classes.title}>
                 Auction
               </a>
