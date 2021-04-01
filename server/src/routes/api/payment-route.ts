@@ -8,4 +8,6 @@ paymentRouter.post("/", PaymentController.createOrUpdatePaymentIntent);
 
 paymentRouter.post("/customer", PaymentController.addCustomerToPaymentIntent);
 
+paymentRouter.put("/success", PaymentController.paymentSuccessful);
+
 export default paymentRouter;

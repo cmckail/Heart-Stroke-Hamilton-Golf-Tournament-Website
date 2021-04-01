@@ -1,11 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import Stripe from "stripe";
+import { SessionUserData } from "../../@types";
 
 import { stripe } from "../config";
-
-/**
- * TODO: confirm payment intent controller
- */
 
 export default class PaymentController {
     public static async createOrUpdatePaymentIntent(
@@ -17,17 +14,19 @@ export default class PaymentController {
             let amount = req.body.amount;
             let paymentIntent: Stripe.PaymentIntent;
 
-            if (req.session.paymentIntent) {
-                paymentIntent = await PaymentController.updatePaymentIntent(
-                    req.session.paymentIntent!,
-                    amount
-                );
-            } else {
-                paymentIntent = await PaymentController.createPaymentIntent(
-                    amount
-                );
-                req.session.paymentIntent = paymentIntent.id;
-            }
+            paymentIntent = req.session.paymentIntent
+                ? (await PaymentController.updatePaymentIntent(
+                      req.session.paymentIntent!,
+                      amount
+                  )) || (await PaymentController.createPaymentIntent(amount))
+                : await PaymentController.createPaymentIntent(amount);
+
+            await PaymentController.updateDescription(
+                paymentIntent.id,
+                req.session.data!
+            );
+
+            req.session.paymentIntent = paymentIntent.id;
             res.json({ clientSecret: paymentIntent.client_secret });
         } catch (e) {
             next(e);
@@ -61,6 +60,32 @@ export default class PaymentController {
         }
     }
 
+    public static async paymentSuccessful(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) {
+        try {
+            if (req.session.paymentIntent) {
+                let paymentIntent = await stripe.paymentIntents.retrieve(
+                    req.session.paymentIntent
+                );
+
+                if (
+                    paymentIntent.status === "succeeded" ||
+                    paymentIntent.status === "canceled"
+                ) {
+                    req.session.destroy((err) => {
+                        next(err);
+                    });
+                }
+            }
+            res.sendStatus(200);
+        } catch (e) {
+            next(e);
+        }
+    }
+
     private static async createPaymentIntent(amount: number) {
         let params: Stripe.PaymentIntentCreateParams = {
             amount,
@@ -71,11 +96,32 @@ export default class PaymentController {
         return paymentIntent as Stripe.PaymentIntent;
     }
 
-    private static async updatePaymentIntent(id: string, amount: number) {
-        let params: Stripe.PaymentIntentUpdateParams = { amount };
+    private static async updatePaymentIntent(
+        id: string,
+        amount: number,
+        params?: Stripe.PaymentIntentUpdateParams
+    ) {
+        let param: Stripe.PaymentIntentUpdateParams = { amount, ...params };
+        let paymentIntent: Stripe.PaymentIntent | undefined;
 
-        let paymentIntent = await stripe.paymentIntents.update(id, params);
+        if (
+            (await stripe.paymentIntents.retrieve(id)).status ===
+            "requires_payment_method"
+        ) {
+            paymentIntent = await stripe.paymentIntents.update(id, param);
+        }
         return paymentIntent;
+    }
+
+    private static async updateDescription(id: string, data: SessionUserData) {
+        let desc: string[] = [];
+        if (data.registration) desc.push("Tournament registration");
+        if (data.donation) desc.push("Donation");
+        if (data.sponsor) desc.push("Sponsorship");
+
+        await stripe.paymentIntents.update(id, {
+            description: desc.join(", "),
+        });
     }
 
     private static async createCustomer(name: string, email?: string) {
@@ -92,7 +138,7 @@ export default class PaymentController {
         let customers = await stripe.customers.list({ email });
 
         if (customers.data.length === 1) {
-            customer = customers.data[0];
+            if (customers.data[0].name === name) customer = customers.data[0];
         } else {
             customer = customers.data.find((x) => x.name === name);
         }

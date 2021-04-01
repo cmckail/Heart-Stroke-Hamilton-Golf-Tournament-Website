@@ -89,6 +89,7 @@ export default function CheckoutForm(props: any) {
       setError(null);
       setProcessing(false);
       setSucceeded(true);
+      await axios.put("/payment/success");
     }
   };
 
