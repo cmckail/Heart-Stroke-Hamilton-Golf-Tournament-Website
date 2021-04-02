@@ -51,7 +51,16 @@ export default function Home() {
           <Grid item xs={6}>
               <h2 className="aboutPageContentText"> Signs of a Heart Attack </h2>
               <hr></hr>
-              <p className="aboutPageContentText">  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+              <div className="aboutPageContentText">
+                <ul>
+                  <li>Chest discomfort, pressure, squeezing, fullness or pain, burning or heaviness</li>
+                  <li>Sweating</li>
+                  <li>Upper body discomfort. Neck, jaw, shoulder, arms or back</li>
+                  <li>Nausea</li>
+                  <li>Shortness of breath</li>
+                  <li>Light-headedness</li>
+                </ul>
+              </div>
             </Grid>
             <Grid item xs={6}>
             <CardMedia
@@ -70,12 +79,12 @@ export default function Home() {
             <Grid item xs={6}>
               <h2 className="aboutPageContentText"> The Tournament </h2>
               <hr></hr>
-              <p className="aboutPageContentText">  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+              <p className="aboutPageContentText"> The tournament we host today originated from the Segin family wanting to do something to honour the memory of their Father, Brother, Grandfather and Great Grandfather, Dan D Segin, who passed from a Heart attack due to complications from a broken hip in 2013. The event started with modest expectations, and snowballed into an event that exceeded expectations each and every year. In 2019, the Segin family eclipsed the $115,000 mark in funds raised. To date, the family has raised $122,000 for the Heart & Stroke foundation for the Southwest Ontario Region serving Halton, Hamilton, Niagara, Brantford regions. It is the single biggest independant fundraiser for this chapter. </p>
             </Grid>
             <Grid item xs={6}>
               <h2 className="aboutPageContentText"> Dan D. Segin </h2>
               <hr></hr>
-              <p className="aboutPageContentText">  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+              <p className="aboutPageContentText">  We celebrate this event in honour of our Father, Brother, Grandfather and Great Grandfather who passed in 2013 from a Heart attack due to complications from hip surgey. Dan D. Segin was a career millitary man who served in Korea at the age of 16, and later joined the P.P.C.L.I and served with the United Nations Peace Keeping Core in Cypress in 1974-1974 and finally the Canadian Airborne regiment up until his retirement in 1984 . His 35 years of service to our country is what we are so proud of. And we wish to thank all supporters of our annual event in celebrating his memory.</p>
             </Grid>
             <Grid item xs={6}>
             <CardMedia

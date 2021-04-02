@@ -28,10 +28,9 @@ export default function Home() {
     <div>
       <NavigationBar />
       <div className="jumbotron">
-        <h2 className={styles.title}>8TH ANNUAL TOURNAMENT</h2>
+        <h2 className={styles.title}>8TH ANNUAL Southwest Ontario Heart & Stroke</h2>
         <p className={styles.description}>
-          Register today for the 8th Annual Dan D. Segin - Southwest Ontario
-          Heart and Stroke Golf Tournament!{" "}
+          Dan D Segin Memorial Golf for Heart Tournament
         </p>
         <Link href="/registration">
         <a className={styles.textAlignCenter}>
@@ -55,8 +54,7 @@ export default function Home() {
             />
             <h3>Support Heart and Stroke &rarr;</h3>
             <p>
-              All proceeds are donated to the South West Ontario Heart and
-              Stroke Foundation
+              Make a donation today! (Click Here)
             </p>
           </a>
           </Link>

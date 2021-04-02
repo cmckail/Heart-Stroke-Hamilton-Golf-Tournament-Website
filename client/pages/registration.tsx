@@ -14,6 +14,21 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 
+const mealOptions = [
+  {
+    value: 'Vegetarian',
+    label: 'Vegetarian',
+  },
+  {
+    value: 'Boxed Lunch',
+    label: 'Boxed Lunch',
+  },
+  {
+    value: 'Gluten-Free',
+    label: 'Gluten-Free',
+  },
+];
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -67,7 +82,7 @@ export default function Home() {
           <br></br>
           <p>** $165 Per Player </p>
           <h3> OTHER OTHER INFORMATION ABOUT THE TOURNAMENT HERE</h3>
-          {/* <FormControl className={classes.formControl}>
+          <FormControl className={classes.formControl}>
             <InputLabel id="tee-time-selector-label">Tee Times</InputLabel>
             <Select
               className={classes.root}
@@ -83,7 +98,7 @@ export default function Home() {
               <MenuItem value={2}>Morning</MenuItem>
               <MenuItem value={3}>Afternoon</MenuItem>
             </Select>
-          </FormControl> */}
+          </FormControl>
           <FormControl className={classes.formControl}>
             <InputLabel id="tee-time-selector-label">Players</InputLabel>
             <Select
@@ -112,21 +127,27 @@ export default function Home() {
                   <TextField
                     required
                     className="standard-required"
+                    placeholder="First Name"
                     label="First Name"
-                    defaultValue="First Name"
                   />
                   <TextField
                     required
                     className="standard-required"
                     label="Last Name"
-                    defaultValue="Last Name"
+                    placeholder="Last Name"
                   />
                   <TextField
                     className="standard-select-currency"
                     select
                     label="Meal Choice"
                     helperText="Please select your meal"
-                  />
+                  >
+                  {mealOptions.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
                 </form>
               </React.Fragment>
             );
