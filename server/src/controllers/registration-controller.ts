@@ -1,5 +1,6 @@
 import IRegistrationView from "@local/shared/view-models/registration";
 import { Request, Response, NextFunction } from "express";
+import { stripe } from "../config";
 import RegistrationRepository from "../repos/registration-repo";
 import addToSession from "../utils/session";
 
@@ -33,5 +34,9 @@ export default class RegistrationController {
             console.error(e);
             next(e);
         }
+    }
+
+    public static async addToDB(registration: IRegistrationView[]) {
+        registration.forEach((item) => {});
     }
 }

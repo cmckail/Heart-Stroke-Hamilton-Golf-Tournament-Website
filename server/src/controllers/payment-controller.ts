@@ -75,6 +75,8 @@ export default class PaymentController {
                     paymentIntent.status === "succeeded" ||
                     paymentIntent.status === "canceled"
                 ) {
+                    if (req.session.data?.registration) {
+                    }
                     req.session.destroy((err) => {
                         next(err);
                     });

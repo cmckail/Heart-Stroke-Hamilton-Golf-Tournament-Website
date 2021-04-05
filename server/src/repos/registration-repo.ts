@@ -1,5 +1,5 @@
 import DefaultRepository from "../utils/defaults/default-repo";
-import Registration from "@local/shared/models/registration";
+import Registration from "../models/registration";
 
 export default class RegistrationRepository extends DefaultRepository<Registration> {
     constructor() {

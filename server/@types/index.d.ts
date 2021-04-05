@@ -1,4 +1,4 @@
-import Registration from "@local/shared/models/registration";
+import Registration from "../src/models/registration";
 import Sponsor from "@local/shared/models/sponsor";
 import IDonationView from "@local/shared/view-models/donation";
 import IRegistrationView from "@local/shared/view-models/registration";
