@@ -1,13 +1,10 @@
-import IDonationView from "@local/shared/view-models/donation";
 import IItemView from "@local/shared/view-models/item";
-import IRegistrationView from "@local/shared/view-models/registration";
 import { IconButton, ListItemText, Typography } from "@material-ui/core";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import DeleteIcon from "@material-ui/icons/Delete";
 import React, { useEffect, useState } from "react";
-import axios from "../../utils/axios";
 import ICartView from "../../utils/interfaces/cartview";
 
 const useStyles = makeStyles((theme) => ({
@@ -67,24 +64,11 @@ export default function ItemList({
     return "$" + (amount / 100).toFixed(2);
   };
 
-  // useEffect(() => {
-  //   axios
-  //     .get("/cart")
-  //     .then((res) => {
-  //       if (res.data) setData(res.data);
-  //       console.log(data);
-  //     })
-  //     .catch((err) => console.error(err));
-  // }, []);
-
   return (
     <List disablePadding>
-      {data?.donation?.map((item) => {
+      {data?.donation?.map((item, index) => {
         return (
-          <ListItem
-            className={classes.listItem}
-            key={item.donor.email + item.amount?.toString()}
-          >
+          <ListItem className={classes.listItem} key={index}>
             <ListItemText
               primary="Donation"
               secondary={item.donor.firstName + " " + item.donor.lastName}
@@ -101,6 +85,27 @@ export default function ItemList({
                 <DeleteIcon fontSize="large" />
               </IconButton>
             ) : null}
+          </ListItem>
+        );
+      })}
+
+      {data?.registration?.map((item, index) => {
+        return (
+          <ListItem className={classes.listItem} key={index}>
+            <ListItemText
+              primary="Tournament Registration"
+              secondary={`${item.players.length} player${
+                item.players.length > 1 ? "s" : ""
+              }`}
+            />
+            <Typography variant="body2">
+              {amountToString(item.amount || 0)}
+            </Typography>
+            {allowDelete && (
+              <IconButton aria-label="delete" className={classes.margin}>
+                <DeleteIcon fontSize="large" />
+              </IconButton>
+            )}
           </ListItem>
         );
       })}

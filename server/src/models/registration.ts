@@ -1,18 +1,26 @@
-import {
-    Column,
-    CreateDateColumn,
-    Entity,
-    JoinColumn,
-    ManyToOne,
-    OneToMany,
-    PrimaryGeneratedColumn,
-} from "typeorm";
+import { IPlayerView } from "@local/shared/view-models/registration";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
+import DefaultModel from "../utils/defaults/default-model";
 import Person from "./person";
 
 @Entity()
-export default class Registration {
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
+export default class Registration extends DefaultModel {
+    constructor(teeRanage?: string, players?: IPlayerView[]) {
+        super();
+        this.teeRange = teeRanage;
+
+        if (players) {
+            this.players = [];
+            for (let i of players) {
+                let player = new RegistrationPlayer();
+                player.person = new Person();
+                player.person.firstName = i.player.firstName;
+                player.person.lastName = i.player.lastName;
+                player.mealChoice = i.mealChoice;
+                this.players.push(player);
+            }
+        }
+    }
 
     @Column()
     teeRange: string;
@@ -22,16 +30,10 @@ export default class Registration {
         eager: true,
     })
     players: RegistrationPlayer[];
-
-    @CreateDateColumn()
-    createdAt: Date;
 }
 
 @Entity()
-export class RegistrationPlayer {
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
-
+export class RegistrationPlayer extends DefaultModel {
     @ManyToOne((type) => Person, (person) => person.registrations, {
         cascade: true,
         eager: true,
@@ -45,7 +47,4 @@ export class RegistrationPlayer {
 
     @Column()
     mealChoice: string;
-
-    @CreateDateColumn()
-    createdAt: Date;
 }

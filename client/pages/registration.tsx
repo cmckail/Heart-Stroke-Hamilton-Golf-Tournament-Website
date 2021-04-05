@@ -4,7 +4,7 @@
 */
 
 import Head from "next/head";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useReducer } from "react";
 import styles from "../styles/Home.module.css";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import NavigationBar from "./components/navigationBar";
@@ -13,19 +13,40 @@ import { Button, FormControl } from "@material-ui/core";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
+import IRegistrationView, {
+  IPlayerView,
+} from "@local/shared/view-models/registration";
+import axios from "../utils/axios";
+
+const pricePerPerson = 165;
 
 const mealOptions = [
   {
-    value: 'Vegetarian',
-    label: 'Vegetarian',
+    value: "Boxed Lunch",
+    label: "Boxed Lunch",
   },
   {
-    value: 'Boxed Lunch',
-    label: 'Boxed Lunch',
+    value: "Vegetarian",
+    label: "Vegetarian",
   },
   {
-    value: 'Gluten-Free',
-    label: 'Gluten-Free',
+    value: "Gluten-Free",
+    label: "Gluten-Free",
+  },
+];
+
+const teeTimeOptions = [
+  {
+    value: "Early Morning",
+    label: "Early Morning",
+  },
+  {
+    value: "Morning",
+    label: "Morning",
+  },
+  {
+    value: "Afternoon",
+    label: "Afternoon",
   },
 ];
 
@@ -50,18 +71,104 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+enum ActionKind {
+  SetMeal,
+  SetNumPlayers,
+  SetTeeTime,
+  SetFirstName,
+  SetLastName,
+}
+
+type Action = {
+  type: ActionKind;
+  payload: string | number;
+  index?: number;
+};
+
+type State = {
+  numPlayers: number;
+  playerInfo: IPlayerView[];
+  teeTime: string;
+  total: number;
+};
+
 export default function Home() {
   const classes = useStyles();
 
-  const [numPlayers, setNumPlayers] = useState(1);
-  const [teeTimes, setTeeTimes] = useState("");
-  // const [selectedNumPlayers, setSelectedNumPlayers] = useState("One");
-
-  const handleTeeTimes = (event: React.ChangeEvent<{ value: string }>) => {
-    setTeeTimes(event.target.value);
+  const initialState: State = {
+    numPlayers: 1,
+    playerInfo: [
+      { player: { firstName: "", lastName: "" }, mealChoice: "" },
+      { player: { firstName: "", lastName: "" }, mealChoice: "" },
+      { player: { firstName: "", lastName: "" }, mealChoice: "" },
+      { player: { firstName: "", lastName: "" }, mealChoice: "" },
+    ],
+    teeTime: teeTimeOptions[0].value,
+    total: pricePerPerson,
   };
 
-  useEffect(() => {}, []);
+  const playerReducer = (state: State, action: Action): State => {
+    const { type, payload, index } = action;
+    switch (type) {
+      case ActionKind.SetMeal:
+        let info = state.playerInfo;
+        info[index!].mealChoice = payload as string;
+        return {
+          ...state,
+          playerInfo: info,
+        };
+      case ActionKind.SetNumPlayers:
+        return {
+          ...state,
+          numPlayers: payload as number,
+          total: (payload as number) * pricePerPerson,
+        };
+      case ActionKind.SetTeeTime:
+        return {
+          ...state,
+          teeTime: payload as string,
+        };
+      case ActionKind.SetFirstName:
+        info = state.playerInfo;
+        if (!info[index!]) {
+          info[index!] = {
+            player: { firstName: "", lastName: "" },
+            mealChoice: "",
+          };
+        }
+        info[index!].player.firstName = payload as string;
+        return {
+          ...state,
+          playerInfo: info,
+        };
+      case ActionKind.SetLastName:
+        info = state.playerInfo;
+        info[index!].player.lastName = payload as string;
+        return {
+          ...state,
+          playerInfo: info,
+        };
+    }
+  };
+
+  const [state, dispatch] = useReducer(playerReducer, initialState);
+
+  const handleSubmit = async (e: React.MouseEvent) => {
+    let data: IRegistrationView = {
+      players: state.playerInfo.filter(
+        (value) =>
+          value.player.firstName && value.player.lastName && value.mealChoice
+      ),
+      teeRange: state.teeTime,
+      amount: state.total * 100,
+    };
+
+    let res = await axios.post("/registration", data);
+
+    if (res.status < 400) {
+      window.location.href = "/shoppingCart";
+    }
+  };
 
   return (
     <div>
@@ -80,7 +187,7 @@ export default function Home() {
             cart to continue shopping{" "}
           </p>
           <br></br>
-          <p>** $165 Per Player </p>
+          <p>** ${pricePerPerson} Per Player </p>
           <h3> OTHER OTHER INFORMATION ABOUT THE TOURNAMENT HERE</h3>
           <FormControl className={classes.formControl}>
             <InputLabel id="tee-time-selector-label">Tee Times</InputLabel>
@@ -88,25 +195,40 @@ export default function Home() {
               className={classes.root}
               id="tee-time-selector"
               labelId="tee-time-selector-label"
-              // onSelect={handleTeeTimes}
+              value={state.teeTime}
+              onChange={(e) =>
+                dispatch({
+                  type: ActionKind.SetTeeTime,
+                  payload: e.target.value as string,
+                })
+              }
             >
               {
                 //Request server for valid tee times
                 //<MenuItem value={Value}>value in string </MenuItem>
               }
-              <MenuItem value={1}>Early Morning</MenuItem>
-              <MenuItem value={2}>Morning</MenuItem>
-              <MenuItem value={3}>Afternoon</MenuItem>
+              {teeTimeOptions.map((item, index) => {
+                return (
+                  <MenuItem key={index} value={item.value}>
+                    {item.label}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
           <FormControl className={classes.formControl}>
-            <InputLabel id="tee-time-selector-label">Players</InputLabel>
+            <InputLabel id="num-players-selector-label">Players</InputLabel>
             <Select
               className={classes.root}
-              id="tee-time-selector"
-              labelId="tee-time-selector-label"
-              value={numPlayers}
-              onChange={(e) => setNumPlayers(e.target.value as number)}
+              id="num-players-selector"
+              labelId="num-players-selector-label"
+              value={state.numPlayers}
+              onChange={(e) =>
+                dispatch({
+                  type: ActionKind.SetNumPlayers,
+                  payload: e.target.value as number,
+                })
+              }
             >
               {
                 //Request server for valid tee times
@@ -118,7 +240,7 @@ export default function Home() {
               <MenuItem value={4}>Four</MenuItem>
             </Select>
           </FormControl>
-          {[...Array(numPlayers)].map((item, index) => {
+          {[...Array(state.numPlayers)].map((item, index) => {
             return (
               <React.Fragment key={index}>
                 <h3> Player {index + 1}</h3>
@@ -129,34 +251,56 @@ export default function Home() {
                     className="standard-required"
                     placeholder="First Name"
                     label="First Name"
+                    value={state.playerInfo[index].player.firstName}
+                    onChange={(e) =>
+                      dispatch({
+                        type: ActionKind.SetFirstName,
+                        payload: e.target.value as string,
+                        index,
+                      })
+                    }
                   />
                   <TextField
                     required
                     className="standard-required"
                     label="Last Name"
                     placeholder="Last Name"
+                    value={state.playerInfo[index].player.lastName}
+                    onChange={(e) =>
+                      dispatch({
+                        type: ActionKind.SetLastName,
+                        payload: e.target.value as string,
+                        index,
+                      })
+                    }
                   />
                   <TextField
                     className="standard-select-currency"
                     select
+                    SelectProps={{
+                      value: state.playerInfo[index].mealChoice,
+                      onChange: (e) =>
+                        dispatch({
+                          type: ActionKind.SetMeal,
+                          payload: e.target.value as string,
+                          index,
+                        }),
+                    }}
                     label="Meal Choice"
                     helperText="Please select your meal"
                   >
-                  {mealOptions.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                    {mealOptions.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </form>
               </React.Fragment>
             );
           })}
-          <Button
-            variant="contained"
-            color="secondary"
-            // onClick={handleClick}
-          >
+          <h3>Total: ${state.total}</h3>
+          <Button variant="contained" color="secondary" onClick={handleSubmit}>
             Add to Cart
           </Button>
         </main>

@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import { SessionUserData } from "../../@types";
 
 import { stripe } from "../config";
+import RegistrationController from "./registration-controller";
 
 export default class PaymentController {
     public static async createOrUpdatePaymentIntent(
@@ -76,6 +77,9 @@ export default class PaymentController {
                     paymentIntent.status === "canceled"
                 ) {
                     if (req.session.data?.registration) {
+                        await RegistrationController.addToDB(
+                            req.session.data.registration
+                        );
                     }
                     req.session.destroy((err) => {
                         next(err);

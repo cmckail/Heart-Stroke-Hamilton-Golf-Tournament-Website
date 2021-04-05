@@ -75,7 +75,7 @@ export default function Home() {
           <Typography variant="h6" gutterBottom>
             Order summary
           </Typography>
-          {data ? <ItemList data={data} allowDelete={true} /> : null}
+          {data && <ItemList data={data} allowDelete={true} />}
           <br />
           <Link href="/checkout">
             <Button variant="contained" color="secondary">

@@ -1,16 +1,14 @@
-import {
-    Column,
-    CreateDateColumn,
-    Entity,
-    OneToMany,
-    PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
+import DefaultModel from "../utils/defaults/default-model";
 import { RegistrationPlayer } from "./registration";
 
 @Entity()
-export default class Person {
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
+export default class Person extends DefaultModel {
+    constructor(firstName?: string, lastName?: string) {
+        super();
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
     @Column()
     firstName: string;
@@ -26,7 +24,4 @@ export default class Person {
         (registrationPlayer) => registrationPlayer.person
     )
     registrations?: RegistrationPlayer[];
-
-    @CreateDateColumn()
-    createdAt: Date;
 }

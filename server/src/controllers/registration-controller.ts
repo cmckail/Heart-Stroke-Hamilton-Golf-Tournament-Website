@@ -1,6 +1,6 @@
 import IRegistrationView from "@local/shared/view-models/registration";
 import { Request, Response, NextFunction } from "express";
-import { stripe } from "../config";
+import Registration, { RegistrationPlayer } from "../models/registration";
 import RegistrationRepository from "../repos/registration-repo";
 import addToSession from "../utils/session";
 
@@ -17,18 +17,6 @@ export default class RegistrationController {
 
             addToSession(req, item);
 
-            // if (!req.session.registration) {
-            //     req.session.registration = item;
-            // } else {
-            //     if (Array.isArray(req.session.registration)) {
-            //         req.session.registration.push(item);
-            //     } else {
-            //         let array = [req.session.registration];
-            //         array.push(item);
-            //         req.session.registration = array;
-            //     }
-            // }
-
             res.json(item);
         } catch (e) {
             console.error(e);
@@ -37,6 +25,9 @@ export default class RegistrationController {
     }
 
     public static async addToDB(registration: IRegistrationView[]) {
-        registration.forEach((item) => {});
+        registration.forEach(async (item) => {
+            let regis = new Registration(item.teeRange, item.players);
+            await repo.addToDB(regis);
+        });
     }
 }
