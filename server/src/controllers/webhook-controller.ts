@@ -1,4 +1,4 @@
-import Sponsor from "@local/shared/models/sponsor";
+import Sponsor from "../models/sponsor";
 import { Request, Response, NextFunction } from "express";
 import Stripe from "stripe";
 import SponsorRepository from "../repos/sponsor-repo";

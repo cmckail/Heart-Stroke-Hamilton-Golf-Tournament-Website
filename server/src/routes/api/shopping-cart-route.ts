@@ -5,4 +5,6 @@ const cartRouter = Router();
 
 cartRouter.get("/", ShoppingCartController.getCartItems);
 
+cartRouter.delete("/:id", ShoppingCartController.deleteFromCart);
+
 export default cartRouter;

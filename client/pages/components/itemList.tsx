@@ -5,7 +5,9 @@ import ListItem from "@material-ui/core/ListItem";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import DeleteIcon from "@material-ui/icons/Delete";
 import React, { useEffect, useState } from "react";
-import ICartView from "../../utils/interfaces/cartview";
+import SessionUserData from "@local/shared/view-models/session";
+import axios from "../../utils/axios";
+// import ICartView from "../../utils/interfaces/cartview";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,16 +37,18 @@ const useStyles = makeStyles((theme) => ({
 export default function ItemList({
   data,
   allowDelete = false,
+  reloadCart,
 }: {
-  data: ICartView;
+  data: SessionUserData;
   allowDelete?: boolean;
+  reloadCart?: (mounted: boolean) => void;
 }) {
   const classes = useStyles();
 
   const getTotal = () => {
     let total = 0;
     if (data) {
-      let keys = Object.keys(data) as Array<keyof ICartView>;
+      let keys = Object.keys(data) as Array<keyof SessionUserData>;
       keys.forEach((item) => {
         if (data[item]) {
           let x = data[item]!;
@@ -58,6 +62,11 @@ export default function ItemList({
       });
     }
     return total;
+  };
+
+  const deleteItem = async (id: string) => {
+    let res = await axios.delete("/cart/" + id);
+    if (res.status < 400) reloadCart!(true);
   };
 
   const amountToString = (amount: number) => {
@@ -80,7 +89,7 @@ export default function ItemList({
               <IconButton
                 aria-label="delete"
                 className={classes.margin}
-                // onClick={deleteItem}
+                onClick={() => deleteItem(item.id!)}
               >
                 <DeleteIcon fontSize="large" />
               </IconButton>

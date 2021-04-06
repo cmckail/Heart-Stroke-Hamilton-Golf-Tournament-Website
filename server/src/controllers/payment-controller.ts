@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import Stripe from "stripe";
-import { SessionUserData } from "../../@types";
+import SessionUserData from "@local/shared/view-models/session";
 
 import { stripe } from "../config";
 import RegistrationController from "./registration-controller";

@@ -8,16 +8,13 @@ import ImageRepository from "./repos/image-repo";
 import logger from "./utils/logger";
 import UserRepository from "./repos/user-repo";
 import SponsorRepository from "./repos/sponsor-repo";
+import Image from "./models/image";
 createConnection(connectionObj).then((connection) => {
     // Images
     const imageRepo = new ImageRepository();
     const imageData = readFileSync("src/assets/test-data/dog.jpg");
 
-    imageRepo.addToDB({
-        data: imageData,
-        filename: "dog.jpg",
-        mimetype: "image/jpeg",
-    });
+    imageRepo.addToDB(new Image(imageData, "image/jpeg", "dog.jpg"));
 
     // Users
     const userRepo = new UserRepository();
@@ -34,11 +31,7 @@ createConnection(connectionObj).then((connection) => {
     const logoData = readFileSync("src/assets/test-data/logo.png");
 
     imageRepo
-        .addToDB({
-            data: logoData,
-            filename: "logo.png",
-            mimetype: "image/png",
-        })
+        .addToDB(new Image(logoData, "image/png", "logo.png"))
         .then((res) => {
             sponsor.logo = res;
             sponsorRepo.addToDB(sponsor);

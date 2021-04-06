@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import Image from "@local/shared/models/image";
-import Sponsor from "@local/shared/models/sponsor";
+import Image from "../models/image";
+import Sponsor from "../models/sponsor";
 import ImageRepository from "../repos/image-repo";
 import SponsorRepository from "../repos/sponsor-repo";
 import ISponsorView from "@local/shared/view-models/sponsor";
@@ -62,10 +62,7 @@ export default class SponsorController {
             let body = { ...req.body } as Sponsor;
 
             if (logo) {
-                let image: Image = {
-                    data: logo.buffer,
-                    mimetype: logo.mimetype,
-                };
+                let image = new Image(logo.buffer, logo.mimetype);
 
                 if (logo.originalname && logo.originalname !== "") {
                     image.filename = logo.originalname;
@@ -103,10 +100,7 @@ export default class SponsorController {
 
             // Add new logo to DB if exists
             if (logo) {
-                let image: Image = {
-                    data: logo.buffer,
-                    mimetype: logo.mimetype,
-                };
+                let image = new Image(logo.buffer, logo.mimetype);
 
                 if (logo.originalname && logo.originalname !== "") {
                     image.filename = logo.originalname;

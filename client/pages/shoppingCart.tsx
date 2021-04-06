@@ -51,15 +51,23 @@ export default function Home() {
   const [data, setData] = useState<ICartView>();
 
   useEffect(() => {
+    let mounted = true;
+    reloadData(mounted);
+    return function cleanup() {
+      mounted = false;
+    };
+  }, []);
+
+  const reloadData = (mounted: boolean) => {
     axios
       .get("/cart")
       .then((res) => {
-        if (res.data) {
+        if (res.data && mounted) {
           setData(res.data);
         }
       })
       .catch((err) => console.error(err));
-  }, []);
+  };
 
   return (
     <div>
@@ -75,7 +83,9 @@ export default function Home() {
           <Typography variant="h6" gutterBottom>
             Order summary
           </Typography>
-          {data && <ItemList data={data} allowDelete={true} />}
+          {data && (
+            <ItemList data={data} allowDelete={true} reloadCart={reloadData} />
+          )}
           <br />
           <Link href="/checkout">
             <Button variant="contained" color="secondary">

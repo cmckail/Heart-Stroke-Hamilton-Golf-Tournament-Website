@@ -1,5 +1,5 @@
 import { FindManyOptions } from "typeorm";
-import Sponsor from "@local/shared/models/sponsor";
+import Sponsor from "../models/sponsor";
 import DefaultRepository from "../utils/defaults/default-repo";
 
 export default class SponsorRepository extends DefaultRepository<Sponsor> {

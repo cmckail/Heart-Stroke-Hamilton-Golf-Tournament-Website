@@ -1,5 +1,5 @@
 import DefaultRepository from "../utils/defaults/default-repo";
-import Image from "@local/shared/models/image";
+import Image from "../models/image";
 import { FindManyOptions } from "typeorm";
 
 export default class ImageRepository extends DefaultRepository<Image> {

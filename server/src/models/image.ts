@@ -4,6 +4,7 @@ import {
     Entity,
     PrimaryGeneratedColumn,
 } from "typeorm";
+import DefaultModel from "../utils/defaults/default-model";
 
 enum ImageMimeTypes {
     JPEG = "image/jpeg",
@@ -11,10 +12,13 @@ enum ImageMimeTypes {
 }
 
 @Entity("images")
-class Image {
-    @PrimaryGeneratedColumn("uuid")
-    id?: string;
-
+export default class Image extends DefaultModel {
+    constructor(data?: Buffer, mimetype?: string, filename?: string) {
+        super();
+        this.data = data;
+        this.mimetype = mimetype;
+        this.filename = filename;
+    }
     @Column()
     data!: Buffer;
 
@@ -29,9 +33,4 @@ class Image {
 
     @Column({ type: "uuid", generated: "uuid" })
     publicId?: string;
-
-    @CreateDateColumn()
-    createdAt?: Date;
 }
-
-export default Image;
