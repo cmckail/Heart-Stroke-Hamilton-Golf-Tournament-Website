@@ -77,11 +77,23 @@ enum ActionKind {
   SetTeeTime,
   SetFirstName,
   SetLastName,
+  SetValidation,
 }
+
+type ValidationPayload = {
+  name: string;
+  validated: boolean;
+};
+
+type ValidationState = {
+  firstName: boolean;
+  lastName: boolean;
+  mealChoice: boolean;
+};
 
 type Action = {
   type: ActionKind;
-  payload: string | number;
+  payload: string | number | ValidationPayload;
   index?: number;
 };
 
@@ -90,6 +102,7 @@ type State = {
   playerInfo: IPlayerView[];
   teeTime: string;
   total: number;
+  validated: ValidationState[];
 };
 
 export default function Home() {
@@ -98,10 +111,28 @@ export default function Home() {
   const initialState: State = {
     numPlayers: 1,
     playerInfo: [
-      { player: { firstName: "", lastName: "" }, mealChoice: "" },
-      { player: { firstName: "", lastName: "" }, mealChoice: "" },
-      { player: { firstName: "", lastName: "" }, mealChoice: "" },
-      { player: { firstName: "", lastName: "" }, mealChoice: "" },
+      {
+        player: { firstName: "", lastName: "" },
+        mealChoice: mealOptions[0].value,
+      },
+      {
+        player: { firstName: "", lastName: "" },
+        mealChoice: mealOptions[0].value,
+      },
+      {
+        player: { firstName: "", lastName: "" },
+        mealChoice: mealOptions[0].value,
+      },
+      {
+        player: { firstName: "", lastName: "" },
+        mealChoice: mealOptions[0].value,
+      },
+    ],
+    validated: [
+      { firstName: true, lastName: true, mealChoice: true },
+      { firstName: true, lastName: true, mealChoice: true },
+      { firstName: true, lastName: true, mealChoice: true },
+      { firstName: true, lastName: true, mealChoice: true },
     ],
     teeTime: teeTimeOptions[0].value,
     total: pricePerPerson,
@@ -109,6 +140,24 @@ export default function Home() {
 
   const playerReducer = (state: State, action: Action): State => {
     const { type, payload, index } = action;
+
+    function setName(type: string) {
+      let validated = state.validated;
+      let info = state.playerInfo;
+      if (!info[index!]) {
+        info[index!] = {
+          player: { firstName: "", lastName: "" },
+          mealChoice: "",
+        };
+      }
+      info[index!].player[type] = payload as string;
+      validated[index!][type] = !!(payload as string);
+      return {
+        ...state,
+        playerInfo: info,
+        validated,
+      };
+    }
     switch (type) {
       case ActionKind.SetMeal:
         let info = state.playerInfo;
@@ -129,36 +178,35 @@ export default function Home() {
           teeTime: payload as string,
         };
       case ActionKind.SetFirstName:
-        info = state.playerInfo;
-        if (!info[index!]) {
-          info[index!] = {
-            player: { firstName: "", lastName: "" },
-            mealChoice: "",
-          };
-        }
-        info[index!].player.firstName = payload as string;
-        return {
-          ...state,
-          playerInfo: info,
-        };
+        return setName("firstName");
       case ActionKind.SetLastName:
-        info = state.playerInfo;
-        info[index!].player.lastName = payload as string;
+        return setName("lastName");
+      case ActionKind.SetValidation:
+        let validated = state.validated;
+        validated[index!][
+          (payload as ValidationPayload).name
+        ] = (payload as ValidationPayload).validated;
         return {
           ...state,
-          playerInfo: info,
+          validated,
         };
     }
   };
 
   const [state, dispatch] = useReducer(playerReducer, initialState);
 
+  const validateData = () => {
+    return state.playerInfo
+      .slice(0, state.numPlayers)
+      .every(
+        (item) =>
+          item.player.firstName && item.player.lastName && item.mealChoice
+      );
+  };
+
   const handleSubmit = async (e: React.MouseEvent) => {
     let data: IRegistrationView = {
-      players: state.playerInfo.filter(
-        (value) =>
-          value.player.firstName && value.player.lastName && value.mealChoice
-      ),
+      players: state.playerInfo.slice(0, state.numPlayers),
       teeRange: state.teeTime,
       amount: state.total * 100,
     };
@@ -169,6 +217,8 @@ export default function Home() {
       window.location.href = "/shoppingCart";
     }
   };
+
+  useEffect(() => console.log(state), [state]);
 
   return (
     <div>
@@ -183,8 +233,7 @@ export default function Home() {
           <p>
             {" "}
             Please choose a Tee Time and number of players in your group (max of
-            4). Choose continue to checkout to pay for registration, or add to
-            cart to continue shopping{" "}
+            4).{" "}
           </p>
           <br></br>
           <p>** ${pricePerPerson} Per Player </p>
@@ -203,10 +252,6 @@ export default function Home() {
                 })
               }
             >
-              {
-                //Request server for valid tee times
-                //<MenuItem value={Value}>value in string </MenuItem>
-              }
               {teeTimeOptions.map((item, index) => {
                 return (
                   <MenuItem key={index} value={item.value}>
@@ -230,10 +275,6 @@ export default function Home() {
                 })
               }
             >
-              {
-                //Request server for valid tee times
-                //<MenuItem value={Value}>value in string </MenuItem>
-              }
               <MenuItem value={1}>One</MenuItem>
               <MenuItem value={2}>Two</MenuItem>
               <MenuItem value={3}>Three</MenuItem>
@@ -251,32 +292,43 @@ export default function Home() {
                     className="standard-required"
                     placeholder="First Name"
                     label="First Name"
+                    error={!state.validated[index].firstName}
+                    helperText={
+                      !state.validated[index].firstName &&
+                      "Please enter your first name."
+                    }
                     value={state.playerInfo[index].player.firstName}
-                    onChange={(e) =>
+                    onChange={(e) => {
                       dispatch({
                         type: ActionKind.SetFirstName,
                         payload: e.target.value as string,
                         index,
-                      })
-                    }
+                      });
+                    }}
                   />
                   <TextField
                     required
                     className="standard-required"
                     label="Last Name"
-                    placeholder="Last Name"
+                    // placeholder="Last Name"
+                    error={!state.validated[index].lastName}
+                    helperText={
+                      !state.validated[index].lastName &&
+                      "Please enter your last name."
+                    }
                     value={state.playerInfo[index].player.lastName}
-                    onChange={(e) =>
+                    onChange={(e) => {
                       dispatch({
                         type: ActionKind.SetLastName,
                         payload: e.target.value as string,
                         index,
-                      })
-                    }
+                      });
+                    }}
                   />
                   <TextField
-                    className="standard-select-currency"
+                    className={classes.root}
                     select
+                    required
                     SelectProps={{
                       value: state.playerInfo[index].mealChoice,
                       onChange: (e) =>
@@ -286,8 +338,12 @@ export default function Home() {
                           index,
                         }),
                     }}
+                    error={!state.validated[index].mealChoice}
                     label="Meal Choice"
-                    helperText="Please select your meal"
+                    helperText={
+                      !state.validated[index].mealChoice &&
+                      "Please select your meal."
+                    }
                   >
                     {mealOptions.map((option) => (
                       <MenuItem key={option.value} value={option.value}>
@@ -300,7 +356,12 @@ export default function Home() {
             );
           })}
           <h3>Total: ${state.total}</h3>
-          <Button variant="contained" color="secondary" onClick={handleSubmit}>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleSubmit}
+            disabled={!validateData()}
+          >
             Add to Cart
           </Button>
         </main>
