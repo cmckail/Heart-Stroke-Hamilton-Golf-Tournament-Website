@@ -13,7 +13,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import axios from "../utils/axios";
 import ItemList from "./components/itemList";
-import ICartView from "../utils/interfaces/cartview";
+import SessionUserData from "@local/shared/view-models/session";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,15 +40,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// const products = [
-//   { name: 'Donation ', desc: 'Thank you for the donation!', price: '$50.00' },
-//   { name: 'Sponsor a hole', desc: 'Another thing', price: '$5.00' },
-//   { name: 'Golf Tournament Registration', desc: 'Something else', price: '$7.50' },
-// ];
-
 export default function Home() {
   const classes = useStyles();
-  const [data, setData] = useState<ICartView>();
+  const [data, setData] = useState<SessionUserData>();
 
   useEffect(() => {
     let mounted = true;
@@ -88,7 +82,19 @@ export default function Home() {
           )}
           <br />
           <Link href="/checkout">
-            <Button variant="contained" color="secondary">
+            <Button
+              variant="contained"
+              color="secondary"
+              disabled={
+                // not disabled if any data exists
+                !(
+                  data &&
+                  Object.keys(data).some(
+                    (item) => data[item] && data[item].length > 0
+                  )
+                )
+              }
+            >
               Checkout
             </Button>
           </Link>
