@@ -6,14 +6,8 @@ import { SessionUserData } from "../../@types";
 
 export default function addToSession(req: Request, data: IItemView) {
     let key: keyof SessionUserData;
-    // let item: IItemView;
     if (isRegistration(data)) {
         key = "registration";
-        // item = <IRegistrationView>{
-        //     amount: data.amount,
-        //     players: (<IRegistrationView>data).players,
-        //     teeRange: (<IRegistrationView>data).teeRange,
-        // }
     } else if (isDonation(data)) {
         key = "donation";
     } else {
