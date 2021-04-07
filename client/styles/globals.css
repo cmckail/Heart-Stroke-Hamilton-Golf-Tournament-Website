@@ -36,6 +36,16 @@ a {
   width: 100%;
 }
 
+.sponsorsContainer {
+  margin-left: 100px;
+  margin-top: 100px;
+}
+
+.sponsorLogoImage {
+  width: 300px;
+  height: 200px;
+  background-size: cover;
+}
 .aboutPageContentText {
   color: white;
 }

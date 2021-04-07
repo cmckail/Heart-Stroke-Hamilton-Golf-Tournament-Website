@@ -14,7 +14,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-
+import Grid from '@material-ui/core/Grid';
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
@@ -29,104 +29,206 @@ export default function Home() {
 
   return (
     <div>
-                <NavigationBar/>
-      <div className={styles.container}>
-        <Head>
-          <title>DEVELOPMENT - Dan Segin Golf Tournament Website</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <main className={styles.main}>
-         <div className={styles.grid}>
-            <Card className={classes.root}>
-              <CardActionArea>
-                <CardMedia
-                  className={classes.media}
-                  image="sponsors/companyName.png"
-                  title="Contemplative Reptile"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    Company Name
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary" component="p">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions>
-                <Button size="small" color="primary">
-                  Learn More
-                </Button>
-              </CardActions>
-            </Card>
-            <Card className={classes.root}>
-              <CardActionArea>
-                <CardMedia
-                  className={classes.media}
-                  image="sponsors/companyName.png"
-                  title="Contemplative Reptile"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    Company Name
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary" component="p">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions>
-                <Button size="small" color="primary">
-                  Learn More
-                </Button>
-              </CardActions>
-            </Card>
-            <Card className={classes.root}>
-              <CardActionArea>
-                <CardMedia
-                  className={classes.media}
-                  image="sponsors/microsoft_logo.jpg"
-                  title="Contemplative Reptile"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    Company Name
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary" component="p">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions>
-                <Button size="small" color="primary">
-                  Learn More
-                </Button>
-              </CardActions>
-            </Card>
-            <Card className={classes.root}>
-              <CardActionArea>
-                <CardMedia
-                  className={classes.media}
-                  image="sponsors/microsoft_logo.jpg"
-                  title="Contemplative Reptile"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    Company Name
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary" component="p">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions>
-                <Button size="small" color="primary">
-                  Learn More
-                </Button>
-              </CardActions>
-            </Card>
-          </div>
-        </main>
+      <Head>
+        <title>DEVELOPMENT - Dan Segin Golf Tournament Website</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <NavigationBar/>
+      <div className="sponsorsContainer">
+      <Grid container spacing={3}>
+        <Grid item xs={3}>
+          <Card className={classes.root}>
+            <CardActionArea>
+              <CardMedia
+                className={classes.media}
+                image="sponsors/microsoft_logo.jpg"
+                title="Contemplative Reptile"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  Microsoft Corporation
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                 A long-term sponsor of ours, Microsoft embodies everything that the Golf Tournament needs.
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button size="small" color="primary" href="https://google.com">
+                Learn More
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs={3}>
+          <Card className={classes.root}>
+            <CardActionArea>
+              <CardMedia
+                className={classes.media}
+                image="sponsors/amazon_logo.jpg"
+                title="Contemplative Reptile"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  Amazon
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button size="small" color="primary" href="https://amazon.ca">
+                Learn More
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs={3}>
+          <Card className={classes.root}>
+            <CardActionArea>
+              <CardMedia
+                className={classes.media}
+                image="sponsors/tesla_logo.png"
+                title="Contemplative Reptile"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  Tesla
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button size="small" color="primary" href="https://google.com">
+                Learn More
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs={3}>
+          <Card className={classes.root}>
+            <CardActionArea>
+              <CardMedia
+                className={classes.media}
+                image="sponsors/amd_logo.png"
+                title="Contemplative Reptile"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  AMD
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button size="small" color="primary" href="https://google.com">
+                Learn More
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs={3}>
+          <Card className={classes.root}>
+            <CardActionArea>
+              <CardMedia
+                className={classes.media}
+                image="sponsors/intel_logo.png"
+                title="Contemplative Reptile"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  Intel
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button size="small" color="primary" href="https://google.com">
+                Learn More
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs={3}>
+          <Card className={classes.root}>
+            <CardActionArea>
+              <CardMedia
+                className={classes.media}
+                image="sponsors/johnson_logo.png"
+                title="Contemplative Reptile"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  Johnson & Johnson
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button size="small" color="primary" href="https://google.com">
+                Learn More
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs={3}>
+          <Card className={classes.root}>
+            <CardActionArea>
+              <CardMedia
+                className={classes.media}
+                image="sponsors/spacex_logo.png"
+                title="Contemplative Reptile"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  SpaceX
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button size="small" color="primary" href="https://google.com">
+                Learn More
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+        <Grid item xs={3}>
+          <Card className={classes.root}>
+            <CardActionArea>
+              <CardMedia
+                className={classes.media}
+                image="sponsors/suncor_logo.png"
+                title="Contemplative Reptile"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  Suncor
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+            <CardActions>
+              <Button size="small" color="primary" href="https://google.com">
+                Learn More
+              </Button>
+            </CardActions>
+          </Card>
+        </Grid>
+      </Grid>
       </div>
     </div>
   )
