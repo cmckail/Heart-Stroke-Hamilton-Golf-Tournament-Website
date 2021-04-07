@@ -2,6 +2,7 @@ import React, { useState, useEffect, FormEvent } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { StripeCardElementChangeEvent } from "@stripe/stripe-js";
 import axios from "../../utils/axios";
+import { Button } from "@material-ui/core";
 
 export default function CheckoutForm(props: any) {
   const [succeeded, setSucceeded] = useState(false);
@@ -40,19 +41,24 @@ export default function CheckoutForm(props: any) {
   }, []);
 
   const cardStyle = {
+    iconStyle: "solid",
+    hidePostalCode: true,
     style: {
       base: {
-        color: "#32325d",
-        fontFamily: "Arial, sans-serif",
-        fontSmoothing: "antialiased",
+        iconColor: "rgb(240, 57, 122)",
+        color: "rgb(240, 57, 122)",
         fontSize: "16px",
+        fontFamily: '"Open Sans", sans-serif',
+        fontSmoothing: "antialiased",
         "::placeholder": {
-          color: "#32325d",
+          color: "#CFD7DF",
         },
       },
       invalid: {
-        color: "#fa755a",
-        iconColor: "#fa755a",
+        color: "#e5424d",
+        ":focus": {
+          color: "#303238",
+        },
       },
     },
   };
@@ -101,7 +107,7 @@ export default function CheckoutForm(props: any) {
         onChange={handleChange}
       />
 
-      <button disabled={processing || disabled || succeeded} id="submit">
+      <Button disabled={processing || disabled || succeeded} id="submit">
         <span id="button-text">
           {processing ? (
             <div className="spinner" id="spinner"></div>
@@ -109,7 +115,7 @@ export default function CheckoutForm(props: any) {
             "Pay now"
           )}
         </span>
-      </button>
+      </Button>
       {/* Show any error that happens when processing the payment */}
       {error && (
         <div className="card-error" role="alert">

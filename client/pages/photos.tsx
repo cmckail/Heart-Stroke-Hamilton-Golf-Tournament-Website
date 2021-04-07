@@ -74,28 +74,30 @@ export default function Home() {
 
   return (
     <div>
-      {/* <NavigationBar />
+      <NavigationBar />
       <div className={styles.container}>
         <Head>
           <title>DEVELOPMENT - Dan Segin Golf Tournament Website</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <div> */}
-      <Gallery photos={photos} onClick={openLightbox} />
-      <ModalGateway>
-        {viewerIsOpen ? (
-          <Modal onClose={closeLightbox}>
-            <Carousel
-              currentIndex={currentImage}
-              views={photos.map((x) => ({
-                ...x,
-                srcset: x.srcSet,
-                caption: x.title,
-              }))}
-            />
-          </Modal>
-        ) : null}
-      </ModalGateway>
+        <div>
+          <Gallery photos={photos} onClick={openLightbox} />
+          <ModalGateway>
+            {viewerIsOpen ? (
+              <Modal onClose={closeLightbox}>
+                <Carousel
+                  currentIndex={currentImage}
+                  views={photos.map((x) => ({
+                    ...x,
+                    srcset: x.srcSet,
+                    caption: x.title,
+                  }))}
+                />
+              </Modal>
+            ) : null}
+          </ModalGateway>
+        </div>
+      </div>
     </div>
   );
 }
