@@ -56,7 +56,7 @@ a {
 .aboutPageContentHeader {
   color: white;
   font-size: 30px;
-  margin-left: 40px;
+  margin-left: 60px;
   margin-bottom: 10px;
 }
 .NavigationBar {
@@ -73,7 +73,7 @@ hr {
   display:block;
   width: 96%;               
   background-color:red;
-  height: 1px;
+  height: 2px;
 }
 
 h3 {
