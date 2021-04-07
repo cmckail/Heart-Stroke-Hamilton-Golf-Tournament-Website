@@ -1,33 +1,67 @@
 /*
-    Author: David Melnyk
+    Author: Connor Mckail
     This page serves as the photos page for the website.
 */
 
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-import { makeStyles } from '@material-ui/core/styles';
-import NavigationBar from './components/navigationBar'
-import Pagination from '@material-ui/lab/Pagination';
-import Grid from '@material-ui/core/Grid';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-}));
+import Head from "next/head";
+import React, { useState, useCallback, useEffect } from "react";
+import styles from "../styles/Home.module.css";
+import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
+import { render } from "react-dom";
+import Gallery from "react-photo-gallery";
+import Carousel, { Modal, ModalGateway } from "react-images";
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
+import GridListTileBar from "@material-ui/core/GridListTileBar";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import IconButton from "@material-ui/core/IconButton";
+import InfoIcon from "@material-ui/icons/Info";
+import NavigationBar from "./components/navigationBar";
+import Pagination from "@material-ui/lab/Pagination";
+import Grid from "@material-ui/core/Grid";
+import { photos } from "./components/images";
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "space-around",
+      overflow: "hidden",
+      backgroundColor: theme.palette.background.paper,
+    },
+    gridList: {
+      width: 500,
+      height: 450,
+    },
+    icon: {
+      color: "rgba(255, 255, 255, 0.54)",
+    },
+  })
+);
 
 export default function Home() {
   const classes = useStyles();
 
-  // var [page, 0] = useState("");
+  const [currentImage, setCurrentImage] = useState(0);
+  const [viewerIsOpen, setViewerIsOpen] = useState(false);
+  const [images, setImages] = useState();
+  const openLightbox = useCallback((event, { photo, index }) => {
+    setCurrentImage(index);
+    setViewerIsOpen(true);
+  }, []);
 
-  // handlePageChange(event, value) {
+  const closeLightbox = () => {
+    setCurrentImage(0);
+    setViewerIsOpen(false);
+  };
+
+  // function importAll(r) {
+  //   return r.keys().map(r);
+  // }
+
+  //  useEffect(() => {
+  //  setImages(this.importAll(require.  ('./images/', false, /\.(png|jpe?g|svg)$/)))
+  // }, []);
   //   this.setState(
   //     {
   //       page: value,
@@ -40,87 +74,28 @@ export default function Home() {
 
   return (
     <div>
-      <NavigationBar/>
+      {/* <NavigationBar />
       <div className={styles.container}>
         <Head>
           <title>DEVELOPMENT - Dan Segin Golf Tournament Website</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <main className={styles.main}>
-        <h2> Photo Album </h2>
-        <div className={classes.root}>
-          <Grid container spacing={3}>
-            <Grid item xs={3}>
-            <a
-              href="https://github.com/vercel/next.js/tree/master/examples"
-              className={styles.card}
-            >
-            <img src="pictures/golfing.jpeg" alt="Golfing with your buddies" width="300" height="200"/> 
-            </a>
-            </Grid>
-            <Grid item xs={3}>
-            <a
-              href="https://github.com/vercel/next.js/tree/master/examples"
-              className={styles.card}
-            >
-            <img src="pictures/golfing.jpeg" alt="Golfing with your buddies" width="300" height="200"/> 
-            </a>
-            </Grid>
-            <Grid item xs={3}>
-            <a
-              href="https://github.com/vercel/next.js/tree/master/examples"
-              className={styles.card}
-            >
-            <img src="pictures/golfing.jpeg" alt="Golfing with your buddies" width="300" height="200"/> 
-            </a>
-            </Grid>
-            <Grid item xs={3}>
-            <a
-              href="https://github.com/vercel/next.js/tree/master/examples"
-              className={styles.card}
-            >
-            <img src="pictures/golfing.jpeg" alt="Golfing with your buddies" width="300" height="200"/> 
-            </a>
-            </Grid>
-            <Grid item xs={3}>
-            <a
-              href="https://github.com/vercel/next.js/tree/master/examples"
-              className={styles.card}
-            >
-            <img src="pictures/golfing.jpeg" alt="Golfing with your buddies" width="300" height="200"/> 
-            </a>
-            </Grid>
-            <Grid item xs={3}>
-            <a
-              href="https://github.com/vercel/next.js/tree/master/examples"
-              className={styles.card}
-            >
-            <img src="pictures/golfing.jpeg" alt="Golfing with your buddies" width="300" height="200"/> 
-            </a>
-            </Grid>
-            <Grid item xs={3}>
-            <a
-              href="https://github.com/vercel/next.js/tree/master/examples"
-              className={styles.card}
-            >
-            <img src="pictures/golfing.jpeg" alt="Golfing with your buddies" width="300" height="200"/> 
-            </a>
-            </Grid>
-            <Grid item xs={3}>
-            <a
-              href="https://github.com/vercel/next.js/tree/master/examples"
-              className={styles.card}
-            >
-            <img src="pictures/golfing.jpeg" alt="Golfing with your buddies" width="300" height="200"/> 
-            </a>
-            </Grid>
-          </Grid>
-        </div>
-          <div className={classes.root}>
-            <Pagination count={10} color="primary" />
-          </div>
-        </main>
-      </div>
+        <div> */}
+      <Gallery photos={photos} onClick={openLightbox} />
+      <ModalGateway>
+        {viewerIsOpen ? (
+          <Modal onClose={closeLightbox}>
+            <Carousel
+              currentIndex={currentImage}
+              views={photos.map((x) => ({
+                ...x,
+                srcset: x.srcSet,
+                caption: x.title,
+              }))}
+            />
+          </Modal>
+        ) : null}
+      </ModalGateway>
     </div>
-  )
+  );
 }
