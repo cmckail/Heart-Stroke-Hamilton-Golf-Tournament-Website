@@ -4,7 +4,7 @@
 */
 
 import Head from "next/head";
-import React, { useEffect, useState, useRef, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import styles from "../styles/Home.module.css";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import NavigationBar from "./components/navigationBar";
@@ -18,12 +18,12 @@ import IRegistrationView, {
 } from "@local/shared/view-models/registration";
 import axios from "../utils/axios";
 
-const pricePerPerson = 165;
+const pricePerPerson = 175;
 
 const mealOptions = [
   {
-    value: "Boxed Lunch",
-    label: "Boxed Lunch",
+    value: "Regular Lunch",
+    label: "Regular Lunch",
   },
   {
     value: "Vegetarian",
@@ -41,12 +41,12 @@ const teeTimeOptions = [
     label: "Early Morning",
   },
   {
-    value: "Morning",
-    label: "Morning",
+    value: "Mid Morning",
+    label: "Mid Morning",
   },
   {
-    value: "Afternoon",
-    label: "Afternoon",
+    value: "Late Morning",
+    label: "Late Morning",
   },
 ];
 
@@ -217,8 +217,6 @@ export default function Home() {
       window.location.href = "/shoppingCart";
     }
   };
-
-  useEffect(() => console.log(state), [state]);
 
   return (
     <div>

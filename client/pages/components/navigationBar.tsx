@@ -6,6 +6,8 @@ import Link from "next/link";
 import ShoppingCart from "@material-ui/icons/ShoppingCart";
 import MenuItem from "@material-ui/core/MenuItem";
 import Badge from "@material-ui/core/Badge";
+import { useEffect, useState } from "react";
+import axios from "../../utils/axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,8 +21,42 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NavigationBar() {
+export default function NavigationBar({
+  updateIcon,
+  num,
+}: {
+  updateIcon?: boolean;
+  num?: number;
+}) {
   const classes = useStyles();
+
+  const [numItems, setNumItems] = useState(0);
+  const [initial, setInitial] = useState(true);
+
+  useEffect(() => {
+    let mounted = true;
+    if (updateIcon || initial) {
+      axios
+        .get("/cart")
+        .then((res) => {
+          let total = 0;
+          let data = res.data;
+
+          total = Object.keys(data).reduce(
+            (acc, key) => acc + (data[key] as any[]).length,
+            0
+          );
+          if (mounted) {
+            setNumItems(total);
+            setInitial(false);
+          }
+        })
+        .catch((err) => console.error(err));
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [updateIcon]);
 
   return (
     <div>
@@ -66,11 +102,8 @@ export default function NavigationBar() {
           </Link>
           <MenuItem>
             <Link href="/shoppingCart">
-              <IconButton
-                aria-label="show 11 new notifications"
-                color="inherit"
-              >
-                <Badge badgeContent={11} color="secondary">
+              <IconButton aria-label="show new items" color="inherit">
+                <Badge badgeContent={numItems} color="secondary">
                   <ShoppingCart />
                 </Badge>
               </IconButton>
