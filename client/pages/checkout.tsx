@@ -3,7 +3,7 @@
     This page serves as the donation page for the website.
 */
 
-import React, { useState, useEffect, FormEvent } from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { makeStyles } from "@material-ui/core/styles";
@@ -20,6 +20,7 @@ import axios from "../utils/axios";
 import ItemList from "./components/itemList";
 import IItemView from "@local/shared/view-models/item";
 import ICartView from "../utils/interfaces/cartview";
+import { TextField } from "@material-ui/core";
 
 // Dummy data to use to test the json rendering
 const checkoutData = {
@@ -93,16 +94,22 @@ export default function Home() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [data, setData] = useState<ICartView>();
+  const [firstNameError, setFirstNameError] = useState(false);
+  const [lastNameError, setLastNameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
   const classes = useStyles();
 
   const handleEmail = (event: React.ChangeEvent<{ value: string }>) => {
     setEmail(event.target.value);
+    setEmailError(!event.target.value.trim());
   };
   const handleFirstName = (event: React.ChangeEvent<{ value: string }>) => {
     setFirstName(event.target.value);
+    setFirstNameError(!event.target.value.trim());
   };
   const handleLastName = (event: React.ChangeEvent<{ value: string }>) => {
     setLastName(event.target.value);
+    setLastNameError(!event.target.value.trim());
   };
 
   const getTotal = () => {
@@ -166,47 +173,40 @@ export default function Home() {
             Order summary
           </Typography>
 
-          {data ? <ItemList data={data} /> : null}
+          {data && <ItemList data={data} />}
 
           <form className={classes.root} noValidate autoComplete="off">
             <FormControl className={classes.margin} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-amount">
-                First Name
-              </InputLabel>
-              <OutlinedInput
+              <TextField
                 value={firstName}
                 onChange={handleFirstName}
                 id="outlined-adornment-amount"
-                // startAdornment={
-                //   <InputAdornment position="start"></InputAdornment>
-                // }
-                labelWidth={60}
+                label="First Name"
+                error={firstNameError}
+                helperText={firstNameError && "Please enter first name."}
+                required
               />
             </FormControl>
             <FormControl className={classes.margin} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-amount">
-                Last Name
-              </InputLabel>
-              <OutlinedInput
+              <TextField
                 value={lastName}
                 onChange={handleLastName}
                 id="outlined-adornment-amount"
-                // startAdornment={
-                //   <InputAdornment position="start"></InputAdornment>
-                // }
-                labelWidth={60}
+                label="Last Name"
+                error={lastNameError}
+                helperText={lastNameError && "Please enter last name."}
+                required
               />
             </FormControl>
             <FormControl className={classes.margin} variant="outlined">
-              <InputLabel htmlFor="outlined-adornment-amount">Email</InputLabel>
-              <OutlinedInput
+              <TextField
                 value={email}
                 onChange={handleEmail}
                 id="outlined-adornment-amount"
-                startAdornment={
-                  <InputAdornment position="start">@</InputAdornment>
-                }
-                labelWidth={60}
+                label="Email"
+                error={emailError}
+                helperText={emailError && "Please enter email."}
+                required
               />
             </FormControl>
             <br></br>

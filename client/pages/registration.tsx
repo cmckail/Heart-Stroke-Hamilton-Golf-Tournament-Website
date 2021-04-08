@@ -151,7 +151,7 @@ export default function Home() {
         };
       }
       info[index!].player[type] = payload as string;
-      validated[index!][type] = !!(payload as string);
+      validated[index!][type] = !!(payload as string).trim();
       return {
         ...state,
         playerInfo: info,
@@ -200,7 +200,9 @@ export default function Home() {
       .slice(0, state.numPlayers)
       .every(
         (item) =>
-          item.player.firstName && item.player.lastName && item.mealChoice
+          item.player.firstName.trim() &&
+          item.player.lastName.trim() &&
+          item.mealChoice.trim()
       );
   };
 

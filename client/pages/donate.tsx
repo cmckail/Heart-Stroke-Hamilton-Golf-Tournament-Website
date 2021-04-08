@@ -4,24 +4,13 @@
 */
 
 import React, { useState, useEffect, FormEvent } from "react";
-import clsx from "clsx";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { makeStyles } from "@material-ui/core/styles";
 import NavigationBar from "./components/navigationBar";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormLabel from "@material-ui/core/FormLabel";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import Button from "@material-ui/core/Button";
-import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import CheckoutForm from "./components/checkoutForm";
 
 import axios from "../utils/axios";
 import IDonationView from "@local/shared/view-models/donation";
@@ -45,87 +34,58 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home() {
-  // useEffect(() => {}, []);
-  const [firstNameError, setFirstError] = useState(false);
-  const [lastNameError, setLastError] = useState(false);
-  const [emailNameError, setEmailError] = useState(false);
-  const [amountNameError, setAmountError] = useState(false);
-  const [amount, setAmount] = useState(0);
-  const [amountInput, setAmountInput] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastname] = useState("");
+  const [amount, setAmount] = useState(0);
   const [email, setEmail] = useState("");
-  
+
+  const [firstNameError, setFirstNameError] = useState(false);
+  const [lastNameError, setLastNameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [amountError, setAmountError] = useState(false);
+  const [amountInput, setAmountInput] = useState("");
+
   const classes = useStyles();
 
-  const handleEmail = (event: React.ChangeEvent<{ value: string}>) => {
+  const handleEmail = (event: React.ChangeEvent<{ value: string }>) => {
     setEmail(event.target.value);
+    setEmailError(!event.target.value.trim());
   };
   const handleAmountInput = (event: React.ChangeEvent<{ value: string }>) => {
     setAmountInput(event.target.value);
   };
   const handleFirstName = (event: React.ChangeEvent<{ value: string }>) => {
+    console.log(event.target.value);
     setFirstName(event.target.value);
-    console.log(firstName);
-  
-    
+    setFirstNameError(!event.target.value.trim());
   };
   const handleLastName = (event: React.ChangeEvent<{ value: string }>) => {
-    
     setLastname(event.target.value);
+    setLastNameError(!event.target.value.trim());
   };
-
-
 
   const handleClick = (e: React.MouseEvent) => {
-    let body: IDonationView = {
-      amount,
-      donor: {
-        firstName,
-        lastName,
-        email,
-      },
-    };
-    if(firstName === "" ||  firstName === null){
-      setFirstError(true);
-    }else{
-      setFirstError(false);
-    }
+    if (!lastNameError && !firstNameError && !emailError && !amountError) {
+      let body: IDonationView = {
+        amount,
+        donor: {
+          firstName,
+          lastName,
+          email,
+        },
+      };
 
-    if( amount === null){
-      setAmountError(true);
-    }else{
-      setAmountError(false);
-    }
-
-    if(email ==="" || email===null){
-      setEmailError(true);
-    }else{
-        setEmailError(false);
-    }
-
-    if(lastName==="" || lastName ===null){
-      setLastError(true);
-    }else{
-      setLastError(false);
-    }
-
-    if(lastNameError|| firstNameError || emailNameError|| amountNameError){
-
-    }else{
       axios
-      .post("/donations", body)
-      .then((res) => {
-        window.location.href = "/shoppingCart";
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+        .post("/donations", body)
+        .then((res) => {
+          window.location.href = "/shoppingCart";
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     }
-    
-
   };
-    
+
   // const handleKeyDown = (event: React.KeyboardEvent) => {
   //   let code = event.key;
 
@@ -138,7 +98,6 @@ export default function Home() {
   //     console.error(e);
   //   }
   // };
-  
 
   const handleAmountBlur = () => {
     let temp: number;
@@ -148,6 +107,7 @@ export default function Home() {
       setAmountInput(temp.toFixed(2));
     }
     setAmount(parseInt(amountInput) * 100);
+    setAmountError(!(parseInt(amountInput) * 100));
   };
 
   useEffect(() => {}, []);
@@ -164,67 +124,68 @@ export default function Home() {
           <h2> Donation </h2>
           <p>
             {" "}
-            Please feel free to make a donation to the Heart & Stroke Foundation. {" "}
+            Please feel free to make a donation to the Heart & Stroke
+            Foundation.{" "}
           </p>
           <p>
             {" "}
-            Please note that all donations larger than $20 will receive a charitable tax receipt. (Please allow up to 4 weeks for processing of reciept)
+            Please note that all donations larger than $20 will receive a
+            charitable tax receipt. (Please allow up to 4 weeks for processing
+            of reciept)
           </p>
           <h3> Donation Info </h3>
           <hr />
           <form className={classes.root} noValidate autoComplete="off">
             <FormControl className={classes.margin} variant="outlined">
               <TextField
-                // onKeyDown={handleKeyDown}
                 required
                 className="standard-required"
                 value={amountInput}
                 placeholder="Amount"
-              label="Amount"
-                error={amountNameError}
-                helperText={emailNameError && "Please enter an Amount"}
+                label="Amount"
+                error={amountError}
+                helperText={amountError && "Please enter an Amount"}
                 onChange={handleAmountInput}
                 onBlur={handleAmountBlur}
-                id="outlined-adornment-amount"              
+                id="outlined-adornment-amount"
               />
             </FormControl>
             <FormControl className={classes.margin} variant="outlined">
               <TextField
-              value={firstName}
-              error={firstNameError}
-              helperText={firstNameError && "Please Enter First Name"}
-              required
-              className="standard-required"
-              placeholder="First Name"
-              label="First Name"
-              onChange={handleFirstName}
-              id="outlined-adornment-amount"
+                value={firstName}
+                error={firstNameError}
+                helperText={firstNameError && "Please Enter First Name"}
+                required
+                className="standard-required"
+                placeholder="First Name"
+                label="First Name"
+                onChange={handleFirstName}
+                id="outlined-adornment-amount"
               />
             </FormControl>
             <FormControl className={classes.margin} variant="outlined">
               <TextField
-            required
-            className="standard-required"
-            value={lastName}
-            placeholder="Last Name"
-              label="Last Name"
-            error={lastNameError}
-            helperText={lastNameError && "Please Enter Last Name"}
+                required
+                className="standard-required"
+                value={lastName}
+                placeholder="Last Name"
+                label="Last Name"
+                error={lastNameError}
+                helperText={lastNameError && "Please Enter Last Name"}
                 onChange={handleLastName}
                 id="outlined-adornment-amount"
               />
             </FormControl>
             <br />
             <FormControl className={classes.margin} variant="outlined">
-            
               <TextField
-            required
-            className="standard-required"
-            value={email}
-            placeholder="Email"
-              label="Email"
-           error={emailNameError}
-            helperText={emailNameError && "Please Enter Email"}
+                required
+                className="standard-required"
+                value={email}
+                placeholder="Email"
+                label="Email"
+                error={emailError}
+                helperText={emailError && "Please Enter Email"}
                 onChange={handleEmail}
                 id="outlined-adornment-amount"
               />
@@ -243,9 +204,20 @@ export default function Home() {
               *You will be redirected to the sponsor form if this option is
               selected
             </FormHelperText>
-          </FormControl> }*/
-              }
-          <Button variant="contained" color="secondary" onClick={handleClick}>
+          </FormControl> }*/}
+          <Button
+            variant="contained"
+            color="secondary"
+            disabled={
+              !(
+                !!firstName.trim() &&
+                !!lastName.trim() &&
+                !!amount &&
+                !!email.trim()
+              )
+            }
+            onClick={handleClick}
+          >
             Add to Cart
           </Button>
         </main>
