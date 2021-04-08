@@ -89,8 +89,9 @@ export default function Home() {
                   currentIndex={currentImage}
                   views={photos.map((x) => ({
                     ...x,
-                    srcset: x.srcSet,
-                    caption: x.title,
+                    key: x.src,
+                    srcset: "source",
+                    caption: "Picture",
                   }))}
                 />
               </Modal>
