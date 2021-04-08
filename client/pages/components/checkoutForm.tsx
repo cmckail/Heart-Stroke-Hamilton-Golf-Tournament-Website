@@ -41,8 +41,8 @@ export default function CheckoutForm(props: any) {
   }, []);
 
   const cardStyle = {
-    iconStyle: "solid",
-    hidePostalCode: true,
+    // iconStyle: "solid",
+    // hidePostalCode: true,
     style: {
       base: {
         iconColor: "rgb(240, 57, 122)",
@@ -107,7 +107,11 @@ export default function CheckoutForm(props: any) {
         onChange={handleChange}
       />
 
-      <Button disabled={processing || disabled || succeeded} id="submit">
+      <Button
+        disabled={processing || disabled || succeeded}
+        id="submit"
+        type="submit"
+      >
         <span id="button-text">
           {processing ? (
             <div className="spinner" id="spinner"></div>
