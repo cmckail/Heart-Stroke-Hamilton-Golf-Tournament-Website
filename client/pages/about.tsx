@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import CardMedia from '@material-ui/core/CardMedia';
 
+// JSS used for some of the styles.
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -43,9 +44,13 @@ export default function Home() {
           <title>DEVELOPMENT - Dan Segin Golf Tournament Website</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <div className="aboutPageHeader">
 
+        {/* This serves as the header for the page, an image occupies this space in global.css*/}
+        <div className="aboutPageHeader">
         </div>
+
+        {/* The page content is served in a grid, xs = 6 determines the dimensions of the grid which in this case is in two's down the page. One grid item is used for the text,
+        another grid item is used for the picture and they alternate. */}
         <div className="aboutPageContent">
           <Grid container spacing={3}>
           <Grid item xs={6}>

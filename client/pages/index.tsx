@@ -21,17 +21,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+{/* The index page serves as the landing page, on this page there is a header which is called the jumbotron, and then multiple sub-cards beneath that which serve to occupy the action items
+beneath the jumbotron.*/}
 export default function Home() {
   const classes = useStyles();
 
   return (
     <div>
       <NavigationBar />
+      
+        {/* The jumbotron is an image which is defined in globals.css */}
       <div className="jumbotron">
         <h2 className={styles.title}>8TH ANNUAL Southwest Ontario Heart & Stroke</h2>
         <p className={styles.description}>
           Dan D Segin Memorial Golf for Heart Tournament
         </p>
+        
+        {/* Register button for registration. */}
         <Link href="/registration">
         <a className={styles.textAlignCenter}>
           <h3 className={styles.cardRegister}>Register &rarr;</h3>
@@ -43,6 +50,7 @@ export default function Home() {
           <title>DEVELOPMENT - Dan Segin Golf Tournament Website</title>
           <link rel="icon" href="/favicon.png" />
         </Head>
+        {/* The individual card components responsible for the bottom half of the landing page. */}
         <div className={styles.grid}>
         <Link href="/donate">
           <a href="https://nextjs.org/learn" className={styles.card}>

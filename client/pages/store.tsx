@@ -18,6 +18,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
   const classes = useStyles();
 
+  
+        {/* The store is unsused currently and will be developed in the future. */}
   return (
     <div>
       <NavigationBar/>

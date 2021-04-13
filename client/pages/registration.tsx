@@ -20,6 +20,7 @@ import axios from "../utils/axios";
 
 const pricePerPerson = 175;
 
+/* These serve as arrays used within the dropdown menus in JSX.  */
 const mealOptions = [
   {
     value: "Regular Lunch",
@@ -49,7 +50,7 @@ const teeTimeOptions = [
     label: "Late Morning",
   },
 ];
-
+/* JSS styles used in some material ui components.  */
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -80,6 +81,7 @@ enum ActionKind {
   SetValidation,
 }
 
+/* These serve as validation arrays used in the jsx. */
 type ValidationPayload = {
   name: string;
   validated: boolean;
@@ -97,6 +99,7 @@ type Action = {
   index?: number;
 };
 
+/* All state variables*/
 type State = {
   numPlayers: number;
   playerInfo: IPlayerView[];
@@ -107,7 +110,7 @@ type State = {
 
 export default function Home() {
   const classes = useStyles();
-
+/* Intializing state variables, almost like a constructor.  */
   const initialState: State = {
     numPlayers: 1,
     playerInfo: [
@@ -141,6 +144,7 @@ export default function Home() {
   const playerReducer = (state: State, action: Action): State => {
     const { type, payload, index } = action;
 
+    /* A function to set the first name and return validation */
     function setName(type: string) {
       let validated = state.validated;
       let info = state.playerInfo;
@@ -195,6 +199,8 @@ export default function Home() {
 
   const [state, dispatch] = useReducer(playerReducer, initialState);
 
+  
+    /* A function used to validate data used in the registration page. Disables the button if things are not validated. */
   const validateData = () => {
     return state.playerInfo
       .slice(0, state.numPlayers)
@@ -205,7 +211,8 @@ export default function Home() {
           item.mealChoice.trim()
       );
   };
-
+  
+    /* This event handles the submission of the registration page */
   const handleSubmit = async (e: React.MouseEvent) => {
     let data: IRegistrationView = {
       players: state.playerInfo.slice(0, state.numPlayers),
@@ -238,6 +245,7 @@ export default function Home() {
           <br></br>
           <p>** ${pricePerPerson} Per Player </p>
           <h3> OTHER OTHER INFORMATION ABOUT THE TOURNAMENT HERE</h3>
+          { /* Beginning of the form */}
           <FormControl className={classes.formControl}>
             <InputLabel id="tee-time-selector-label">Tee Times</InputLabel>
             <Select
@@ -281,6 +289,7 @@ export default function Home() {
               <MenuItem value={4}>Four</MenuItem>
             </Select>
           </FormControl>
+          { /* This array is used to populate the player JSX forms */}
           {[...Array(state.numPlayers)].map((item, index) => {
             return (
               <React.Fragment key={index}>
@@ -355,6 +364,7 @@ export default function Home() {
               </React.Fragment>
             );
           })}
+          { /* The total amount of all players added up */}
           <h3>Total: ${state.total}</h3>
           <Button
             variant="contained"

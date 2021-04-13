@@ -15,6 +15,7 @@ import axios from "../utils/axios";
 import ItemList from "./components/itemList";
 import SessionUserData from "@local/shared/view-models/session";
 
+{/* JSS Styles for some of the objects. */}
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -44,6 +45,7 @@ export default function Home() {
   const classes = useStyles();
   const [data, setData] = useState<SessionUserData>();
 
+  {/* */}
   useEffect(() => {
     let mounted = true;
     reloadData(mounted);
@@ -52,6 +54,7 @@ export default function Home() {
     };
   }, []);
 
+  {/* Method to reload the data from /cart using axios */}
   const reloadData = (mounted: boolean) => {
     axios
       .get("/cart")
@@ -77,6 +80,7 @@ export default function Home() {
           <Typography variant="h6" gutterBottom>
             Order summary
           </Typography>
+          {/* Displaying the data using the ItemList component */}
           {data && (
             <ItemList data={data} allowDelete={true} reloadCart={reloadData} />
           )}
