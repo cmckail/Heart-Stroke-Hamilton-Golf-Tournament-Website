@@ -13,9 +13,15 @@ import { env, port, connectionObj, logger } from "./config";
 import { TypeormStore } from "connect-typeorm/out";
 import Session from "./models/session";
 
+/**
+ * Main express application
+ */
 export default class Application {
     app: express.Application;
 
+    /**
+     * Application constructor
+     */
     constructor() {
         this.app = express();
         this.app.use(cors());

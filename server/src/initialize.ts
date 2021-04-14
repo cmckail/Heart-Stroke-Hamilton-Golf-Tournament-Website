@@ -1,6 +1,6 @@
 process.env.NODE_ENV = "sync";
 
-import { createConnection, getConnection } from "typeorm";
+import { createConnection } from "typeorm";
 import { readFileSync } from "fs";
 
 import connectionObj from "./config/db";
@@ -9,7 +9,11 @@ import logger from "./utils/logger";
 import UserRepository from "./repos/user-repo";
 import SponsorRepository from "./repos/sponsor-repo";
 import Image from "./models/image";
-createConnection(connectionObj).then((connection) => {
+
+/**
+ * Initializes DB
+ */
+createConnection(connectionObj).then(() => {
     // Images
     const imageRepo = new ImageRepository();
     const imageData = readFileSync("src/assets/test-data/dog.jpg");
