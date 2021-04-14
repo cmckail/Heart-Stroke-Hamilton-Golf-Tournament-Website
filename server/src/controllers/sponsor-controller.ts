@@ -9,7 +9,16 @@ import ImageController from "./image-controller";
 const repo = new SponsorRepository();
 const imageRepo = new ImageRepository();
 
+/**
+ * Sponsor controller
+ */
 export default class SponsorController {
+    /**
+     * Retrieves all sponsors or optionally by ID
+     * @param req express request
+     * @param res express response
+     * @param next express next function
+     */
     public static async getAllOrByID(
         req: Request,
         res: Response,
@@ -35,6 +44,12 @@ export default class SponsorController {
         }
     }
 
+    /**
+     * Searches for specific sponsor
+     * @param req express request
+     * @param res express response
+     * @param next express next function
+     */
     public static async search(
         req: Request,
         res: Response,
@@ -52,6 +67,12 @@ export default class SponsorController {
         }
     }
 
+    /**
+     * Registers a specific sponsor
+     * @param req express request
+     * @param res express response
+     * @param next express next function
+     */
     public static async register(
         req: Request,
         res: Response,
@@ -86,6 +107,12 @@ export default class SponsorController {
         }
     }
 
+    /**
+     * Updates a specific sponsor
+     * @param req express request
+     * @param res express response
+     * @param next express next function
+     */
     public static async update(
         req: Request,
         res: Response,
@@ -131,6 +158,12 @@ export default class SponsorController {
         }
     }
 
+    /**
+     * Deletes a specific sponsor
+     * @param req express request
+     * @param res express response
+     * @param next express next function
+     */
     public static async delete(
         req: Request,
         res: Response,

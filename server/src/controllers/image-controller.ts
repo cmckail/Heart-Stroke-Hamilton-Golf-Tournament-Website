@@ -7,7 +7,16 @@ import HttpException from "../utils/defaults/default-exception";
 
 const repo = new ImageRepository();
 
+/**
+ * Image controller
+ */
 export default class ImageController {
+    /**
+     * Retrieves all images in DB
+     * @param req express request
+     * @param res express response
+     * @param next express next function
+     */
     public static async publicGetAll(
         req: Request,
         res: Response,
@@ -27,6 +36,12 @@ export default class ImageController {
         }
     }
 
+    /**
+     * Returns image in browser-readable form
+     * @param req express request
+     * @param res express response
+     * @param next express next function
+     */
     public static async getImageContent(
         req: Request,
         res: Response,
@@ -52,6 +67,12 @@ export default class ImageController {
         }
     }
 
+    /**
+     * Searchs image using id/keywords
+     * @param req express request
+     * @param res express response
+     * @param next express next function
+     */
     public static async search(
         req: Request,
         res: Response,
@@ -77,6 +98,12 @@ export default class ImageController {
         }
     }
 
+    /**
+     * uploads photo to DB
+     * @param req express request
+     * @param res express response
+     * @param next express next function
+     */
     public static async upload(
         req: Request,
         res: Response,
@@ -113,6 +140,12 @@ export default class ImageController {
         }
     }
 
+    /**
+     * Deletes photo from DB
+     * @param req express request
+     * @param res express response
+     * @param next express next function
+     */
     public static async delete(
         req: Request,
         res: Response,

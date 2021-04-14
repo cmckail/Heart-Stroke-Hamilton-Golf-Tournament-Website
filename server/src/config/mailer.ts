@@ -1,5 +1,9 @@
 import SMTPTransport from "nodemailer/lib/smtp-transport";
 
+/**
+ * Mail options object
+ */
+
 let transportObj: SMTPTransport.Options;
 
 if (process.env.NODE_ENV !== "production") {
