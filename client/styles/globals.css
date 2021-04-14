@@ -15,6 +15,7 @@ a {
   box-sizing: border-box;
 }
 
+/* --- This CSS is used in the landing page. --- */
 .jumbotron {
   background-image: url('../public/backgrounds/landing_page_background.png');
   background-size: 100% 100%;
@@ -22,6 +23,7 @@ a {
   height: 500px;
 }
 
+/* --- This CSS is used in the about page. --- */
 .aboutPageHeader {
   background-image: url('../public/aboutPageSplash.png');
   background-size: 100% 100%;
@@ -36,16 +38,6 @@ a {
   width: 100%;
 }
 
-.sponsorsContainer {
-  margin-left: 100px;
-  margin-top: 100px;
-}
-
-.sponsorLogoImage {
-  width: 300px;
-  height: 200px;
-  background-size: cover;
-}
 .aboutPageContentText {
   color: white;
   font-size: 20px;
@@ -59,14 +51,25 @@ a {
   margin-left: 60px;
   margin-bottom: 10px;
 }
+
+/* --- This CSS is used in the sponsors page. --- */
+.sponsorsContainer {
+  margin-left: 100px;
+  margin-top: 100px;
+}
+
+.sponsorLogoImage {
+  width: 300px;
+  height: 200px;
+  background-size: cover;
+}
+
+/* --- This CSS is used in the navigation bar component. --- */
 .NavigationBar {
   background-color: #0A0200;
 }
 
-.WhiteText {
-  color: #ffebee;
-}
-
+/* --- This CSS is used in multiple pages --- */
 hr {
   border: 0;
   clear:both;
