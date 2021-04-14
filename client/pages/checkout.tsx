@@ -1,5 +1,5 @@
 /*
-    Author: David Melnyk
+    Author: David Melnyk, Connor Mckail
     This page serves as the donation page for the website.
 */
 

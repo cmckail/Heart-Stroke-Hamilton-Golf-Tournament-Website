@@ -42,6 +42,9 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function Home() {
   const classes = useStyles();
 
+  /*
+    Setting up states used in the program
+*/
   const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
   const [images, setImages] = useState();
@@ -50,6 +53,9 @@ export default function Home() {
     setViewerIsOpen(true);
   }, []);
 
+  /*
+    Used when the 'gallery' view mode is open for pictures
+*/
   const closeLightbox = () => {
     setCurrentImage(0);
     setViewerIsOpen(false);
@@ -82,6 +88,9 @@ export default function Home() {
         </Head>
         <div>
           <Gallery photos={photos} onClick={openLightbox} />
+          { /*
+                  The modal viewer for when an image is clicked.
+            */ }
           <ModalGateway>
             {viewerIsOpen ? (
               <Modal onClose={closeLightbox}>
