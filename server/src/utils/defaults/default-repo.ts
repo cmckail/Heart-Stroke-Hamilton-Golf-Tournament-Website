@@ -9,6 +9,9 @@ import {
 import { ModelValidationError, NotFoundError } from "../errors";
 import logger from "../logger";
 
+/**
+ * Default repo class
+ */
 export default abstract class DefaultRepository<T> {
     private repo: Repository<T>;
 

@@ -1,5 +1,9 @@
 import { createLogger, format, transports } from "winston";
 
+/**
+ * Creates a new logger object
+ * WORK IN PROGRESS
+ */
 export default createLogger({
     level: "info",
     format: format.combine(
