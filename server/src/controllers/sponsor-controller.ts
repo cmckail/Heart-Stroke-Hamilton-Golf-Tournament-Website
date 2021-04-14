@@ -192,7 +192,7 @@ export default class SponsorController {
     private static convertSponsorToView(sponsor: Sponsor) {
         let result: ISponsorView = { ...sponsor, logo: undefined };
         if (sponsor.logo) {
-            result.logo = ImageController.getURL(sponsor.logo.publicId!);
+            result.logo = ImageController.getURL(sponsor.logo.id!);
         }
         return result;
     }

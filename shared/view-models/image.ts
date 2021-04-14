@@ -1,6 +1,6 @@
 export interface IImageViewModel {
     id: string;
-    publicId: string;
+    // publicId: string;
     filename: string;
     mimetype: string;
 }

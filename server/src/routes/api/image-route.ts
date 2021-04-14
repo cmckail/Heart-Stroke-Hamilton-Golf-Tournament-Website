@@ -13,7 +13,7 @@ const upload = multer().array("photo");
  */
 imageRouter.get("/", ImageController.publicGetAll);
 
-imageRouter.get("/search", verifyUser, ImageController.search);
+// imageRouter.get("/search", verifyUser, ImageController.search);
 
 /**
  * POST image route

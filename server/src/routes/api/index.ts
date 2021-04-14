@@ -2,6 +2,7 @@ import donationRouter from "./donation-route";
 import imageRouter from "./image-route";
 import mailRouter from "./mail-route";
 import paymentRouter from "./payment-route";
+import photoRouter from "./photo-route";
 import registrationRouter from "./registration-route";
 import cartRouter from "./shopping-cart-route";
 import sponsorRouter from "./sponsor-route";
@@ -44,5 +45,9 @@ export default [
     {
         route: "/donations",
         router: donationRouter,
+    },
+    {
+        route: "/photos",
+        router: photoRouter,
     },
 ];

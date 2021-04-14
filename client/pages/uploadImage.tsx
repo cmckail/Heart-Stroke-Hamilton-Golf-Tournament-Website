@@ -9,7 +9,7 @@ export default function uploadImage() {
       method="post"
       encType="multipart/form-data"
     >
-      <input type="file" name="photo" accept="image/*" />
+      <input type="file" name="photo" accept="image/*" multiple />
       <input type="submit" value="Submit" />
     </form>
   );

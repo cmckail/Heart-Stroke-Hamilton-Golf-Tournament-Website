@@ -10,7 +10,11 @@ import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import Gallery from "react-photo-gallery";
 import Carousel, { Modal, ModalGateway } from "react-images";
 import NavigationBar from "./components/navigationBar";
+import IPhotoView from "@local/shared/view-models/photo";
+
 import { photos } from "./components/images";
+import axios from "../utils/axios";
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -38,7 +42,7 @@ export default function Home() {
 */
   const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
-  const [images, setImages] = useState();
+  const [images, setImages] = useState<IPhotoView[]>();
   const openLightbox = useCallback((event, { photo, index }) => {
     setCurrentImage(index);
     setViewerIsOpen(true);
@@ -52,6 +56,21 @@ export default function Home() {
     setViewerIsOpen(false);
   };
 
+  useEffect(() => {
+    let mounted = true;
+
+    axios
+      .get("/photos")
+      .then((res) => {
+        if (mounted) setImages(res.data);
+      })
+      .catch((err) => console.error(err));
+
+    return function cleanup() {
+      mounted = false;
+    };
+  }, []);
+
   return (
     <div>
       <NavigationBar />
@@ -61,10 +80,10 @@ export default function Home() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <div>
-          <Gallery photos={photos} onClick={openLightbox} />
-          { /*
+          {images && <Gallery photos={images} onClick={openLightbox} />}
+          {/*
                   The modal viewer for when an image is clicked.
-            */ }
+            */}
           <ModalGateway>
             {viewerIsOpen ? (
               <Modal onClose={closeLightbox}>
