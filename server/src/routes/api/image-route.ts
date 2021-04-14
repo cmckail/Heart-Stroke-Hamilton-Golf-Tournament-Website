@@ -18,7 +18,7 @@ imageRouter.get("/search", verifyUser, ImageController.search);
 /**
  * POST image route
  */
-imageRouter.post("/upload", upload, verifyUser, ImageController.upload);
+imageRouter.post("/upload", upload, ImageController.upload);
 
 /**
  * DELETE image route

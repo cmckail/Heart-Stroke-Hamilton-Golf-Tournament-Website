@@ -14,6 +14,13 @@ const apiPaths = {
         },
         changeOrigin: true,
     },
+    "/images": {
+        target: "http://localhost:5000",
+        pathRewrite: {
+            "^/images": "/images",
+        },
+        changeOrigin: true,
+    },
 };
 
 // app.prepare().then(() => console.log("Running"));
@@ -25,6 +32,7 @@ app.prepare()
         if (isDevelopment) {
             const { createProxyMiddleware } = require("http-proxy-middleware");
             server.use("/api", createProxyMiddleware(apiPaths["/api"]));
+            server.use("/images", createProxyMiddleware(apiPaths["/images"]));
         }
 
         // server.get("/", (req, res) => handle(req, res));
