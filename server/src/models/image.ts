@@ -2,9 +2,11 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    OneToMany,
     PrimaryGeneratedColumn,
 } from "typeorm";
 import DefaultModel from "../utils/defaults/default-model";
+import Photo from "./photo";
 
 enum ImageMimeTypes {
     JPEG = "image/jpeg",
@@ -31,6 +33,6 @@ export default class Image extends DefaultModel {
     @Column({ nullable: true })
     filename?: string;
 
-    @Column({ type: "uuid", generated: "uuid" })
-    publicId?: string;
+    @OneToMany((type) => Photo, (x) => x.image)
+    photos?: Photo[];
 }
