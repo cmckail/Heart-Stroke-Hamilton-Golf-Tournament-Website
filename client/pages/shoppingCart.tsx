@@ -1,6 +1,6 @@
 /*
     Author: David Melnyk
-    This page serves as the donation page for the website.
+    This page serves as the shoppiung cart page for the website.
 */
 
 import React, { useState, useEffect, FormEvent } from "react";

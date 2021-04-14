@@ -1,7 +1,9 @@
+/*
+  A re-usable footer used throughout the site
+*/
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
-  const classes = useStyles();
 
   return (
     <div className={styles.container}>

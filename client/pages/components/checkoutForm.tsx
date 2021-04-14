@@ -1,3 +1,7 @@
+  /* 
+     A checkout form, required by stripe.
+  */
+
 import React, { useState, useEffect, FormEvent } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { StripeCardElementChangeEvent } from "@stripe/stripe-js";

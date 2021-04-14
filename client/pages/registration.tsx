@@ -72,6 +72,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+/* Defining a type for actions */
 enum ActionKind {
   SetMeal,
   SetNumPlayers,
@@ -110,6 +111,7 @@ type State = {
 
 export default function Home() {
   const classes = useStyles();
+
 /* Intializing state variables, almost like a constructor.  */
   const initialState: State = {
     numPlayers: 1,
