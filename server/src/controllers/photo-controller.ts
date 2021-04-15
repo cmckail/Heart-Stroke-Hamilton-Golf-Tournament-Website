@@ -40,13 +40,16 @@ export default class PhotoController {
             let files = req.files as Express.Multer.File[];
 
             const data = files.map((item) => {
-                let image = new Image(item.buffer, item.mimetype);
+                let image = new Image({
+                    data: item.buffer,
+                    mimetype: item.mimetype,
+                });
 
                 if (item.originalname && item.originalname !== "") {
                     image.filename = item.originalname;
                 }
 
-                let photo = new Photo(image);
+                let photo = new Photo({ image });
 
                 return photo;
             });

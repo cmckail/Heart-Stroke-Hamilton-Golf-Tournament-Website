@@ -7,7 +7,7 @@ const upload = multer().single("logo");
 
 const sponsorRouter = Router();
 
-sponsorRouter.get("/search", verifyUser, SponsorController.search);
+// sponsorRouter.get("/search", verifyUser, SponsorController.search);
 
 sponsorRouter.post("/register", upload, verifyUser, SponsorController.register);
 

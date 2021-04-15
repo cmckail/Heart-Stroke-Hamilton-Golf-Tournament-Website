@@ -11,17 +11,20 @@ import Image from "./image";
 
 @Entity("sponsors")
 export default class Sponsor extends DefaultModel {
-    constructor(
-        name?: string,
-        description?: string,
-        url?: string,
-        logo?: Image
-    ) {
+    constructor(options?: {
+        name: string;
+        description?: string;
+        url?: string;
+        logo?: Image;
+    }) {
         super();
-        this.name = name;
-        this.description = description;
-        this.url = url;
-        this.logo = logo;
+        if (options) {
+            const { name, description, url, logo } = options;
+            this.name = name;
+            this.description = description;
+            this.url = url;
+            this.logo = logo;
+        }
     }
 
     @Column()

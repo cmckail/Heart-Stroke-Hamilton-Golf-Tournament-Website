@@ -1,7 +1,6 @@
 import { NextFunction, Router, Request, Response } from "express";
 
 import Image from "../models/image";
-import { IImageViewModel } from "@local/shared/view-models/image";
 import ImageRepository from "../repos/image-repo";
 import HttpException from "../utils/defaults/default-exception";
 
@@ -79,7 +78,10 @@ export default class ImageController {
             let files = req.files as Express.Multer.File[];
 
             const data = files.map((item) => {
-                let image = new Image(item.buffer, item.mimetype);
+                let image = new Image({
+                    data: item.buffer,
+                    mimetype: item.mimetype,
+                });
 
                 if (item.originalname && item.originalname !== "") {
                     image.filename = item.originalname;

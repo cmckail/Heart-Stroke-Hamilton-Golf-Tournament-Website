@@ -5,17 +5,18 @@ import Person from "./person";
 
 @Entity()
 export default class Registration extends DefaultModel {
-    constructor(teeRanage?: string, players?: IPlayerView[]) {
+    constructor(options?: { teeRange: string; players: IPlayerView[] }) {
         super();
-        this.teeRange = teeRanage;
-
-        if (players) {
+        if (options) {
+            const { teeRange, players } = options;
+            this.teeRange = teeRange;
             this.players = [];
             for (let i of players) {
                 let player = new RegistrationPlayer();
-                player.person = new Person();
-                player.person.firstName = i.player.firstName;
-                player.person.lastName = i.player.lastName;
+                player.person = new Person({
+                    firstName: i.player.firstName,
+                    lastName: i.player.lastName,
+                });
                 player.mealChoice = i.mealChoice;
                 this.players.push(player);
             }
@@ -25,7 +26,7 @@ export default class Registration extends DefaultModel {
     @Column()
     teeRange: string;
 
-    @OneToMany((type) => RegistrationPlayer, (x) => x.registration, {
+    @OneToMany(() => RegistrationPlayer, (x) => x.registration, {
         cascade: true,
         eager: true,
     })
@@ -34,14 +35,14 @@ export default class Registration extends DefaultModel {
 
 @Entity()
 export class RegistrationPlayer extends DefaultModel {
-    @ManyToOne((type) => Person, (person) => person.registrations, {
+    @ManyToOne(() => Person, (person) => person.registrations, {
         cascade: true,
         eager: true,
     })
     @JoinColumn({ name: "person_id" })
     person: Person;
 
-    @ManyToOne((type) => Registration, (x) => x.players)
+    @ManyToOne(() => Registration, (x) => x.players)
     @JoinColumn({ name: "registration_id" })
     registration: Registration;
 

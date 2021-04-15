@@ -4,10 +4,13 @@ import Image from "./image";
 
 @Entity("photos")
 export default class Photo extends DefaultModel {
-    constructor(image?: Image, caption?: string) {
+    constructor(options?: { image: Image; caption?: string }) {
         super();
-        this.image = image;
-        this.caption = caption;
+        if (options) {
+            const { image, caption } = options;
+            this.image = image;
+            this.caption = caption;
+        }
     }
 
     @Column({ nullable: true })

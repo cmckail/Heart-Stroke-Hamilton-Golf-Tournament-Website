@@ -1,12 +1,5 @@
-import {
-    Column,
-    CreateDateColumn,
-    Entity,
-    OneToMany,
-    PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity } from "typeorm";
 import DefaultModel from "../utils/defaults/default-model";
-import Photo from "./photo";
 
 enum ImageMimeTypes {
     JPEG = "image/jpeg",
@@ -15,11 +8,18 @@ enum ImageMimeTypes {
 
 @Entity("images")
 export default class Image extends DefaultModel {
-    constructor(data?: Buffer, mimetype?: string, filename?: string) {
+    constructor(options?: {
+        data: Buffer;
+        mimetype: string;
+        filename?: string;
+    }) {
         super();
-        this.data = data;
-        this.mimetype = mimetype;
-        this.filename = filename;
+        if (options) {
+            const { data, mimetype, filename } = options;
+            this.data = data;
+            this.mimetype = mimetype;
+            this.filename = filename;
+        }
     }
     @Column()
     data: Buffer;

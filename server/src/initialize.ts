@@ -17,44 +17,44 @@ import Photo from "./models/photo";
  */
 createConnection(connectionObj).then(() => {
     // Images
-    const imageRepo = new ImageRepository();
-    const imageData = readFileSync("src/assets/test-data/dog.jpg");
+    // const imageRepo = new ImageRepository();
+    // const imageData = readFileSync("src/assets/test-data/dog.jpg");
 
-    imageRepo.addToDB(new Image(imageData, "image/jpeg", "dog.jpg"));
+    // imageRepo.addToDB(new Image(imageData, "image/jpeg", "dog.jpg"));
 
     // Users
-    const userRepo = new UserRepository();
-    const user = JSON.parse(
-        readFileSync("src/assets/test-data/admin.json", "utf-8")
-    );
-    userRepo.addToDB(user);
+    // const userRepo = new UserRepository();
+    // const user = JSON.parse(
+    //     readFileSync("src/assets/test-data/admin.json", "utf-8")
+    // );
+    // userRepo.addToDB(user);
 
     // Sponsors
-    const sponsorRepo = new SponsorRepository();
-    const sponsor = JSON.parse(
-        readFileSync("src/assets/test-data/sponsor.json", "utf-8")
-    );
-    const logoData = readFileSync("src/assets/test-data/logo.png");
+    // const sponsorRepo = new SponsorRepository();
+    // const sponsor = JSON.parse(
+    //     readFileSync("src/assets/test-data/sponsor.json", "utf-8")
+    // );
+    // const logoData = readFileSync("src/assets/test-data/logo.png");
 
-    imageRepo
-        .addToDB(new Image(logoData, "image/png", "logo.png"))
-        .then((res) => {
-            sponsor.logo = res;
-            sponsorRepo.addToDB(sponsor);
-        });
+    // imageRepo
+    //     .addToDB(new Image(logoData, "image/png", "logo.png"))
+    //     .then((res) => {
+    //         sponsor.logo = res;
+    //         sponsorRepo.addToDB(sponsor);
+    //     });
 
     // Photos
     const photoRepo = new PhotoRepository();
 
     const photos = readdirSync("src/assets/test-data/pictures");
     let data: Photo[] = [];
-    photos.forEach((photo, index) => {
+    photos.forEach((photo) => {
         let mimetype = photo.endsWith("png") ? "image/png" : "image/jpeg";
-        let image = new Image(
-            readFileSync(`src/assets/test-data/pictures/${photo}`),
-            mimetype
-        );
-        let item = new Photo(image);
+        let image = new Image({
+            data: readFileSync(`src/assets/test-data/pictures/${photo}`),
+            mimetype,
+        });
+        let item = new Photo({ image });
         data.push(item);
     });
 

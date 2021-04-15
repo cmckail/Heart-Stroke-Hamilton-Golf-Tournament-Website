@@ -4,10 +4,20 @@ import { RegistrationPlayer } from "./registration";
 
 @Entity()
 export default class Person extends DefaultModel {
-    constructor(firstName?: string, lastName?: string) {
+    constructor(options?: {
+        firstName: string;
+        lastName: string;
+        email?: string;
+        phone?: string;
+    }) {
         super();
-        this.firstName = firstName;
-        this.lastName = lastName;
+        if (options) {
+            const { firstName, lastName, email, phone } = options;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.email = email;
+            this.phone = phone;
+        }
     }
 
     @Column()

@@ -135,7 +135,10 @@ export default class SponsorController {
 
             // Add new logo to DB if exists
             if (logo) {
-                let image = new Image(logo.buffer, logo.mimetype);
+                let image = new Image({
+                    data: logo.buffer,
+                    mimetype: logo.mimetype,
+                });
 
                 if (logo.originalname && logo.originalname !== "") {
                     image.filename = logo.originalname;

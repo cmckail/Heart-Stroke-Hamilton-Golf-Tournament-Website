@@ -39,7 +39,10 @@ export default class RegistrationController {
      */
     public static async addToDB(registration: IRegistrationView[]) {
         registration.forEach(async (item) => {
-            let regis = new Registration(item.teeRange, item.players);
+            let regis = new Registration({
+                teeRange: item.teeRange,
+                players: item.players,
+            });
             await repo.addToDB(regis);
         });
     }
