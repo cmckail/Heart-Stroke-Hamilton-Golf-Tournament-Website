@@ -11,6 +11,8 @@ import SponsorRepository from "./repos/sponsor-repo";
 import Image from "./models/image";
 import PhotoRepository from "./repos/photo-repo";
 import Photo from "./models/photo";
+import ISponsorView from "@local/shared/view-models/sponsor";
+import Sponsor from "./models/sponsor";
 
 /**
  * Initializes DB
@@ -30,18 +32,29 @@ createConnection(connectionObj).then(() => {
     // userRepo.addToDB(user);
 
     // Sponsors
-    // const sponsorRepo = new SponsorRepository();
-    // const sponsor = JSON.parse(
-    //     readFileSync("src/assets/test-data/sponsor.json", "utf-8")
-    // );
-    // const logoData = readFileSync("src/assets/test-data/logo.png");
+    const sponsorRepo = new SponsorRepository();
+    const sponsor: ISponsorView[] = JSON.parse(
+        readFileSync("src/assets/test-data/sponsor.json", "utf-8")
+    );
 
-    // imageRepo
-    //     .addToDB(new Image(logoData, "image/png", "logo.png"))
-    //     .then((res) => {
-    //         sponsor.logo = res;
-    //         sponsorRepo.addToDB(sponsor);
-    //     });
+    sponsor.forEach((item) => {
+        let data = new Sponsor({
+            name: item.name,
+            description: item.description,
+            url: item.url,
+        });
+
+        const logoData = readFileSync(item.logoURL);
+
+        let logo = new Image({
+            data: logoData,
+            mimetype: "image/png",
+        });
+
+        data.logo = logo;
+
+        sponsorRepo.addToDB(data);
+    });
 
     // Photos
     const photoRepo = new PhotoRepository();

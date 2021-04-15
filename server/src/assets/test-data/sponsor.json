@@ -1,5 +1,50 @@
 [
     {
-        "name": 
+        "name": "Amazon",
+        "description": "Lorem ipsum",
+        "url": "https://amazon.ca",
+        "logoURL": "src/assets/test-data/sponsors/amazon_logo.png"
+    },
+    {
+        "name": "Microsoft",
+        "description": "Lorem ipsum",
+        "url": "https://microsoft.ca",
+        "logoURL": "src/assets/test-data/sponsors/microsoft_logo.png"
+    },
+    {
+        "name": "Tesla",
+        "description": "Lorem ipsum",
+        "url": "https://tesla.ca",
+        "logoURL": "src/assets/test-data/sponsors/tesla_logo.png"
+    },
+    {
+        "name": "Intel",
+        "description": "Lorem ipsum",
+        "url": "https://intel.com",
+        "logoURL": "src/assets/test-data/sponsors/intel_logo.png"
+    },
+    {
+        "name": "AMD",
+        "description": "Lorem ipsum",
+        "url": "https://amd.com",
+        "logoURL": "src/assets/test-data/sponsors/amd_logo.png"
+    },
+    {
+        "name": "Johnson & Johnson",
+        "description": "Lorem ipsum",
+        "url": "https://www.jnjcanada.com/",
+        "logoURL": "src/assets/test-data/sponsors/johnson_logo.png"
+    },
+    {
+        "name": "SpaceX",
+        "description": "Lorem ipsum",
+        "url": "https://spacex.com",
+        "logoURL": "src/assets/test-data/sponsors/spacex_logo.png"
+    },
+    {
+        "name": "Suncor",
+        "description": "Lorem ipsum",
+        "url": "https://suncor.com",
+        "logoURL": "src/assets/test-data/sponsors/suncor_logo.png"
     }
 ]

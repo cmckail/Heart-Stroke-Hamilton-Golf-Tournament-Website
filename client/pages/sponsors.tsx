@@ -15,6 +15,9 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import { useEffect, useState } from "react";
+import ISponsorView from "@local/shared/view-models/sponsor";
+import axios from "../utils/axios";
 
 /* JSS used for some styles on the page. */
 const useStyles = makeStyles({
@@ -26,14 +29,40 @@ const useStyles = makeStyles({
   },
 });
 
-const companyName = ['Microsoft', 'Amazon', 'Tesla', 'AMD', 'Intel', 'Johnson & Johnson', 'SpaceX', 'Suncor']
+const companyName = [
+  "Microsoft",
+  "Amazon",
+  "Tesla",
+  "AMD",
+  "Intel",
+  "Johnson & Johnson",
+  "SpaceX",
+  "Suncor",
+];
 
 export default function Home() {
   const classes = useStyles();
 
-  
-  {/* The page content is served in a grid format, with spacing=3 being the spacing for the grid. It is responsive and will adjust to page resizing. Otherwise
-  an image occupies the card media portion, and the content itself is in a typography material-ui tag. */}
+  const [sponsors, setSponsors] = useState<ISponsorView[]>();
+
+  useEffect(() => {
+    let mounted = true;
+    axios
+      .get("/sponsors")
+      .then((res) => {
+        setSponsors(res.data);
+      })
+      .catch((err) => console.error(err));
+
+    return function cleanup() {
+      mounted = false;
+    };
+  }, []);
+
+  {
+    /* The page content is served in a grid format, with spacing=3 being the spacing for the grid. It is responsive and will adjust to page resizing. Otherwise
+  an image occupies the card media portion, and the content itself is in a typography material-ui tag. */
+  }
   return (
     <div>
       <Head>
@@ -41,11 +70,47 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <NavigationBar />
-      <div className="sponsorsContainer">
-        <Grid container spacing={3}>
-        {companyName.map((company, index) => {
-                return (
-                  <Grid item>
+      {sponsors && (
+        <div className="sponsorsContainer">
+          <Grid container spacing={3}>
+            {sponsors.map((sponsor, index) => {
+              return (
+                <Grid item key={index}>
+                  <Card className={classes.root}>
+                    <CardActionArea>
+                      <CardMedia
+                        className={classes.media}
+                        image={sponsor.logoURL}
+                        title={sponsor.name}
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="h2">
+                          {sponsor.name}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          component="p"
+                        >
+                          {sponsor.description}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                    {sponsor.url && (
+                      <CardActions>
+                        <Button size="small" color="primary" href={sponsor.url}>
+                          Learn More
+                        </Button>
+                      </CardActions>
+                    )}
+                  </Card>
+                </Grid>
+              );
+            })}
+
+            {/* {companyName.map((company, index) => {
+              return (
+                <Grid item>
                   <Card className={classes.root}>
                     <CardActionArea>
                       <CardMedia
@@ -62,23 +127,28 @@ export default function Home() {
                           color="textSecondary"
                           component="p"
                         >
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                          do eiusmod tempor incididunt ut labore et dolore magna
-                          aliqua. Ut
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                          elit, sed do eiusmod tempor incididunt ut labore et
+                          dolore magna aliqua. Ut
                         </Typography>
                       </CardContent>
                     </CardActionArea>
                     <CardActions>
-                      <Button size="small" color="primary" href="https://google.com">
+                      <Button
+                        size="small"
+                        color="primary"
+                        href="https://google.com"
+                      >
                         Learn More
                       </Button>
                     </CardActions>
                   </Card>
                 </Grid>
-                );
-              })}
-        </Grid>
-      </div>
+              );
+            })} */}
+          </Grid>
+        </div>
+      )}
     </div>
   );
 }

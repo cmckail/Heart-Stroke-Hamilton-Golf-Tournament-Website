@@ -17,8 +17,6 @@ import Gallery from "react-photo-gallery";
 import Carousel, { Modal, ModalGateway } from "react-images";
 import NavigationBar from "./components/navigationBar";
 import IPhotoView from "@local/shared/view-models/photo";
-
-import { photos } from "./components/images";
 import axios from "../utils/axios";
 
 const useStyles = makeStyles((theme: Theme) =>
