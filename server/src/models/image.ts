@@ -22,17 +22,14 @@ export default class Image extends DefaultModel {
         this.filename = filename;
     }
     @Column()
-    data!: Buffer;
+    data: Buffer;
 
     @Column({
         type: "simple-enum",
         enum: ImageMimeTypes,
     })
-    mimetype!: string;
+    mimetype: string;
 
     @Column({ nullable: true })
     filename?: string;
-
-    @OneToMany((type) => Photo, (x) => x.image)
-    photos?: Photo[];
 }

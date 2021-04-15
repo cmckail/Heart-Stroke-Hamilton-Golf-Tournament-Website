@@ -13,7 +13,7 @@ export default class Photo extends DefaultModel {
     @Column({ nullable: true })
     caption?: string;
 
-    @ManyToOne((type) => Image, (x) => x.photos, {
+    @ManyToOne(() => Image, {
         cascade: true,
         eager: true,
     })
