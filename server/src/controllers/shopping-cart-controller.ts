@@ -2,7 +2,16 @@ import { Request, Response, NextFunction } from "express";
 import IItemView from "@local/shared/view-models/item";
 import { deleteFromSession } from "../utils/session";
 
+/**
+ * Shopping cart controller
+ */
 export default class ShoppingCartController {
+    /**
+     * Retrieves all items in cart
+     * @param req express request
+     * @param res express response
+     * @param next express next function
+     */
     public static async getCartItems(
         req: Request,
         res: Response,
@@ -16,6 +25,12 @@ export default class ShoppingCartController {
         }
     }
 
+    /**
+     * deletes item from cart
+     * @param req express request
+     * @param res express response
+     * @param next express next function
+     */
     public static async deleteFromCart(
         req: Request,
         res: Response,

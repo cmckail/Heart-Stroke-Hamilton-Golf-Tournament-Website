@@ -1,3 +1,7 @@
+/**
+ * Default HTTP Exception
+ * Encompasses status code and error message
+ */
 export default class HttpException extends Error {
     statusCode: number;
 

@@ -11,6 +11,10 @@ import { generateNewTokens } from "../middlewares/verify-user";
 const repo = new UserRepository();
 const tokenRepo = new RefreshTokenRepository();
 
+/**
+ * User Controller
+ * WORK IN PROGRESS
+ */
 export default class UserController {
     public static async add(req: Request, res: Response, next: NextFunction) {
         try {

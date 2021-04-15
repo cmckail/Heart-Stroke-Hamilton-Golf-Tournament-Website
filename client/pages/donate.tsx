@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home() {
+  /* State variables used throughout the application */
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastname] = useState("");
   const [amount, setAmount] = useState(0);
@@ -47,23 +48,28 @@ export default function Home() {
 
   const classes = useStyles();
 
+  /* Handles the email changed event */
   const handleEmail = (event: React.ChangeEvent<{ value: string }>) => {
     setEmail(event.target.value);
     setEmailError(!event.target.value.trim());
   };
+    /* Handles the amount changed event */
   const handleAmountInput = (event: React.ChangeEvent<{ value: string }>) => {
     setAmountInput(event.target.value);
   };
+    /* Handles the first name changed event */
   const handleFirstName = (event: React.ChangeEvent<{ value: string }>) => {
     console.log(event.target.value);
     setFirstName(event.target.value);
     setFirstNameError(!event.target.value.trim());
   };
+    /* Handles the last name changed event */
   const handleLastName = (event: React.ChangeEvent<{ value: string }>) => {
     setLastname(event.target.value);
     setLastNameError(!event.target.value.trim());
   };
 
+  /* Handles the final payment at the end */
   const handleClick = (e: React.MouseEvent) => {
     if (!lastNameError && !firstNameError && !emailError && !amountError) {
       let body: IDonationView = {

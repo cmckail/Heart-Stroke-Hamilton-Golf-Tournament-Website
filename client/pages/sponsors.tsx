@@ -32,8 +32,8 @@ export default function Home() {
   const classes = useStyles();
 
   
-        {/* The page content is served in a grid format, with spacing=3 being the spacing for the grid. It is responsive and will adjust to page resizing. Otherwise
-        an image occupies the card media portion, and the content itself is in a typography material-ui tag. */}
+  {/* The page content is served in a grid format, with spacing=3 being the spacing for the grid. It is responsive and will adjust to page resizing. Otherwise
+  an image occupies the card media portion, and the content itself is in a typography material-ui tag. */}
   return (
     <div>
       <Head>

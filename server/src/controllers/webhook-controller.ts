@@ -5,6 +5,10 @@ import SponsorRepository from "../repos/sponsor-repo";
 
 const sponsorRepository = new SponsorRepository();
 
+/**
+ * Webhook controller
+ * FOR TESTING PURPOSES ONLY
+ */
 export default class WebhookController {
     public static async invoke(
         req: Request,

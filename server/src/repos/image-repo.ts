@@ -22,9 +22,9 @@ export default class ImageRepository extends DefaultRepository<Image> {
         return await super.findByID(id);
     }
 
-    async findByPublicID(id: string) {
-        return await super.findOne({ where: { publicId: id } });
-    }
+    // async findByPublicID(id: string) {
+    //     return await super.findOne({ where: { publicId: id } });
+    // }
 
     async findByFileName(filename: string) {
         return await super.findOne({ where: { filename } });

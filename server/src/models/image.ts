@@ -8,9 +8,11 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    OneToMany,
     PrimaryGeneratedColumn,
 } from "typeorm";
 import DefaultModel from "../utils/defaults/default-model";
+import Photo from "./photo";
 
 enum ImageMimeTypes {
     JPEG = "image/jpeg",
@@ -26,17 +28,14 @@ export default class Image extends DefaultModel {
         this.filename = filename;
     }
     @Column()
-    data!: Buffer;
+    data: Buffer;
 
     @Column({
         type: "simple-enum",
         enum: ImageMimeTypes,
     })
-    mimetype!: string;
+    mimetype: string;
 
     @Column({ nullable: true })
     filename?: string;
-
-    @Column({ type: "uuid", generated: "uuid" })
-    publicId?: string;
 }

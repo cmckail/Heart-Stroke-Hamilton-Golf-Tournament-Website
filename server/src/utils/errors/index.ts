@@ -1,5 +1,9 @@
 import HttpException from "../defaults/default-exception";
 
+/**
+ * Custom HTTPException errors
+ */
+
 export class UnauthorizedError extends HttpException {
     constructor(message?: string) {
         super(401, message || "User is unauthorized.");

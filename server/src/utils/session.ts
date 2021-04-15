@@ -5,6 +5,11 @@ import { v4 as uuid } from "uuid";
 import { Request } from "express";
 import SessionUserData from "@local/shared/view-models/session";
 
+/**
+ * Adds an item to session
+ * @param req express request
+ * @param data session user data
+ */
 export default function addToSession(req: Request, data: IItemView) {
     // Finds type of data
     let key: keyof SessionUserData;
@@ -35,20 +40,15 @@ export default function addToSession(req: Request, data: IItemView) {
     Object.assign(req.session.data, { [key]: array });
 }
 
+/**
+ * Deletes an item from session
+ * @param req express request
+ * @param id session id
+ */
 export function deleteFromSession(req: Request, id: string) {
     // no session data found
     if (!req.session.data) return;
 
-    // let key: keyof SessionUserData;
-    // if (isRegistration(data)) {
-    //     key = "registration";
-    // } else if (isDonation(data)) {
-    //     key = "donation";
-    // } else {
-    //     throw new Error();
-    // }
-
-    // try {
     Object.keys(req.session.data).forEach((item) => {
         let key = item as keyof SessionUserData;
         if (
@@ -60,19 +60,13 @@ export function deleteFromSession(req: Request, id: string) {
             );
         }
     });
-    // } catch {
-    //     return;
-    // }
-
-    // try {
-    //     // req.session.data[key] = (req.session.data[key] as any[]).filter(
-    //     //     (value) => value.id != data.id
-    //     // );
-    // } catch {
-    //     return;
-    // }
 }
 
+/**
+ * Checks if item is registration
+ * @param data session item
+ * @returns if item is registration
+ */
 const isRegistration = (data: IItemView): data is IRegistrationView => {
     return (
         (<IRegistrationView>data).players &&
@@ -80,6 +74,11 @@ const isRegistration = (data: IItemView): data is IRegistrationView => {
     );
 };
 
+/**
+ * Checks if item is donation
+ * @param data session item
+ * @returns if item is donation
+ */
 const isDonation = (data: IItemView): data is IDonationView => {
     return !!(<IDonationView>data).donor;
 };

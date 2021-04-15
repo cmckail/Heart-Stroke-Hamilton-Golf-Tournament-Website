@@ -1,3 +1,7 @@
+/*
+  Item List contains all of the items added to cart and is used to display them
+*/
+
 import IItemView from "@local/shared/view-models/item";
 import { IconButton, ListItemText, Typography } from "@material-ui/core";
 import List from "@material-ui/core/List";
@@ -64,15 +68,18 @@ export default function ItemList({
     return total;
   };
 
+  /* Used to delete an item from the list */
   const deleteItem = async (id: string) => {
     let res = await axios.delete("/cart/" + id);
     if (res.status < 400) reloadCart!(true);
   };
 
+  /* Used to convert amount to a string value*/
   const amountToString = (amount: number) => {
     return "$" + (amount / 100).toFixed(2);
   };
 
+    /* The JSX for the list, which is primarily just mapped from the data and registration */
   return (
     <List disablePadding>
       {data?.donation?.map((item, index) => {
@@ -119,6 +126,7 @@ export default function ItemList({
         );
       })}
 
+{  /* The total amount displayed at the end */ }
       <ListItem className={classes.listItem}>
         <ListItemText primary="Total" />
         <Typography variant="subtitle1" className={classes.total}>

@@ -19,6 +19,11 @@ import UserRepository from "../repos/user-repo";
 const tokenRepo = new RefreshTokenRepository();
 const userRepo = new UserRepository();
 
+/**
+ * Generates new JWT tokens
+ * @param email user email
+ * @returns JWT tokens
+ */
 export const generateNewTokens = (email: string) => {
     let payload = { user: email };
     let accessToken = jwt.sign(payload, accessSecret, {
@@ -30,6 +35,12 @@ export const generateNewTokens = (email: string) => {
     return { accessToken, refreshToken };
 };
 
+/**
+ * Verifies user from JWT
+ * @param req express request
+ * @param res express response
+ * @param next express next function
+ */
 const verifyUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const currentAccessToken = req.cookies[accessName];

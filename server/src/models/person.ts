@@ -24,8 +24,11 @@ export default class Person extends DefaultModel {
     @Column({ nullable: true })
     email?: string;
 
+    @Column({ nullable: true })
+    phone?: string;
+
     @OneToMany(
-        (type) => RegistrationPlayer,
+        () => RegistrationPlayer,
         (registrationPlayer) => registrationPlayer.person
     )
     registrations?: RegistrationPlayer[];

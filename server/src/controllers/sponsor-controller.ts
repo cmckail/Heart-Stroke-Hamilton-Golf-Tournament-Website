@@ -5,11 +5,22 @@ import ImageRepository from "../repos/image-repo";
 import SponsorRepository from "../repos/sponsor-repo";
 import ISponsorView from "@local/shared/view-models/sponsor";
 import ImageController from "./image-controller";
+import addToSession from "../utils/session";
+import IImageView from "@local/shared/view-models/image";
 
 const repo = new SponsorRepository();
 const imageRepo = new ImageRepository();
 
+/**
+ * Sponsor controller
+ */
 export default class SponsorController {
+    /**
+     * Retrieves all sponsors or optionally by ID
+     * @param req express request
+     * @param res express response
+     * @param next express next function
+     */
     public static async getAllOrByID(
         req: Request,
         res: Response,
@@ -35,23 +46,45 @@ export default class SponsorController {
         }
     }
 
-    public static async search(
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ) {
-        try {
-            const result = await repo.find({ where: req.query });
-            const output = result.map((item) =>
-                SponsorController.convertSponsorToView(item)
-            );
-            res.json(output);
-        } catch (e) {
-            console.error(e);
-            next(e);
-        }
-    }
+    /**
+     * Searches for specific sponsor
+     * @param req express request
+     * @param res express response
+     * @param next express next function
+     */
+    // public static async search(
+    //     req: Request,
+    //     res: Response,
+    //     next: NextFunction
+    // ) {
+    //     try {
+    //         const result = await repo.find({ where: req.query });
+    //         const output = result.map((item) => {
+    //             let data: ISponsorView = {
+    //                 name: item.name,
+    //                 description: item.description,
+    //                 url: item.url,
+    //             };
 
+    //             if (item.logo) {
+    //                 data.logoURL = ImageController.getURL(item.logo.id);
+    //             }
+
+    //             return data;
+    //         });
+    //         res.json(output);
+    //     } catch (e) {
+    //         console.error(e);
+    //         next(e);
+    //     }
+    // }
+
+    /**
+     * Registers a specific sponsor
+     * @param req express request
+     * @param res express response
+     * @param next express next function
+     */
     public static async register(
         req: Request,
         res: Response,
@@ -59,33 +92,35 @@ export default class SponsorController {
     ) {
         try {
             let logo = req.file;
-            let body = { ...req.body } as Sponsor;
+            let sponsor = req.body as ISponsorView;
 
             if (logo) {
-                let image = new Image(logo.buffer, logo.mimetype);
+                let imageView: IImageView = {
+                    data: logo.buffer,
+                    mimetype: logo.mimetype,
+                };
 
                 if (logo.originalname && logo.originalname !== "") {
-                    image.filename = logo.originalname;
+                    imageView.filename = logo.originalname;
                 }
 
-                const logoResult = (await imageRepo.addToDB(image)) as Image;
-                body.logo = logoResult;
+                sponsor.logoData = imageView;
             }
 
-            const result = body;
-
-            // req.session.sponsor = result;
-
-            // const result = await repo.addToDB(body);
-            const output = SponsorController.convertSponsorToView(result);
-
-            res.json(output);
+            addToSession(req, sponsor);
+            res.sendStatus(200).send("Item added to session.");
         } catch (e) {
             console.error(e);
             next(e);
         }
     }
 
+    /**
+     * Updates a specific sponsor
+     * @param req express request
+     * @param res express response
+     * @param next express next function
+     */
     public static async update(
         req: Request,
         res: Response,
@@ -131,6 +166,12 @@ export default class SponsorController {
         }
     }
 
+    /**
+     * Deletes a specific sponsor
+     * @param req express request
+     * @param res express response
+     * @param next express next function
+     */
     public static async delete(
         req: Request,
         res: Response,
@@ -157,10 +198,16 @@ export default class SponsorController {
      * @param sponsor sponsor item to convert
      */
     private static convertSponsorToView(sponsor: Sponsor) {
-        let result: ISponsorView = { ...sponsor, logo: undefined };
+        let data: ISponsorView = {
+            name: sponsor.name,
+            description: sponsor.description,
+            url: sponsor.url,
+        };
+
         if (sponsor.logo) {
-            result.logo = ImageController.getURL(sponsor.logo.publicId!);
+            data.logoURL = ImageController.getURL(sponsor.logo.id);
         }
-        return result;
+
+        return data;
     }
 }

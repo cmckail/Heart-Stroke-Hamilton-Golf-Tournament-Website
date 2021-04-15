@@ -1,6 +1,5 @@
-export interface IImageViewModel {
-    id: string;
-    publicId: string;
-    filename: string;
+export default interface IImageView {
+    data: Buffer;
     mimetype: string;
+    filename?: string;
 }

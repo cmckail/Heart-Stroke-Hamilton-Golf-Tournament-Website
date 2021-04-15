@@ -3,6 +3,10 @@ import { MailOptions } from "nodemailer/lib/sendmail-transport";
 import { InvalidArgumentError } from "../utils/errors";
 import transport from "../utils/mailer";
 
+/**
+ * Mail Controller
+ * WORK IN PROGRESS
+ */
 export default class MailController {
     public static async send(req: Request, res: Response, next: NextFunction) {
         try {

@@ -7,7 +7,16 @@ import HttpException from "../utils/defaults/default-exception";
 
 const repo = new ImageRepository();
 
+/**
+ * Image controller
+ */
 export default class ImageController {
+    /**
+     * Retrieves all images in DB
+     * @param req express request
+     * @param res express response
+     * @param next express next function
+     */
     public static async publicGetAll(
         req: Request,
         res: Response,
@@ -16,10 +25,7 @@ export default class ImageController {
         try {
             let result = await repo.find({});
 
-            let resp = result.map((item) =>
-                ImageController.getURL(item.publicId!)
-            );
-
+            let resp = result.map((item) => ImageController.getURL(item.id));
             res.json(resp);
         } catch (e) {
             console.error(e);
@@ -27,6 +33,12 @@ export default class ImageController {
         }
     }
 
+    /**
+     * Returns image in browser-readable form
+     * @param req express request
+     * @param res express response
+     * @param next express next function
+     */
     public static async getImageContent(
         req: Request,
         res: Response,
@@ -36,7 +48,7 @@ export default class ImageController {
             if (!req.params.id || req.params.id === "")
                 throw new Error("Missing ID.");
 
-            const image = await repo.findByPublicID(req.params.id);
+            const image = await repo.findByID(req.params.id);
 
             if (typeof image === "undefined")
                 throw new HttpException(
@@ -52,31 +64,12 @@ export default class ImageController {
         }
     }
 
-    public static async search(
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ) {
-        try {
-            let result = await repo.find({ where: req.query });
-
-            let resp: IImageViewModel[] = result.map((item) => {
-                return {
-                    id: item.id!,
-                    publicId: item.publicId!,
-                    filename: item.filename!,
-                    mimetype: item.mimetype,
-                    createdAt: item.createdAt,
-                };
-            });
-
-            res.json(resp);
-        } catch (e) {
-            console.error(e);
-            next(e);
-        }
-    }
-
+    /**
+     * uploads photo to DB
+     * @param req express request
+     * @param res express response
+     * @param next express next function
+     */
     public static async upload(
         req: Request,
         res: Response,
@@ -108,11 +101,17 @@ export default class ImageController {
 
             res.json(resp);
         } catch (e) {
-            console.error(e);
+            // console.error(e);
             next(e);
         }
     }
 
+    /**
+     * Deletes photo from DB
+     * @param req express request
+     * @param res express response
+     * @param next express next function
+     */
     public static async delete(
         req: Request,
         res: Response,
@@ -128,7 +127,7 @@ export default class ImageController {
         }
     }
 
-    public static getURL(publicID: string) {
-        return `/images/${publicID}`;
+    public static getURL(id: string) {
+        return `/images/${id}`;
     }
 }

@@ -1,3 +1,7 @@
+/*
+    A large arrays of photos taken from the public folder/pictures
+*/
+
 export const photos = [
   {
     src:

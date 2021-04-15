@@ -11,30 +11,38 @@ import {
     OneToOne,
     PrimaryGeneratedColumn,
 } from "typeorm";
+import DefaultModel from "../utils/defaults/default-model";
 import Image from "./image";
 
-// enum SponsorTypes {
-//     GOLD = "gold",
-// }
-
 @Entity("sponsors")
-export default class Sponsor {
-    @PrimaryGeneratedColumn("uuid")
-    id: string = "";
+export default class Sponsor extends DefaultModel {
+    constructor(
+        name?: string,
+        description?: string,
+        url?: string,
+        logo?: Image
+    ) {
+        super();
+        this.name = name;
+        this.description = description;
+        this.url = url;
+        this.logo = logo;
+    }
 
     @Column()
-    name!: string;
+    name: string;
 
-    @OneToOne((type) => Image, { nullable: true })
-    @JoinColumn()
+    @Column({ nullable: true })
+    description?: string;
+
+    @Column({ nullable: true })
+    url?: string;
+
+    @OneToOne(() => Image, {
+        cascade: true,
+        eager: true,
+        nullable: true,
+    })
+    @JoinColumn({ name: "logo_id" })
     logo?: Image;
-
-    // @Column({
-    //     type: "simple-enum",
-    //     enum: SponsorTypes,
-    // })
-    // type?: SponsorTypes;
-
-    @CreateDateColumn()
-    createdAt?: Date;
 }

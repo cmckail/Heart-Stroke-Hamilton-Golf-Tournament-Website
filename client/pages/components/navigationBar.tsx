@@ -1,3 +1,8 @@
+/*
+  Author: David Melnyk, Connor Mckail
+  This navigation bar is used on most pages in the site, it is imported as a component at the top of the screen.
+*/
+
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -9,9 +14,6 @@ import Badge from "@material-ui/core/Badge";
 import { useEffect, useState } from "react";
 import axios from "../../utils/axios";
 
-/*
-  This navigation bar is used on most pages in the site, it is imported as a component at the top of the screen.
-*/
 
 // JSS used in some of the styles for the framework Material-Ui
 const useStyles = makeStyles((theme) => ({
