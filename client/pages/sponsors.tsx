@@ -50,7 +50,11 @@ export default function Home() {
     axios
       .get("/sponsors")
       .then((res) => {
-        setSponsors(res.data);
+        setSponsors(
+          (res.data as ISponsorView[]).sort((x, y) =>
+            x.name.localeCompare(y.name)
+          )
+        );
       })
       .catch((err) => console.error(err));
 
