@@ -1,3 +1,8 @@
+/**
+ * Router to handle the intial connection from user
+ * if error occurrs it will be handled gracefully by an exception handler
+ * and a message will be shown
+ */
 import { Router, Request, Response, NextFunction } from "express";
 
 import apiControllers from "./api";

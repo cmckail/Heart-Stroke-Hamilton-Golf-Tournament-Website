@@ -1,3 +1,6 @@
+/**
+ * Methods for the Sponor page, contains addind, deleting, updating, and finding methods
+ */
 import { FindManyOptions } from "typeorm";
 import Sponsor from "../models/sponsor";
 import DefaultRepository from "../utils/defaults/default-repo";

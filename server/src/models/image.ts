@@ -1,3 +1,9 @@
+/**
+ * Image Model 
+ * Contains image properties such as file name, file type
+ * Used for images on the Photos page
+ */
+
 import {
     Column,
     CreateDateColumn,

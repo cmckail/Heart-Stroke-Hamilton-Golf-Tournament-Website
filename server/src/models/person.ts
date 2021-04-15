@@ -1,3 +1,8 @@
+/**
+ * Person Model contains properties properties about a person sch as first name and last name
+ * used for regestration of golf tournament
+ */
+
 import { Column, Entity, OneToMany } from "typeorm";
 import DefaultModel from "../utils/defaults/default-model";
 import { RegistrationPlayer } from "./registration";

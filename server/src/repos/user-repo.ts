@@ -1,3 +1,6 @@
+/**
+ * Methods for adding a user and their email to the DB
+ */
 import bcrypt from "bcrypt";
 
 import DefaultRepository from "../utils/defaults/default-repo";

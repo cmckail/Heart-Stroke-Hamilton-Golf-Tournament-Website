@@ -1,3 +1,6 @@
+/**
+ *Method to add registered users to the database
+ */
 import DefaultRepository from "../utils/defaults/default-repo";
 import Registration from "../models/registration";
 

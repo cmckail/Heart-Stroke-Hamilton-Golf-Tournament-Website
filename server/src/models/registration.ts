@@ -1,3 +1,8 @@
+/**
+ * Registration Model used for registering multiple players for the golf tournament
+ * and selection of meal type at registration
+ */
+
 import { IPlayerView } from "@local/shared/view-models/registration";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import DefaultModel from "../utils/defaults/default-model";

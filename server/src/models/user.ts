@@ -1,3 +1,6 @@
+/**
+ * User model for saving information about the user such as Name/Email Adress
+ */
 import {
     Column,
     CreateDateColumn,
