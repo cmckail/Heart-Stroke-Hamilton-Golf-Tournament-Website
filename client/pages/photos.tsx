@@ -1,6 +1,12 @@
 /*
     Author: Connor Mckail
     This page serves as the photos page for the website.
+
+    Page Currently uses a json array of photolinks to display in a gallery.
+    Using When an image is clicked, a modal is opened and the carousel starting point becomes
+    the picture clicked on. 
+    Main functionality from npm packahes: react-photo-gallery and react-images
+    TODO: link to database of photos
 */
 
 import Head from "next/head";

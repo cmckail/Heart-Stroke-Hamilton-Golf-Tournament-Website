@@ -1,5 +1,8 @@
-  /* 
+/* 
+    Author: Connor Mckail
      A checkout form, required by stripe.
+
+     Contains Basic form and Stripe card element to allow payment processing
   */
 
 import React, { useState, useEffect, FormEvent } from "react";
