@@ -1,3 +1,6 @@
+/**
+ * Index Router for all incoming requests to route users to each page and present views 
+ */
 import donationRouter from "./donation-route";
 import imageRouter from "./image-route";
 import mailRouter from "./mail-route";

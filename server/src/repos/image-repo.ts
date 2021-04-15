@@ -1,3 +1,6 @@
+/**
+ * This file includes methods to interact with images such as adding, finding, and deleting
+ */
 import DefaultRepository from "../utils/defaults/default-repo";
 import Image from "../models/image";
 import { FindManyOptions } from "typeorm";

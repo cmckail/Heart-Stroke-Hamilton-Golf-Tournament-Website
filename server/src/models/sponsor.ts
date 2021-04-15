@@ -1,3 +1,8 @@
+/**
+ * Sponsor Model used for the Sponsors page
+ * contains properties such as LOGO, URL, DESCRIPTION
+ */
+
 import {
     Column,
     CreateDateColumn,

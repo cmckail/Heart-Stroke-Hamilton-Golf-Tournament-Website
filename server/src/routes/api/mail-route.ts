@@ -1,3 +1,6 @@
+/**
+ * Mail router to send emails
+ */
 import { Router } from "express";
 import MailController from "../../controllers/mail-controller";
 

@@ -1,3 +1,6 @@
+/**
+ * Payment router to create or update current user session with payment intents
+ */
 import { Router } from "express";
 
 import PaymentController from "../../controllers/payment-controller";

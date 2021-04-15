@@ -1,3 +1,7 @@
+/**
+ * Session model used to grab session ID of users to save data carried over through pages
+ */
+
 import { ISession } from "connect-typeorm";
 import { Column, Entity, Index, PrimaryColumn } from "typeorm";
 
