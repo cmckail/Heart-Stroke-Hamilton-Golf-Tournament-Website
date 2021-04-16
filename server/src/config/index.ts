@@ -21,6 +21,10 @@ const Config = {
      */
     mailerObj: transportObj,
     /**
+     * Session secret
+     */
+    sessionSecret: process.env.SESSION_SECRET!,
+    /**
      * Stripe secret key
      */
     stripeSecret: process.env.STRIPE_SECRET_KEY!,
@@ -77,6 +81,7 @@ export const {
     baseURL,
     logger,
     stripe,
+    sessionSecret,
 } = Config;
 
 export default Config;

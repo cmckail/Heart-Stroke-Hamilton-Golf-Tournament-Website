@@ -1,9 +1,8 @@
 /**
- * Index Router for all incoming requests to route users to each page and present views 
+ * Index Router for all incoming requests to route users to each page and present views
  */
 import donationRouter from "./donation-route";
 import imageRouter from "./image-route";
-import mailRouter from "./mail-route";
 import paymentRouter from "./payment-route";
 import photoRouter from "./photo-route";
 import registrationRouter from "./registration-route";
@@ -24,10 +23,6 @@ export default [
     {
         route: "/users",
         router: userRouter,
-    },
-    {
-        route: "/mail",
-        router: mailRouter,
     },
     {
         route: "/sponsors",

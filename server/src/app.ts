@@ -9,7 +9,7 @@ import express from "express";
 import expressSession from "express-session";
 import { createConnection } from "typeorm";
 
-import { env, port, connectionObj, logger } from "./config";
+import { env, port, connectionObj, logger, sessionSecret } from "./config";
 import { TypeormStore } from "connect-typeorm/out";
 import Session from "./models/session";
 
@@ -46,7 +46,7 @@ export default class Application {
         // Setup session
         this.app.use(
             expressSession({
-                secret: "asdf",
+                secret: sessionSecret,
                 resave: false,
                 saveUninitialized: false,
                 store: new TypeormStore({

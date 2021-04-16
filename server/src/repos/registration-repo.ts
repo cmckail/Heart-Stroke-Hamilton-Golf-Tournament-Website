@@ -3,6 +3,7 @@
  */
 import DefaultRepository from "../utils/defaults/default-repo";
 import Registration from "../models/registration";
+import { FindOneOptions } from "typeorm";
 
 export default class RegistrationRepository extends DefaultRepository<Registration> {
     constructor() {
@@ -11,5 +12,9 @@ export default class RegistrationRepository extends DefaultRepository<Registrati
 
     public async addToDB(item: Registration) {
         return await super.addToDB(item);
+    }
+
+    public async findByID(id: string, options?: FindOneOptions<Registration>) {
+        return await super.findByID(id, options);
     }
 }

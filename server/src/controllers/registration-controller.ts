@@ -38,12 +38,18 @@ export default class RegistrationController {
      * @param registration Registration session user data
      */
     public static async addToDB(registration: IRegistrationView[]) {
-        registration.forEach(async (item) => {
-            let regis = new Registration({
-                teeRange: item.teeRange,
-                players: item.players,
-            });
-            await repo.addToDB(regis);
-        });
+        // let items: Registration[] = [];
+        let items = Promise.all(
+            registration.map(async (item) => {
+                let regis = new Registration({
+                    teeRange: item.teeRange,
+                    players: item.players,
+                });
+                let res = (await repo.addToDB(regis)) as Registration;
+                return res;
+                // items.push(res);
+            })
+        );
+        return items;
     }
 }

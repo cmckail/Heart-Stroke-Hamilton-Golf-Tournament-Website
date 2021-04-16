@@ -4,6 +4,7 @@ import SessionUserData from "@local/shared/view-models/session";
 
 import { stripe } from "../config";
 import RegistrationController from "./registration-controller";
+import MailController from "./mail-controller";
 
 /**
  * Payment controller
@@ -95,8 +96,19 @@ export default class PaymentController {
 
                 if (paymentIntent.status === "succeeded") {
                     if (req.session.data?.registration) {
-                        await RegistrationController.addToDB(
+                        const customer = (typeof paymentIntent.customer ===
+                        "string"
+                            ? await stripe.customers.retrieve(
+                                  paymentIntent.customer
+                              )
+                            : paymentIntent.customer) as Stripe.Customer;
+
+                        let registrations = await RegistrationController.addToDB(
                             req.session.data.registration
+                        );
+                        MailController.sendRegistrationInfo(
+                            registrations,
+                            customer
                         );
                     }
                     req.session.destroy((err) => {

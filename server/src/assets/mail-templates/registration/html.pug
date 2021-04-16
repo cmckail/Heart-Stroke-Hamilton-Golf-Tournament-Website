@@ -1,0 +1,36 @@
+doctype html 
+html(lang='en')
+  head
+    title Registration Info 
+    link(rel="stylesheet", href="./registration.css", data-inline)
+  body
+    p New registration received. Info below:
+    dl
+      div.top
+        div
+          dt Customer name
+          dd #{name}
+        div
+          dt Customer email
+          dd #{email}
+    each registration, index in registrations
+      span.header= `Registration ${index + 1} Info`
+      dl
+        div.top
+            div
+              dt Players
+              dd= registration.players.length 
+            div
+              dt Tee time
+              dd= registration.teeRange
+      dl
+      each player, index in registration.players
+        div
+        span.list-header= `Player ${index + 1}`
+        dl
+          div
+            dt Name
+            dd= `${player.person.firstName} ${player.person.lastName}`
+          div
+            dt Meal Choice
+            dd= player.mealChoice

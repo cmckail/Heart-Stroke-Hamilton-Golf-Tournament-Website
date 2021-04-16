@@ -1,4 +1,5 @@
 import SMTPTransport from "nodemailer/lib/smtp-transport";
+import nodemailer from "nodemailer";
 
 /**
  * Mail options object
@@ -19,4 +20,4 @@ if (process.env.NODE_ENV !== "production") {
     transportObj = {};
 }
 
-export default transportObj;
+export default nodemailer.createTransport(transportObj);
