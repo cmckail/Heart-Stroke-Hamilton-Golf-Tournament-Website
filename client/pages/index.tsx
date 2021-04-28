@@ -138,7 +138,7 @@ export default function Home() {
             </p>
           </a>
           </Link>
-          <Link href="/sponsors">
+          {/* <Link href="/sponsors">
           <a
             href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
             className={styles.card}
@@ -156,7 +156,7 @@ export default function Home() {
               Sponsor Page!
             </p>
           </a>
-          </Link>
+          </Link> */}
         </div>
       </div>
     </div>

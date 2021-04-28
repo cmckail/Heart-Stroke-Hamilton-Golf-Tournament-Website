@@ -90,20 +90,20 @@ export default function NavigationBar({
           <Link href="/donate">
             <a className={classes.title}>Donate</a>
           </Link>
-          <Link href="/sponsors">
+          {/* <Link href="/sponsors">
             <a className={classes.title}>Sponsors</a>
-          </Link>
-          <Link href="/photos">
+          </Link> */}
+          {/* <Link href="/photos">
             <a className={classes.title}>Photos</a>
-          </Link>
+          </Link> */}
           <Link href="https://app.autographauthentic.com/bid-now">
             <a className={classes.title} target="_blank" rel="noreferrer">
               Auction
             </a>
           </Link>
-          <Link href="/store">
+          {/* <Link href="/store">
             <a className={classes.title}>Store</a>
-          </Link>
+          </Link> */}
           <Link href="/about">
             <a className={classes.title}>About</a>
           </Link>
