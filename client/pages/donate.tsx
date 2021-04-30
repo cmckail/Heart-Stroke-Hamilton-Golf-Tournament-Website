@@ -11,7 +11,7 @@ import NavigationBar from "./components/navigationBar";
 import FormControl from "@material-ui/core/FormControl";
 import Button from "@material-ui/core/Button";
 import { loadStripe } from "@stripe/stripe-js";
-
+import { CardMedia } from '@material-ui/core';
 import axios from "../utils/axios";
 import IDonationView from "@local/shared/view-models/donation";
 import { TextField } from "@material-ui/core";
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
   },
   margin: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(5),
   },
   withoutLabel: {
     marginTop: theme.spacing(3),
@@ -71,7 +71,10 @@ export default function Home() {
 
   /* Handles the final payment at the end */
   const handleClick = (e: React.MouseEvent) => {
-    if (!lastNameError && !firstNameError && !emailError && !amountError) {
+    var letters = /^[A-Za-z]+$/;
+    var emailReg = "[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+"
+    if(firstName.match(letters) && lastName.match(letters) && email.match(emailReg) ){
+     if (!lastNameError && !firstNameError && !emailError && !amountError) {
       let body: IDonationView = {
         amount,
         donor: {
@@ -90,6 +93,8 @@ export default function Home() {
           console.error(err);
         });
     }
+    }
+  
   };
 
   // const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -126,7 +131,9 @@ export default function Home() {
           <title>DEVELOPMENT - Dan Segin Golf Tournament Website</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
+        
         <main className={styles.main}>
+          <img src="https://g.foolcdn.com/editorial/images/420156/donate-jar.jpg" alt="donation Jar" height="400"/>
           <h2> Donation </h2>
           <p>
             {" "}

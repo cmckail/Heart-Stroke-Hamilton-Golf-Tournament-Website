@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
     },
     formControl: {
-      margin: theme.spacing(1),
+      margin: theme.spacing(4),
       minWidth: 120,
     },
     selectEmpty: {
@@ -248,8 +248,10 @@ export default function Home() {
           <p>** ${pricePerPerson} Per Player </p>
           <h3> OTHER OTHER INFORMATION ABOUT THE TOURNAMENT HERE</h3>
           { /* Beginning of the form */}
+          <div>
           <FormControl className={classes.formControl}>
             <InputLabel id="tee-time-selector-label">Tee Times</InputLabel>
+           
             <Select
               className={classes.root}
               id="tee-time-selector"
@@ -290,7 +292,9 @@ export default function Home() {
               <MenuItem value={3}>Three</MenuItem>
               <MenuItem value={4}>Four</MenuItem>
             </Select>
+            
           </FormControl>
+          </div>
           { /* This array is used to populate the player JSX forms */}
           {[...Array(state.numPlayers)].map((item, index) => {
             return (
@@ -299,10 +303,12 @@ export default function Home() {
                 <hr></hr>
                 <form className={classes.root} noValidate autoComplete="off">
                   <TextField
+                   margin = "normal"
                     required
                     className="standard-required"
                     placeholder="First Name"
                     label="First Name"
+                    
                     error={!state.validated[index].firstName}
                     helperText={
                       !state.validated[index].firstName &&
@@ -319,6 +325,8 @@ export default function Home() {
                   />
                   <TextField
                     required
+                    
+                    margin = "normal"
                     className="standard-required"
                     label="Last Name"
                     // placeholder="Last Name"
@@ -339,6 +347,7 @@ export default function Home() {
                   <TextField
                     className={classes.root}
                     select
+                    margin = "normal"
                     required
                     SelectProps={{
                       value: state.playerInfo[index].mealChoice,
