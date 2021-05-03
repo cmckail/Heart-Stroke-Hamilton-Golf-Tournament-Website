@@ -17,9 +17,8 @@ export default class WebhookController {
     ) {
         try {
             const event: Stripe.Event = req.body;
-
             switch (event.type) {
-                case "payment_intent.succeeded":
+                case "checkout.session.completed":
                     WebhookController.onPaymentSucceeded(
                         event.data.object as Stripe.WebhookEndpoint
                     );

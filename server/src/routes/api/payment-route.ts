@@ -7,10 +7,12 @@ import PaymentController from "../../controllers/payment-controller";
 
 const paymentRouter = Router();
 
-paymentRouter.post("/", PaymentController.createOrUpdatePaymentIntent);
+paymentRouter.post("/", PaymentController.createCheckoutSession);
 
-paymentRouter.post("/customer", PaymentController.addCustomerToPaymentIntent);
+// paymentRouter.post("/", PaymentController.createOrUpdatePaymentIntent);
 
-paymentRouter.put("/success", PaymentController.paymentSuccessful);
+// paymentRouter.post("/customer", PaymentController.addCustomerToPaymentIntent);
+
+// paymentRouter.put("/success", PaymentController.paymentSuccessful);
 
 export default paymentRouter;
