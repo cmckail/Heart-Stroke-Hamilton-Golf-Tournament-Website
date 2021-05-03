@@ -1,9 +1,10 @@
 html,
 body {
   padding: 0;
-  margin: 0;
+  margin: 0 auto;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  max-width: 1500px;
 }
 
 a {
@@ -15,17 +16,9 @@ a {
   box-sizing: border-box;
 }
 
-/* --- This CSS is used in the landing page. --- */
-.jumbotron {
-  background-image: url('../public/backgrounds/landing_page_background.png');
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  height: 500px;
-}
-
 /* --- This CSS is used in the about page. --- */
 .aboutPageHeader {
-  background-image: url('../public/aboutPageSplash.png');
+  background-image: url("../public/aboutPageSplash.png");
   background-size: 100% 100%;
   background-repeat: no-repeat;
   height: 600px;
@@ -66,16 +59,16 @@ a {
 
 /* --- This CSS is used in the navigation bar component. --- */
 .NavigationBar {
-  background-color: #0A0200;
+  background-color: #0a0200;
 }
 
 /* --- This CSS is used in multiple pages --- */
 hr {
   border: 0;
-  clear:both;
-  display:block;
-  width: 96%;               
-  background-color:red;
+  clear: both;
+  display: block;
+  width: 96%;
+  background-color: red;
   height: 2px;
 }
 

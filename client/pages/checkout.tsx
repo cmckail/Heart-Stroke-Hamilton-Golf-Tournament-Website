@@ -8,10 +8,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { makeStyles } from "@material-ui/core/styles";
 import NavigationBar from "./components/navigationBar";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./components/checkoutForm";
@@ -19,47 +16,12 @@ import Typography from "@material-ui/core/Typography";
 import axios from "../utils/axios";
 import ItemList from "./components/itemList";
 import IItemView from "@local/shared/view-models/item";
-import ICartView from "../utils/interfaces/cartview";
-import { TextField } from "@material-ui/core";
+import IPersonView from "@local/shared/view-models/person";
+import { Button, TextField } from "@material-ui/core";
+import useInputField from "../utils/useInputField";
+import SessionUserData from "@local/shared/view-models/session";
 
 // Dummy data to use to test the json rendering
-const checkoutData = {
-  registration: [
-    {
-      amount: 15000,
-      players: [
-        {
-          firstName: "testing",
-          lastName: "hello",
-          mealChoice: "chicken",
-        },
-      ],
-      teeRange: "10AM-2PM",
-    },
-    {
-      amount: 15000,
-      players: [
-        {
-          firstName: "testing",
-          lastName: "hello",
-          mealChoice: "chicken",
-        },
-      ],
-      teeRange: "10AM-2PM",
-      foodChoice: "beef",
-    },
-  ],
-  donation: [
-    {
-      amount: 150,
-      donor: {
-        firstName: "testing",
-        lastName: "testing 2",
-        email: "test@test.com",
-      },
-    },
-  ],
-};
 // A few constants and jss used on this page.
 const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 const useStyles = makeStyles((theme) => ({
@@ -90,32 +52,55 @@ const useStyles = makeStyles((theme) => ({
 // The constructor for checkout.
 export default function Home() {
   const [total, setTotal] = useState(0);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [data, setData] = useState<ICartView>();
-  const [firstNameError, setFirstNameError] = useState(false);
-  const [lastNameError, setLastNameError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
+  const [
+    firstName,
+    handleFirstName,
+    firstNameError,
+    handleFirstNameBlur,
+  ] = useInputField("", {
+    required: true,
+  });
+  const [
+    lastName,
+    handleLastName,
+    lastNameError,
+    handleLastNameBlur,
+  ] = useInputField("", {
+    required: true,
+  });
+  const [email, handleEmail, emailError, handleEmailBlur] = useInputField("", {
+    required: true,
+    validateEmail: true,
+  });
+  const [emailFocus, setEmailFocus] = useState(false);
+  const [data, setData] = useState<SessionUserData>();
   const classes = useStyles();
 
-  const handleEmail = (event: React.ChangeEvent<{ value: string }>) => {
-    setEmail(event.target.value);
-    setEmailError(!event.target.value.trim());
-  };
-  const handleFirstName = (event: React.ChangeEvent<{ value: string }>) => {
-    setFirstName(event.target.value);
-    setFirstNameError(!event.target.value.trim());
-  };
-  const handleLastName = (event: React.ChangeEvent<{ value: string }>) => {
-    setLastName(event.target.value);
-    setLastNameError(!event.target.value.trim());
+  const handleClick = async () => {
+    const stripe = await promise;
+
+    let data: IPersonView = {
+      firstName,
+      lastName,
+      email,
+    };
+
+    const response = await axios.post("/payment", data);
+    const sessionId = await response.data.id;
+
+    const result = await stripe?.redirectToCheckout({
+      sessionId,
+    });
+
+    if (result?.error) {
+      console.error(result.error.message);
+    }
   };
 
   const getTotal = () => {
     let total = 0;
     if (data) {
-      let keys = Object.keys(data) as Array<keyof ICartView>;
+      let keys = Object.keys(data) as Array<keyof SessionUserData>;
       keys.forEach((item) => {
         if (data[item]) {
           let x = data[item]!;
@@ -179,6 +164,7 @@ export default function Home() {
             <FormControl className={classes.margin} variant="outlined">
               <TextField
                 value={firstName}
+                onBlur={handleFirstNameBlur}
                 onChange={handleFirstName}
                 id="outlined-adornment-amount"
                 label="First Name"
@@ -190,6 +176,7 @@ export default function Home() {
             <FormControl className={classes.margin} variant="outlined">
               <TextField
                 value={lastName}
+                onBlur={handleLastNameBlur}
                 onChange={handleLastName}
                 id="outlined-adornment-amount"
                 label="Last Name"
@@ -201,11 +188,18 @@ export default function Home() {
             <FormControl className={classes.margin} variant="outlined">
               <TextField
                 value={email}
+                onBlur={(e) => {
+                  setEmailFocus(false);
+                  handleEmailBlur(e);
+                }}
+                onFocus={() => setEmailFocus(true)}
                 onChange={handleEmail}
                 id="outlined-adornment-amount"
                 label="Email"
-                error={emailError}
-                helperText={emailError && "Please enter email."}
+                error={emailError && !emailFocus}
+                helperText={
+                  emailError && !emailFocus && "Please enter a valid email."
+                }
                 required
               />
             </FormControl>
@@ -213,15 +207,30 @@ export default function Home() {
           </form>
           <br />
           {total > 0 && (
-            <div style={{ width: "100%" }}>
-              <Elements stripe={promise}>
-                <CheckoutForm
-                  name={(firstName + " " + lastName).trim()}
-                  email={email}
-                  amount={total}
-                />
-              </Elements>
-            </div>
+            <Button
+              onClick={handleClick}
+              variant="contained"
+              color="secondary"
+              disabled={
+                firstNameError ||
+                lastNameError ||
+                emailError ||
+                !firstName ||
+                !lastName ||
+                !email
+              }
+            >
+              Checkout
+            </Button>
+            // <div style={{ width: "100%" }}>
+            //   <Elements stripe={promise}>
+            //     <CheckoutForm
+            //       name={(firstName + " " + lastName).trim()}
+            //       email={email}
+            //       amount={total}
+            //     />
+            //   </Elements>
+            // </div>
           )}
         </main>
       </div>

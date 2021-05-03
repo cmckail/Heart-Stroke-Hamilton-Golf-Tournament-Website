@@ -1,182 +1,83 @@
+import IPersonView from "@local/shared/view-models/person";
+import SessionUserData from "@local/shared/view-models/session";
 import { Request, Response, NextFunction } from "express";
 import Stripe from "stripe";
-import SessionUserData from "@local/shared/view-models/session";
-
 import { stripe } from "../config";
-import RegistrationController from "./registration-controller";
-import MailController from "./mail-controller";
-
-/**
- * Payment controller
- */
 export default class PaymentController {
-    /**
-     * Creates a new payment intent or updates an existing payment intent.
-     * @param req express request
-     * @param res express response
-     * @param next express next function
-     */
-    public static async createOrUpdatePaymentIntent(
+    public static async createCheckoutSession(
         req: Request,
         res: Response,
         next: NextFunction
     ) {
         try {
-            let amount = req.body.amount;
-            let paymentIntent: Stripe.PaymentIntent;
+            let products = (await stripe.products.list({ active: true })).data;
+            let prices = (await stripe.prices.list({ active: true })).data;
 
-            paymentIntent = req.session.paymentIntent
-                ? (await PaymentController.updatePaymentIntent(
-                      req.session.paymentIntent!,
-                      amount
-                  )) || (await PaymentController.createPaymentIntent(amount))
-                : await PaymentController.createPaymentIntent(amount);
-
-            await PaymentController.updateDescription(
-                paymentIntent.id,
-                req.session.data!
+            let registrationProd = products.find(
+                (x) => x.name.toLowerCase() === "registration"
+            );
+            let registrationPrice = prices.find(
+                (x) => x.product === registrationProd.id
             );
 
-            req.session.paymentIntent = paymentIntent.id;
-            res.json({ clientSecret: paymentIntent.client_secret });
-        } catch (e) {
-            next(e);
-        }
-    }
+            let donationProd = products.find(
+                (x) => x.name.toLowerCase() === "donation"
+            );
 
-    /**
-     * Adds a new or existing customer to payment intent
-     * @param req express request
-     * @param res express response
-     * @param next express next function
-     */
-    public static async addCustomerToPaymentIntent(
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ) {
-        try {
-            let email = req.body.email;
-            let name = req.body.name;
-            let id = req.session.paymentIntent;
+            let lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
-            if (!id) throw new Error("Missing PaymentIntentID");
+            if (req.session.data.donation) {
+                req.session.data.donation.forEach((item) => {
+                    let lineItem: Stripe.Checkout.SessionCreateParams.LineItem = {
+                        price_data: {
+                            currency: "cad",
+                            product: donationProd.id,
+                            unit_amount: item.amount,
+                        },
+                        quantity: 1,
+                    };
+                    lineItems.push(lineItem);
+                });
+            }
 
-            let params: Stripe.PaymentIntentUpdateParams = {};
-            if (email) params.receipt_email = email;
+            if (req.session.data.registration) {
+                req.session.data.registration.forEach((item) => {
+                    let lineItem: Stripe.Checkout.SessionCreateParams.LineItem = {
+                        price: registrationPrice.id,
+                        quantity: item.players.length,
+                        description: `${item.players.length} player${
+                            item.players.length > 1 ? "s" : ""
+                        }`,
+                    };
+                    lineItems.push(lineItem);
+                });
+            }
 
+            // Customer
+            let { firstName, lastName, email } = req.body as IPersonView;
+            let name = firstName + " " + lastName;
             let customer =
                 (await PaymentController.findCustomerByName(name, email)) ||
                 (await PaymentController.createCustomer(name, email));
 
-            params.customer = customer.id;
-            let paymentIntent = await stripe.paymentIntents.update(id, params);
-            res.json({ clientSecret: paymentIntent.client_secret });
+            const session = await stripe.checkout.sessions.create({
+                cancel_url: "http://localhost:3000/shoppingCart",
+                success_url: "http://localhost:3000/success",
+                payment_method_types: ["card"],
+                customer: customer.id,
+                mode: "payment",
+                line_items: lineItems,
+            });
+
+            await PaymentController.updateDescription(
+                session.payment_intent as string,
+                req.session.data
+            );
+
+            res.json({ id: session.id });
         } catch (e) {
             next(e);
         }
-    }
-
-    /**
-     * Handles logic when payment is successful
-     * @param req express request
-     * @param res express response
-     * @param next express next function
-     */
-    public static async paymentSuccessful(
-        req: Request,
-        res: Response,
-        next: NextFunction
-    ) {
-        try {
-            if (req.session.paymentIntent) {
-                let paymentIntent = await stripe.paymentIntents.retrieve(
-                    req.session.paymentIntent
-                );
-
-                if (paymentIntent.status === "succeeded") {
-                    if (req.session.data?.registration) {
-                        const customer = (typeof paymentIntent.customer ===
-                        "string"
-                            ? await stripe.customers.retrieve(
-                                  paymentIntent.customer
-                              )
-                            : paymentIntent.customer) as Stripe.Customer;
-
-                        let registrations = await RegistrationController.addToDB(
-                            req.session.data.registration
-                        );
-                        MailController.sendRegistrationInfo(
-                            registrations,
-                            customer
-                        );
-                    }
-                    req.session.destroy((err) => {
-                        next(err);
-                    });
-                } else {
-                    throw new Error("Payment not succeeded.");
-                }
-            }
-            res.sendStatus(200);
-        } catch (e) {
-            next(e);
-        }
-    }
-
-    /**
-     * Creates a new payment intent object
-     * @param amount total payment amount
-     * @returns payment intent object
-     */
-    private static async createPaymentIntent(amount: number) {
-        let params: Stripe.PaymentIntentCreateParams = {
-            amount,
-            currency: "cad",
-        };
-
-        const paymentIntent = await stripe.paymentIntents.create(params);
-        return paymentIntent as Stripe.PaymentIntent;
-    }
-
-    /**
-     * Updates an existing payment intent object
-     * @param id id of payment intent
-     * @param amount total payment amount
-     * @param params optional payment intent params
-     * @returns payment intent object
-     */
-    private static async updatePaymentIntent(
-        id: string,
-        amount: number,
-        params?: Stripe.PaymentIntentUpdateParams
-    ) {
-        let param: Stripe.PaymentIntentUpdateParams = { amount, ...params };
-        let paymentIntent: Stripe.PaymentIntent | undefined;
-
-        if (
-            (await stripe.paymentIntents.retrieve(id)).status ===
-            "requires_payment_method"
-        ) {
-            paymentIntent = await stripe.paymentIntents.update(id, param);
-        }
-        return paymentIntent;
-    }
-
-    /**
-     * Updates the description of payment intent
-     * @param id id of payment intent
-     * @param data session user data
-     */
-    private static async updateDescription(id: string, data: SessionUserData) {
-        let desc: string[] = [];
-        if (data.registration) desc.push("Tournament registration");
-        if (data.donation) desc.push("Donation");
-        if (data.sponsor) desc.push("Sponsorship");
-
-        await stripe.paymentIntents.update(id, {
-            description: desc.join(", "),
-        });
     }
 
     /**
@@ -211,5 +112,21 @@ export default class PaymentController {
         }
 
         return customer;
+    }
+
+    /**
+     * Updates the description of payment intent
+     * @param id id of payment intent
+     * @param data session user data
+     */
+    private static async updateDescription(id: string, data: SessionUserData) {
+        let desc: string[] = [];
+        if (data.registration) desc.push("Tournament registration");
+        if (data.donation) desc.push("Donation");
+        if (data.sponsor) desc.push("Sponsorship");
+
+        await stripe.paymentIntents.update(id, {
+            description: desc.join(", "),
+        });
     }
 }
