@@ -11,7 +11,7 @@ import NavigationBar from "./components/navigationBar";
 import FormControl from "@material-ui/core/FormControl";
 import Button from "@material-ui/core/Button";
 import { loadStripe } from "@stripe/stripe-js";
-import { CardMedia } from '@material-ui/core';
+import { CardMedia, InputAdornment } from "@material-ui/core";
 import axios from "../utils/axios";
 import IDonationView from "@local/shared/view-models/donation";
 import { TextField } from "@material-ui/core";
@@ -53,17 +53,17 @@ export default function Home() {
     setEmail(event.target.value);
     setEmailError(!event.target.value.trim());
   };
-    /* Handles the amount changed event */
+  /* Handles the amount changed event */
   const handleAmountInput = (event: React.ChangeEvent<{ value: string }>) => {
     setAmountInput(event.target.value);
   };
-    /* Handles the first name changed event */
+  /* Handles the first name changed event */
   const handleFirstName = (event: React.ChangeEvent<{ value: string }>) => {
     console.log(event.target.value);
     setFirstName(event.target.value);
     setFirstNameError(!event.target.value.trim());
   };
-    /* Handles the last name changed event */
+  /* Handles the last name changed event */
   const handleLastName = (event: React.ChangeEvent<{ value: string }>) => {
     setLastname(event.target.value);
     setLastNameError(!event.target.value.trim());
@@ -72,29 +72,32 @@ export default function Home() {
   /* Handles the final payment at the end */
   const handleClick = (e: React.MouseEvent) => {
     var letters = /^[A-Za-z]+$/;
-    var emailReg = "[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+"
-    if(firstName.match(letters) && lastName.match(letters) && email.match(emailReg) ){
-     if (!lastNameError && !firstNameError && !emailError && !amountError) {
-      let body: IDonationView = {
-        amount,
-        donor: {
-          firstName,
-          lastName,
-          email,
-        },
-      };
+    var emailReg = "[^@ \t\r\n]+@[^@ \t\r\n]+.[^@ \t\r\n]+";
+    if (
+      firstName.match(letters) &&
+      lastName.match(letters) &&
+      email.match(emailReg)
+    ) {
+      if (!lastNameError && !firstNameError && !emailError && !amountError) {
+        let body: IDonationView = {
+          amount,
+          donor: {
+            firstName,
+            lastName,
+            email,
+          },
+        };
 
-      axios
-        .post("/donations", body)
-        .then((res) => {
-          window.location.href = "/shoppingCart";
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+        axios
+          .post("/donations", body)
+          .then((res) => {
+            window.location.href = "/shoppingCart";
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
     }
-    }
-  
   };
 
   // const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -124,88 +127,54 @@ export default function Home() {
   useEffect(() => {}, []);
 
   return (
-    <div>
+    <>
       <NavigationBar />
-      <div className={styles.container}>
-        <Head>
-          <title>DEVELOPMENT - Dan Segin Golf Tournament Website</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        
-        <main className={styles.main}>
-          <img src="https://g.foolcdn.com/editorial/images/420156/donate-jar.jpg" alt="donation Jar" height="400"/>
-          <h2> Donation </h2>
-          <p>
-            {" "}
-            Please feel free to make a donation to the Heart & Stroke
-            Foundation.{" "}
-          </p>
-          <p>
-            {" "}
-            Please note that all donations larger than $20 will receive a
-            charitable tax receipt. (Please allow up to 4 weeks for processing
-            of reciept)
-          </p>
-          <h3> Donation Info </h3>
-          <hr />
-          <form className={classes.root} noValidate autoComplete="off">
-            <FormControl className={classes.margin} variant="outlined">
-              <TextField
-                required
-                className="standard-required"
-                value={amountInput}
-                placeholder="Amount"
-                label="Amount"
-                error={amountError}
-                helperText={amountError && "Please enter an Amount"}
-                onChange={handleAmountInput}
-                onBlur={handleAmountBlur}
-                id="outlined-adornment-amount"
-              />
-            </FormControl>
-            <FormControl className={classes.margin} variant="outlined">
-              <TextField
-                value={firstName}
-                error={firstNameError}
-                helperText={firstNameError && "Please Enter First Name"}
-                required
-                className="standard-required"
-                placeholder="First Name"
-                label="First Name"
-                onChange={handleFirstName}
-                id="outlined-adornment-amount"
-              />
-            </FormControl>
-            <FormControl className={classes.margin} variant="outlined">
-              <TextField
-                required
-                className="standard-required"
-                value={lastName}
-                placeholder="Last Name"
-                label="Last Name"
-                error={lastNameError}
-                helperText={lastNameError && "Please Enter Last Name"}
-                onChange={handleLastName}
-                id="outlined-adornment-amount"
-              />
-            </FormControl>
-            <br />
-            <FormControl className={classes.margin} variant="outlined">
-              <TextField
-                required
-                className="standard-required"
-                value={email}
-                placeholder="Email"
-                label="Email"
-                error={emailError}
-                helperText={emailError && "Please Enter Email"}
-                onChange={handleEmail}
-                id="outlined-adornment-amount"
-              />
-            </FormControl>
-            <br></br>
-          </form>
-          {/* <FormControl component="fieldset" className={classes.margin}>
+      <Head>
+        <title>DEVELOPMENT - Dan Segin Golf Tournament Website</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <main className={styles.main}>
+        <img
+          src="https://g.foolcdn.com/editorial/images/420156/donate-jar.jpg"
+          alt="Donation Jar"
+          height="400"
+        />
+        <h2> Donation </h2>
+        <p>
+          {" "}
+          Please feel free to make a donation to the Heart & Stroke Foundation.{" "}
+        </p>
+        <p>
+          {" "}
+          Please note that all donations larger than $20 will receive a
+          charitable tax receipt. (Please allow up to 4 weeks for processing of
+          reciept)
+        </p>
+        <p>Your information will be collected during the checkout process.</p>
+        <h3> Donation Info </h3>
+        <hr />
+        <form className={classes.root} noValidate autoComplete="off">
+          <FormControl className={classes.margin} variant="outlined">
+            <TextField
+              required
+              className="standard-required"
+              value={amountInput}
+              placeholder="Amount"
+              label="Amount"
+              error={amountError}
+              helperText={amountError && "Please enter an Amount"}
+              onChange={handleAmountInput}
+              onBlur={handleAmountBlur}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">$</InputAdornment>
+                ),
+              }}
+              id="outlined-adornment-amount"
+            />
+          </FormControl>
+        </form>
+        {/* <FormControl component="fieldset" className={classes.margin}>
             {/* <FormLabel component="legend">Sponsor a Hole</FormLabel> }
             <FormGroup>
               <FormControlLabel
@@ -218,23 +187,24 @@ export default function Home() {
               selected
             </FormHelperText>
           </FormControl> }*/}
-          <Button
-            variant="contained"
-            color="secondary"
-            disabled={
-              !(
-                !!firstName.trim() &&
-                !!lastName.trim() &&
-                !!amount &&
-                !!email.trim()
-              )
-            }
-            onClick={handleClick}
-          >
-            Add to Cart
-          </Button>
-        </main>
-      </div>
-    </div>
+        <Button
+          variant="contained"
+          color="secondary"
+          disabled={
+            !(
+              !!firstName.trim() &&
+              !!lastName.trim() &&
+              !!amount &&
+              !!email.trim()
+            )
+          }
+          onClick={handleClick}
+        >
+          Add to Cart
+        </Button>
+        {/* </main> */}
+        {/* </div> */}
+      </main>
+    </>
   );
 }

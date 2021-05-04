@@ -9,11 +9,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Link from "next/link";
 import ShoppingCart from "@material-ui/icons/ShoppingCart";
+import MenuIcon from "@material-ui/icons/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Badge from "@material-ui/core/Badge";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "../../utils/axios";
-
+import { Drawer } from "@material-ui/core";
 
 // JSS used in some of the styles for the framework Material-Ui
 const useStyles = makeStyles((theme) => ({
@@ -25,8 +26,28 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    textAlign: "center",
+    color: "white",
+    "&:hover": {
+      color: "#8c8985",
+    },
+  },
+  paper: {
+    background: "#2a2929",
+    padding: "2em",
   },
 }));
+
+const navLinks = [
+  { title: "Registration", path: "/registration" },
+  { title: "Donate", path: "/donate" },
+  {
+    title: "Auction",
+    path: "https://app.autographauthentic.com/bid-now",
+    opts: { target: "_blank", rel: "noreferrer" },
+  },
+  { title: "About", path: "/about" },
+];
 
 export default function NavigationBar({
   updateIcon,
@@ -39,6 +60,9 @@ export default function NavigationBar({
 
   const [numItems, setNumItems] = useState(0);
   const [initial, setInitial] = useState(true);
+
+  const [mobile, setMobile] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -65,58 +89,115 @@ export default function NavigationBar({
     };
   }, [updateIcon]);
 
-  return (
-    <div>
-      <AppBar position="static" style={{ background: "#2a2929" }}>
-        <Toolbar>
+  useEffect(() => {
+    function setResponsiveness() {
+      setMobile(window.innerWidth < 900);
+    }
+
+    window.addEventListener("resize", setResponsiveness);
+    setResponsiveness();
+
+    return () => window.removeEventListener("resize", setResponsiveness);
+  }, []);
+
+  const displayMobile = () => {
+    return (
+      <Toolbar>
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          onClick={() => setDrawerOpen(true)}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Drawer
+          classes={{ paper: classes.paper }}
+          anchor="left"
+          open={drawerOpen}
+          color="#2a2929"
+          onClose={() => setDrawerOpen(false)}
+        >
+          <div
+            style={{ display: "flex", flexDirection: "column", height: "50%" }}
+          >
+            <Link href="/">
+              <a className={classes.title}>Home</a>
+            </Link>
+            {navLinks.map((item, index) => {
+              return (
+                <Link href={item.path} key={index}>
+                  <a className={classes.title} {...item.opts}>
+                    {item.title}
+                  </a>
+                </Link>
+              );
+            })}
+          </div>
           <Link href="/">
             <IconButton
-              edge="start"
               className={classes.menuButton}
               color="inherit"
               aria-label="menu"
+              style={{ margin: 0 }}
             >
               <img
                 src="dds_logo.png"
-                alt="Girl in a jacket"
+                alt="Dan D Segin Memorial logo"
                 width="100"
                 height="50"
               />
             </IconButton>
           </Link>
-          <Link href="/registration">
-            <a className={classes.title}>Registration</a>
-          </Link>
-          <Link href="/donate">
-            <a className={classes.title}>Donate</a>
-          </Link>
-          {/* <Link href="/sponsors">
-            <a className={classes.title}>Sponsors</a>
-          </Link> */}
-          {/* <Link href="/photos">
-            <a className={classes.title}>Photos</a>
-          </Link> */}
-          <Link href="https://app.autographauthentic.com/bid-now">
-            <a className={classes.title} target="_blank" rel="noreferrer">
-              Auction
-            </a>
-          </Link>
-          {/* <Link href="/store">
-            <a className={classes.title}>Store</a>
-          </Link> */}
-          <Link href="/about">
-            <a className={classes.title}>About</a>
-          </Link>
-          <MenuItem>
-            <Link href="/shoppingCart">
-              <IconButton aria-label="show new items" color="inherit">
-                <Badge badgeContent={numItems} color="secondary">
-                  <ShoppingCart />
-                </Badge>
-              </IconButton>
+        </Drawer>
+      </Toolbar>
+    );
+  };
+
+  const displayDesktop = () => {
+    return (
+      <Toolbar>
+        <Link href="/">
+          <IconButton
+            edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+          >
+            <img
+              src="dds_logo.png"
+              alt="Dan D Segin Memorial logo"
+              width="100"
+              height="50"
+            />
+          </IconButton>
+        </Link>
+        {navLinks.map((item, index) => {
+          return (
+            <Link href={item.path} key={index}>
+              <a className={classes.title} {...item.opts}>
+                {item.title}
+              </a>
             </Link>
-          </MenuItem>
-        </Toolbar>
+          );
+        })}
+        <MenuItem>
+          <Link href="/shoppingCart">
+            <IconButton aria-label="show new items" color="inherit">
+              <Badge badgeContent={numItems} color="secondary">
+                <ShoppingCart />
+              </Badge>
+            </IconButton>
+          </Link>
+        </MenuItem>
+      </Toolbar>
+    );
+  };
+
+  return (
+    <div>
+      <AppBar position="static" style={{ background: "#2a2929" }}>
+        {mobile ? displayMobile() : displayDesktop()}
       </AppBar>
     </div>
   );
