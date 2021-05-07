@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     background: "#2a2929",
     padding: "2em",
   },
+  NavigationBar: {
+    backgroundColor: "#0a0200",
+  },
 }));
 
 const navLinks = [
