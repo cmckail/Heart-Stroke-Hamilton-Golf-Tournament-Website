@@ -20,40 +20,6 @@ a {
   box-sizing: border-box;
 }
 
-/* --- This CSS is used in the about page. --- */
-.aboutPageHeader {
-  background-image: url("../public/aboutPageSplash.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  width: 100%;
-  object-fit: cover;
-}
-
-.aboutPageContent {
-  background-color: black;
-  height: 100%;
-  width: 100%;
-}
-
-.aboutPageContentText {
-  color: white;
-  font-size: 20px;
-  margin-left: 30px;
-  margin-right: 10px;
-}
-
-.aboutPageContentHeader {
-  color: white;
-  font-size: 30px;
-  margin-left: 60px;
-  margin-bottom: 10px;
-}
-
-@media only screen and (min-width: 800px) {
-  .aboutPageHeader {
-    height: 600px;
-  }
-}
 /* --- This CSS is used in the sponsors page. --- */
 .sponsorsContainer {
   margin-left: 100px;
