@@ -12,10 +12,6 @@ a {
   text-decoration: none;
 }
 
-/* a:hover {
-  color: blue;
-} */
-
 * {
   box-sizing: border-box;
 }
@@ -30,11 +26,6 @@ a {
   width: 300px;
   height: 200px;
   background-size: cover;
-}
-
-/* --- This CSS is used in the navigation bar component. --- */
-.NavigationBar {
-  background-color: #0a0200;
 }
 
 /* --- This CSS is used in multiple pages --- */
