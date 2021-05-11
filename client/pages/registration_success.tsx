@@ -8,7 +8,20 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import NavigationBar from "./components/navigationBar";
 
+/* All state variables*/
+type State = {
+  name: number;
+  orderNumber: number;
+};
+
+
 export default function Home() {
+/* Intializing state variables, almost like a constructor.  */
+const initialState: State = {
+  name: 0,
+  orderNumber: 0,
+};
+
   return (
     <>
       <NavigationBar />
