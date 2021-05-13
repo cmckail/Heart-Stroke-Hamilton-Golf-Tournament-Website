@@ -80,5 +80,5 @@ const isRegistration = (data: IItemView): data is IRegistrationView => {
  * @returns if item is donation
  */
 const isDonation = (data: IItemView): data is IDonationView => {
-    return !!(<IDonationView>data).donor;
+    return !!(<IDonationView>data).type;
 };

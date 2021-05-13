@@ -2,7 +2,7 @@ import IPersonView from "@local/shared/view-models/person";
 import SessionUserData from "@local/shared/view-models/session";
 import { Request, Response, NextFunction } from "express";
 import Stripe from "stripe";
-import { stripe } from "../config";
+import { stripe, baseURL } from "../config";
 export default class PaymentController {
     public static async createCheckoutSession(
         req: Request,
@@ -61,12 +61,15 @@ export default class PaymentController {
                 (await PaymentController.createCustomer(name, email));
 
             const session = await stripe.checkout.sessions.create({
-                cancel_url: "http://localhost:3000/shoppingCart",
-                success_url: "http://localhost:3000/success",
+                cancel_url: `${baseURL}/shoppingCart`,
+                success_url: `${baseURL}/success?session_id={CHECKOUT_SESSION_ID}`,
                 payment_method_types: ["card"],
                 customer: customer.id,
                 mode: "payment",
                 line_items: lineItems,
+                metadata: {
+                    session: req.sessionID,
+                },
             });
 
             await PaymentController.updateDescription(
@@ -75,6 +78,33 @@ export default class PaymentController {
             );
 
             res.json({ id: session.id });
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    public static async onSuccess(
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ) {
+        try {
+            const session = await stripe.checkout.sessions.retrieve(
+                req.query.session_id as string
+            );
+            const customer = await stripe.customers.retrieve(
+                (session.customer as string) ||
+                    (session.customer as Stripe.Customer).id
+            );
+
+            req.session.destroy((err) => {
+                next(err);
+            });
+
+            console.log(session.metadata.session);
+            console.log(req.session);
+
+            res.json({ name: (customer as Stripe.Customer).name });
         } catch (e) {
             next(e);
         }

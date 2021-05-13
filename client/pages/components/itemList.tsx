@@ -79,7 +79,7 @@ export default function ItemList({
     return "$" + (amount / 100).toFixed(2);
   };
 
-    /* The JSX for the list, which is primarily just mapped from the data and registration */
+  /* The JSX for the list, which is primarily just mapped from the data and registration */
   return (
     <List disablePadding>
       {data?.donation?.map((item, index) => {
@@ -87,7 +87,11 @@ export default function ItemList({
           <ListItem className={classes.listItem} key={index}>
             <ListItemText
               primary="Donation"
-              secondary={item.donor.firstName + " " + item.donor.lastName}
+              secondary={
+                (item.donor &&
+                  item.donor.firstName + " " + item.donor.lastName) ||
+                "One-time donation"
+              }
             />
             <Typography variant="body2">
               {amountToString(item.amount || 0)}
@@ -126,7 +130,7 @@ export default function ItemList({
         );
       })}
 
-{  /* The total amount displayed at the end */ }
+      {/* The total amount displayed at the end */}
       <ListItem className={classes.listItem}>
         <ListItemText primary="Total" />
         <Typography variant="subtitle1" className={classes.total}>

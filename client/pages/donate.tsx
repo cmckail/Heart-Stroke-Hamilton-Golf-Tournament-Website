@@ -35,69 +35,83 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home() {
   /* State variables used throughout the application */
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastname] = useState("");
+  // const [firstName, setFirstName] = useState("");
+  // const [lastName, setLastname] = useState("");
   const [amount, setAmount] = useState(0);
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
 
-  const [firstNameError, setFirstNameError] = useState(false);
-  const [lastNameError, setLastNameError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
+  // const [firstNameError, setFirstNameError] = useState(false);
+  // const [lastNameError, setLastNameError] = useState(false);
+  // const [emailError, setEmailError] = useState(false);
   const [amountError, setAmountError] = useState(false);
   const [amountInput, setAmountInput] = useState("");
 
   const classes = useStyles();
 
   /* Handles the email changed event */
-  const handleEmail = (event: React.ChangeEvent<{ value: string }>) => {
-    setEmail(event.target.value);
-    setEmailError(!event.target.value.trim());
-  };
+  // const handleEmail = (event: React.ChangeEvent<{ value: string }>) => {
+  //   setEmail(event.target.value);
+  //   setEmailError(!event.target.value.trim());
+  // };
   /* Handles the amount changed event */
   const handleAmountInput = (event: React.ChangeEvent<{ value: string }>) => {
     setAmountInput(event.target.value);
   };
   /* Handles the first name changed event */
-  const handleFirstName = (event: React.ChangeEvent<{ value: string }>) => {
-    console.log(event.target.value);
-    setFirstName(event.target.value);
-    setFirstNameError(!event.target.value.trim());
-  };
+  // const handleFirstName = (event: React.ChangeEvent<{ value: string }>) => {
+  //   console.log(event.target.value);
+  //   setFirstName(event.target.value);
+  //   setFirstNameError(!event.target.value.trim());
+  // };
   /* Handles the last name changed event */
-  const handleLastName = (event: React.ChangeEvent<{ value: string }>) => {
-    setLastname(event.target.value);
-    setLastNameError(!event.target.value.trim());
-  };
+  // const handleLastName = (event: React.ChangeEvent<{ value: string }>) => {
+  //   setLastname(event.target.value);
+  //   setLastNameError(!event.target.value.trim());
+  // };
 
   /* Handles the final payment at the end */
   const handleClick = (e: React.MouseEvent) => {
-    var letters = /^[A-Za-z]+$/;
-    var emailReg = "[^@ \t\r\n]+@[^@ \t\r\n]+.[^@ \t\r\n]+";
-    if (
-      firstName.match(letters) &&
-      lastName.match(letters) &&
-      email.match(emailReg)
-    ) {
-      if (!lastNameError && !firstNameError && !emailError && !amountError) {
-        let body: IDonationView = {
-          amount,
-          donor: {
-            firstName,
-            lastName,
-            email,
-          },
-        };
+    // var letters = /^[A-Za-z]+$/;
+    // var emailReg = "[^@ \t\r\n]+@[^@ \t\r\n]+.[^@ \t\r\n]+";
+    // if (
+    //   firstName.match(letters) &&
+    //   lastName.match(letters) &&
+    //   email.match(emailReg)
+    // ) {
+    //   if (!lastNameError && !firstNameError && !emailError && !amountError) {
+    //     let body: IDonationView = {
+    //       amount,
+    //       donor: {
+    //         firstName,
+    //         lastName,
+    //         email,
+    //       },
+    //     };
 
-        axios
-          .post("/donations", body)
-          .then((res) => {
-            window.location.href = "/shoppingCart";
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      }
-    }
+    //     axios
+    //       .post("/donations", body)
+    //       .then((res) => {
+    //         window.location.href = "/shoppingCart";
+    //       })
+    //       .catch((err) => {
+    //         console.error(err);
+    //       });
+    //   }
+    // }
+
+    let body: IDonationView = {
+      amount,
+      type: "donation",
+    };
+
+    axios
+      .post("/donations", body)
+      .then(() => {
+        window.location.href = "/shoppingCart";
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   // const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -123,8 +137,6 @@ export default function Home() {
     setAmount(parseInt(amountInput) * 100);
     setAmountError(!(parseInt(amountInput) * 100));
   };
-
-  useEffect(() => {}, []);
 
   return (
     <>
@@ -190,14 +202,15 @@ export default function Home() {
         <Button
           variant="contained"
           color="secondary"
-          disabled={
-            !(
-              !!firstName.trim() &&
-              !!lastName.trim() &&
-              !!amount &&
-              !!email.trim()
-            )
-          }
+          disabled={!amount}
+          // disabled={
+          //   !(
+          //     // !!firstName.trim() &&
+          //     // !!lastName.trim() &&
+          //     !!amount
+          //     // !!email.trim()
+          //   )
+          // }
           onClick={handleClick}
         >
           Add to Cart

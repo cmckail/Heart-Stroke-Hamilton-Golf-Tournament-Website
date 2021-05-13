@@ -61,7 +61,7 @@ export default function NavigationBar({
 }) {
   const classes = useStyles();
 
-  const [numItems, setNumItems] = useState(0);
+  const [numItems, setNumItems] = useState(num || 0);
   const [initial, setInitial] = useState(true);
 
   const [mobile, setMobile] = useState(false);
@@ -69,7 +69,7 @@ export default function NavigationBar({
 
   useEffect(() => {
     let mounted = true;
-    if (updateIcon || initial) {
+    if ((updateIcon || initial) && num === undefined) {
       axios
         .get("/cart")
         .then((res) => {

@@ -9,6 +9,8 @@ const paymentRouter = Router();
 
 paymentRouter.post("/", PaymentController.createCheckoutSession);
 
+paymentRouter.get("/success", PaymentController.onSuccess);
+
 // paymentRouter.post("/", PaymentController.createOrUpdatePaymentIntent);
 
 // paymentRouter.post("/customer", PaymentController.addCustomerToPaymentIntent);
