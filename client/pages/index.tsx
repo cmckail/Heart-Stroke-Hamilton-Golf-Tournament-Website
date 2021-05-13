@@ -39,6 +39,14 @@ const useStyles = makeStyles((theme) => ({
       cursor: "pointer",
     },
   },
+  registerCard: {
+    color: "white",
+    "&:hover": {
+      color: "#0070f3",
+      borderColor: "#0070f3",
+      cursor: "pointer",
+    },
+  },
   cardPadding: {
     margin: "100px 0 auto",
     padding: "1rem",
@@ -101,6 +109,19 @@ export default function Home() {
           >
             8TH ANNUAL Southwest Ontario Heart & Stroke
           </h2>
+          <h3
+            className={classes.title}
+            style={{
+              fontSize:
+                windowWidth > 1500
+                  ? "40px"
+                  : windowWidth > 1000
+                  ? "3vw"
+                  : "3vh",
+            }}
+          >
+            Sunday, July 25th, 2021
+          </h3>
           <p
             className={classes.description}
             style={{
@@ -112,14 +133,20 @@ export default function Home() {
                   : "2vh",
             }}
           >
-            Dan D Segin Memorial Golf for Heart Tournament
+            Dan D Segin Memorial Golf Tournament for Heart & Stroke
           </p>
 
           {/* Register button for registration. */}
           <div style={{ textAlign: "center" }}>
             <Link href="/registration">
               <h3
-                className={classes.card + " " + classes.cardPadding}
+                className={
+                  classes.card +
+                  " " +
+                  classes.cardPadding +
+                  " " +
+                  classes.registerCard
+                }
                 style={{
                   fontSize:
                     windowWidth > 1500
@@ -127,7 +154,6 @@ export default function Home() {
                       : windowWidth > 1000
                       ? "2.5vw"
                       : "2.5vh",
-                  color: "white",
                   display: "inline-block",
                 }}
               >
@@ -157,7 +183,7 @@ export default function Home() {
             </Link>
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <Link href="/auction">
+            <Link href="https://app.autographauthentic.com/bid-now">
               <div className={[classes.card, classes.gridContent].join(" ")}>
                 <img
                   src="icons/virtual_silent_auction.png"
