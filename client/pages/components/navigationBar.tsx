@@ -44,9 +44,10 @@ const useStyles = makeStyles((theme) => ({
 const navLinks = [
   { title: "Registration", path: "/registration" },
   { title: "Donate", path: "/donate" },
+  { title: "Sponsors", path: "/sponsors" },
   {
     title: "Auction",
-    path: "https://app.autographauthentic.com/bid-now",
+    path: "https://app.autographauthentic.com/bn/clients/ddsmemorial",
     opts: { target: "_blank", rel: "noreferrer" },
   },
   { title: "About", path: "/about" },
