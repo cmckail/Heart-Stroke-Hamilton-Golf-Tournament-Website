@@ -9,17 +9,16 @@ import styles from "../styles/Home.module.css";
 import { makeStyles } from "@material-ui/core/styles";
 import NavigationBar from "./components/navigationBar";
 import FormControl from "@material-ui/core/FormControl";
-import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import CheckoutForm from "./components/checkoutForm";
 import Typography from "@material-ui/core/Typography";
 import axios from "../utils/axios";
 import ItemList from "./components/itemList";
 import IItemView from "@local/shared/view-models/item";
 import IPersonView from "@local/shared/view-models/person";
-import { Button, TextField } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import useInputField from "../utils/useInputField";
 import SessionUserData from "@local/shared/view-models/session";
+import SubmitButton from "./components/submitButton";
 
 // Dummy data to use to test the json rendering
 // A few constants and jss used on this page.
@@ -52,22 +51,14 @@ const useStyles = makeStyles((theme) => ({
 // The constructor for checkout.
 export default function Home() {
   const [total, setTotal] = useState(0);
-  const [
-    firstName,
-    handleFirstName,
-    firstNameError,
-    handleFirstNameBlur,
-  ] = useInputField("", {
-    required: true,
-  });
-  const [
-    lastName,
-    handleLastName,
-    lastNameError,
-    handleLastNameBlur,
-  ] = useInputField("", {
-    required: true,
-  });
+  const [firstName, handleFirstName, firstNameError, handleFirstNameBlur] =
+    useInputField("", {
+      required: true,
+    });
+  const [lastName, handleLastName, lastNameError, handleLastNameBlur] =
+    useInputField("", {
+      required: true,
+    });
   const [email, handleEmail, emailError, handleEmailBlur] = useInputField("", {
     required: true,
     validateEmail: true,
@@ -207,10 +198,8 @@ export default function Home() {
           </form>
           <br />
           {total > 0 && (
-            <Button
+            <SubmitButton
               onClick={handleClick}
-              variant="contained"
-              color="secondary"
               disabled={
                 firstNameError ||
                 lastNameError ||
@@ -221,16 +210,7 @@ export default function Home() {
               }
             >
               Checkout
-            </Button>
-            // <div style={{ width: "100%" }}>
-            //   <Elements stripe={promise}>
-            //     <CheckoutForm
-            //       name={(firstName + " " + lastName).trim()}
-            //       email={email}
-            //       amount={total}
-            //     />
-            //   </Elements>
-            // </div>
+            </SubmitButton>
           )}
         </main>
       </div>

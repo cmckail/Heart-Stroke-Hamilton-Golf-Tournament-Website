@@ -17,6 +17,7 @@ import IRegistrationView, {
   IPlayerView,
 } from "@local/shared/view-models/registration";
 import axios from "../utils/axios";
+import SubmitButton from "./components/submitButton";
 
 const pricePerPerson = 175;
 
@@ -112,7 +113,7 @@ type State = {
 export default function Home() {
   const classes = useStyles();
 
-/* Intializing state variables, almost like a constructor.  */
+  /* Intializing state variables, almost like a constructor.  */
   const initialState: State = {
     numPlayers: 1,
     playerInfo: [
@@ -189,9 +190,9 @@ export default function Home() {
         return setName("lastName");
       case ActionKind.SetValidation:
         let validated = state.validated;
-        validated[index!][
-          (payload as ValidationPayload).name
-        ] = (payload as ValidationPayload).validated;
+        validated[index!][(payload as ValidationPayload).name] = (
+          payload as ValidationPayload
+        ).validated;
         return {
           ...state,
           validated,
@@ -201,8 +202,7 @@ export default function Home() {
 
   const [state, dispatch] = useReducer(playerReducer, initialState);
 
-  
-    /* A function used to validate data used in the registration page. Disables the button if things are not validated. */
+  /* A function used to validate data used in the registration page. Disables the button if things are not validated. */
   const validateData = () => {
     return state.playerInfo
       .slice(0, state.numPlayers)
@@ -213,8 +213,8 @@ export default function Home() {
           item.mealChoice.trim()
       );
   };
-  
-    /* This event handles the submission of the registration page */
+
+  /* This event handles the submission of the registration page */
   const handleSubmit = async (e: React.MouseEvent) => {
     let data: IRegistrationView = {
       players: state.playerInfo.slice(0, state.numPlayers),
@@ -247,55 +247,54 @@ export default function Home() {
           <br></br>
           <p>** ${pricePerPerson} Per Player </p>
           <h3> OTHER OTHER INFORMATION ABOUT THE TOURNAMENT HERE</h3>
-          { /* Beginning of the form */}
+          {/* Beginning of the form */}
           <div>
-          <FormControl className={classes.formControl}>
-            <InputLabel id="tee-time-selector-label">Tee Times</InputLabel>
-           
-            <Select
-              className={classes.root}
-              id="tee-time-selector"
-              labelId="tee-time-selector-label"
-              value={state.teeTime}
-              onChange={(e) =>
-                dispatch({
-                  type: ActionKind.SetTeeTime,
-                  payload: e.target.value as string,
-                })
-              }
-            >
-              {teeTimeOptions.map((item, index) => {
-                return (
-                  <MenuItem key={index} value={item.value}>
-                    {item.label}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
-          <FormControl className={classes.formControl}>
-            <InputLabel id="num-players-selector-label">Players</InputLabel>
-            <Select
-              className={classes.root}
-              id="num-players-selector"
-              labelId="num-players-selector-label"
-              value={state.numPlayers}
-              onChange={(e) =>
-                dispatch({
-                  type: ActionKind.SetNumPlayers,
-                  payload: e.target.value as number,
-                })
-              }
-            >
-              <MenuItem value={1}>One</MenuItem>
-              <MenuItem value={2}>Two</MenuItem>
-              <MenuItem value={3}>Three</MenuItem>
-              <MenuItem value={4}>Four</MenuItem>
-            </Select>
-            
-          </FormControl>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="tee-time-selector-label">Tee Times</InputLabel>
+
+              <Select
+                className={classes.root}
+                id="tee-time-selector"
+                labelId="tee-time-selector-label"
+                value={state.teeTime}
+                onChange={(e) =>
+                  dispatch({
+                    type: ActionKind.SetTeeTime,
+                    payload: e.target.value as string,
+                  })
+                }
+              >
+                {teeTimeOptions.map((item, index) => {
+                  return (
+                    <MenuItem key={index} value={item.value}>
+                      {item.label}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="num-players-selector-label">Players</InputLabel>
+              <Select
+                className={classes.root}
+                id="num-players-selector"
+                labelId="num-players-selector-label"
+                value={state.numPlayers}
+                onChange={(e) =>
+                  dispatch({
+                    type: ActionKind.SetNumPlayers,
+                    payload: e.target.value as number,
+                  })
+                }
+              >
+                <MenuItem value={1}>One</MenuItem>
+                <MenuItem value={2}>Two</MenuItem>
+                <MenuItem value={3}>Three</MenuItem>
+                <MenuItem value={4}>Four</MenuItem>
+              </Select>
+            </FormControl>
           </div>
-          { /* This array is used to populate the player JSX forms */}
+          {/* This array is used to populate the player JSX forms */}
           {[...Array(state.numPlayers)].map((item, index) => {
             return (
               <React.Fragment key={index}>
@@ -303,12 +302,11 @@ export default function Home() {
                 <hr></hr>
                 <form className={classes.root} noValidate autoComplete="off">
                   <TextField
-                   margin = "normal"
+                    margin="normal"
                     required
                     className="standard-required"
                     placeholder="First Name"
                     label="First Name"
-                    
                     error={!state.validated[index].firstName}
                     helperText={
                       !state.validated[index].firstName &&
@@ -325,8 +323,7 @@ export default function Home() {
                   />
                   <TextField
                     required
-                    
-                    margin = "normal"
+                    margin="normal"
                     className="standard-required"
                     label="Last Name"
                     // placeholder="Last Name"
@@ -347,7 +344,7 @@ export default function Home() {
                   <TextField
                     className={classes.root}
                     select
-                    margin = "normal"
+                    margin="normal"
                     required
                     SelectProps={{
                       value: state.playerInfo[index].mealChoice,
@@ -375,16 +372,15 @@ export default function Home() {
               </React.Fragment>
             );
           })}
-          { /* The total amount of all players added up */}
+          {/* The total amount of all players added up */}
           <h3>Total: ${state.total}</h3>
-          <Button
-            variant="contained"
-            color="secondary"
+          <SubmitButton
             onClick={handleSubmit}
             disabled={!validateData()}
+            loadText="Adding..."
           >
             Add to Cart
-          </Button>
+          </SubmitButton>
         </main>
       </div>
     </div>

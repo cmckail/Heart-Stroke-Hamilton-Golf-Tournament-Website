@@ -11,7 +11,6 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import React, { useEffect, useState } from "react";
 import SessionUserData from "@local/shared/view-models/session";
 import axios from "../../utils/axios";
-// import ICartView from "../../utils/interfaces/cartview";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -88,7 +87,7 @@ export default function ItemList({
             <ListItemText
               primary="Donation"
               secondary={
-                item.sponsorAHole ? 'One-Time Donation, Sponsor' : 'One-Time Donation'
+                item.sponsorAHole ? "Sponsor a Hole" : "One-Time Donation"
               }
             />
             <Typography variant="body2">
