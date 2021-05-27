@@ -62,7 +62,7 @@ export default class PaymentController {
 
             const session = await stripe.checkout.sessions.create({
                 cancel_url: `${baseURL}/shoppingCart`,
-                success_url: `${baseURL}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
+                success_url: `${baseURL}/success?session_id={CHECKOUT_SESSION_ID}`,
                 payment_method_types: ["card"],
                 customer: customer.id,
                 mode: "payment",
@@ -101,8 +101,8 @@ export default class PaymentController {
                 next(err);
             });
 
-            console.log(session.metadata.session);
-            console.log(req.session);
+            // console.log(session.metadata.session);
+            // console.log(req.session);
 
             res.json({ name: (customer as Stripe.Customer).name });
         } catch (e) {
