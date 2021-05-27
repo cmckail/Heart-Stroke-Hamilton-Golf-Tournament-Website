@@ -88,9 +88,7 @@ export default function ItemList({
             <ListItemText
               primary="Donation"
               secondary={
-                (item.donor &&
-                  item.donor.firstName + " " + item.donor.lastName) ||
-                "One-time donation"
+                item.sponsorAHole ? 'One-Time Donation, Sponsor' : 'One-Time Donation'
               }
             />
             <Typography variant="body2">

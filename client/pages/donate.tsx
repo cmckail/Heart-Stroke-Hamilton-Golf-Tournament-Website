@@ -15,6 +15,10 @@ import { CardMedia, InputAdornment } from "@material-ui/core";
 import axios from "../utils/axios";
 import IDonationView from "@local/shared/view-models/donation";
 import { TextField } from "@material-ui/core";
+import FormLabel from '@material-ui/core/FormLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 const promise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 const useStyles = makeStyles((theme) => ({
@@ -35,16 +39,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home() {
   /* State variables used throughout the application */
-  // const [firstName, setFirstName] = useState("");
-  // const [lastName, setLastname] = useState("");
   const [amount, setAmount] = useState(0);
-  // const [email, setEmail] = useState("");
-
-  // const [firstNameError, setFirstNameError] = useState(false);
-  // const [lastNameError, setLastNameError] = useState(false);
-  // const [emailError, setEmailError] = useState(false);
   const [amountError, setAmountError] = useState(false);
   const [amountInput, setAmountInput] = useState("");
+  const [sponsorAHole, setSponsorAHole] = useState(false);
 
   const classes = useStyles();
 
@@ -53,6 +51,7 @@ export default function Home() {
   //   setEmail(event.target.value);
   //   setEmailError(!event.target.value.trim());
   // };
+
   /* Handles the amount changed event */
   const handleAmountInput = (event: React.ChangeEvent<{ value: string }>) => {
     setAmountInput(event.target.value);
@@ -69,39 +68,25 @@ export default function Home() {
   //   setLastNameError(!event.target.value.trim());
   // };
 
+ /* Handles if sponsor a hole is clicked */
+
+ const handleSponsorAHoleClick = (e: React.MouseEvent) => {
+    setSponsorAHole(!sponsorAHole);
+ }
+
   /* Handles the final payment at the end */
   const handleClick = (e: React.MouseEvent) => {
-    // var letters = /^[A-Za-z]+$/;
-    // var emailReg = "[^@ \t\r\n]+@[^@ \t\r\n]+.[^@ \t\r\n]+";
-    // if (
-    //   firstName.match(letters) &&
-    //   lastName.match(letters) &&
-    //   email.match(emailReg)
-    // ) {
-    //   if (!lastNameError && !firstNameError && !emailError && !amountError) {
-    //     let body: IDonationView = {
-    //       amount,
-    //       donor: {
-    //         firstName,
-    //         lastName,
-    //         email,
-    //       },
-    //     };
+    var tempAmount = amount;
 
-    //     axios
-    //       .post("/donations", body)
-    //       .then((res) => {
-    //         window.location.href = "/shoppingCart";
-    //       })
-    //       .catch((err) => {
-    //         console.error(err);
-    //       });
-    //   }
-    // }
+    if (sponsorAHole) {
+      tempAmount = amount + 15000;
+      console.log(tempAmount);
+    }
 
     let body: IDonationView = {
-      amount,
+      amount: tempAmount,
       type: "donation",
+      sponsorAHole,
     };
 
     axios
@@ -113,19 +98,6 @@ export default function Home() {
         console.error(err);
       });
   };
-
-  // const handleKeyDown = (event: React.KeyboardEvent) => {
-  //   let code = event.key;
-
-  //   if (isNaN(parseInt(code)) && code !== ".")
-
-  //   try {
-  //     let x = parseInt(code);
-  //     console.log(typeof x);
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // };
 
   const handleAmountBlur = () => {
     let temp: number;
@@ -186,19 +158,15 @@ export default function Home() {
             />
           </FormControl>
         </form>
-        {/* <FormControl component="fieldset" className={classes.margin}>
-            {/* <FormLabel component="legend">Sponsor a Hole</FormLabel> }
+        <FormControl component="fieldset" className={classes.margin}>
+          <FormLabel component="legend">Sponsor a Hole</FormLabel> 
             <FormGroup>
               <FormControlLabel
-                control={<Checkbox name="gilad" />}
+                control={<Checkbox name="gilad" onClick={handleSponsorAHoleClick}/>}
                 label="Would you like to sponsor a hole? ($150)"
               />
             </FormGroup>
-            <FormHelperText>
-              *You will be redirected to the sponsor form if this option is
-              selected
-            </FormHelperText>
-          </FormControl> }*/}
+          </FormControl> 
         <Button
           variant="contained"
           color="secondary"
