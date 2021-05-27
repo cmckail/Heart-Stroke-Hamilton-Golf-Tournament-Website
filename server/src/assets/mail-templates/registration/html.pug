@@ -13,6 +13,9 @@ html(lang='en')
         div
           dt Customer email
           dd #{email}
+        div 
+          dt Stripe Order ID 
+          dd #{id}
     each registration, index in registrations
       span.header= `Registration ${index + 1} Info`
       dl

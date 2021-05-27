@@ -21,6 +21,14 @@ const Config = {
      */
     mailerObj: transportObj,
     /**
+     * Email address to send stuff from
+     */
+    emailFrom: process.env.EMAIL_FROM!,
+    /**
+     * Email address to send stuff to
+     */
+    emailTo: process.env.EMAIL_TO!,
+    /**
      * Session secret
      */
     sessionSecret: process.env.SESSION_SECRET!,
@@ -70,6 +78,8 @@ export const {
     env,
     port,
     mailerObj,
+    emailFrom,
+    emailTo,
     connectionObj,
     stripeSecret,
     accessSecret,

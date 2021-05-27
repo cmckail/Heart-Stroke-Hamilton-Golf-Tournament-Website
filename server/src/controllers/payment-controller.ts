@@ -3,6 +3,8 @@ import SessionUserData from "@local/shared/view-models/session";
 import { Request, Response, NextFunction } from "express";
 import Stripe from "stripe";
 import { stripe, baseURL } from "../config";
+import MailController from "./mail-controller";
+import RegistrationController from "./registration-controller";
 export default class PaymentController {
     public static async createCheckoutSession(
         req: Request,
@@ -92,19 +94,40 @@ export default class PaymentController {
             const session = await stripe.checkout.sessions.retrieve(
                 req.query.session_id as string
             );
-            const customer = await stripe.customers.retrieve(
+            const customer = (await stripe.customers.retrieve(
                 (session.customer as string) ||
                     (session.customer as Stripe.Customer).id
-            );
+            )) as Stripe.Customer;
+
+            if (req.session.data?.registration) {
+                let registrations = await RegistrationController.addToDB(
+                    req.session.data.registration
+                );
+                MailController.sendRegistrationInfo(
+                    session.id,
+                    registrations,
+                    customer
+                );
+            }
+
+            if (req.session.data?.donation) {
+                let holes = req.session.data.donation.filter(
+                    (donation) => !!donation.sponsorAHole
+                );
+                if (holes) {
+                    MailController.sendSponsorHoleInfo(
+                        session.id,
+                        holes.length,
+                        customer
+                    );
+                }
+            }
 
             req.session.destroy((err) => {
                 next(err);
             });
 
-            // console.log(session.metadata.session);
-            // console.log(req.session);
-
-            res.json({ name: (customer as Stripe.Customer).name });
+            res.json({ name: customer.name });
         } catch (e) {
             next(e);
         }

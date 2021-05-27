@@ -12,12 +12,19 @@ if (process.env.NODE_ENV !== "production") {
         host: "smtp.mailtrap.io",
         port: 2525,
         auth: {
-            user: process.env.MAILTRAP_USER!,
-            pass: process.env.MAILTRAP_PASS!,
+            user: process.env.EMAIL_USER!,
+            pass: process.env.EMAIL_PASS!,
         },
     };
 } else {
-    transportObj = {};
+    transportObj = {
+        host: "maail.ddsmemoriaal.ca",
+        port: 465,
+        auth: {
+            user: process.env.EMAIL_USER!,
+            pass: process.env.EMAIL_PASS!,
+        },
+    };
 }
 
 export default nodemailer.createTransport(transportObj);

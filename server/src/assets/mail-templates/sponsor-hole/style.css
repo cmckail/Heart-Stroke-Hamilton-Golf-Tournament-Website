@@ -1,0 +1,29 @@
+body {
+  text-align: center;
+  font-family: sans-serif;
+}
+dt,
+.header {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+.header,
+.list-header {
+  margin-top: 5vh;
+  display: block;
+}
+.list-header {
+  font-weight: bold;
+}
+dt,
+dd {
+  margin-bottom: 1vh;
+}
+div dt,
+div dd,
+div div {
+  display: inline-block;
+}
+.top div {
+  margin: auto 5vw;
+}

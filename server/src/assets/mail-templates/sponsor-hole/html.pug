@@ -1,0 +1,18 @@
+doctype html 
+html(lang='en')
+  head
+    title Hole Sponsor Info 
+    link(rel="stylesheet", href="./style.css", data-inline)
+  body
+    p #{name} has sponsored #{hole > 1 ? `${hole} holes` : "a hole"}. Contact info below:
+    dl
+      div.top
+        div
+          dt Customer name
+          dd #{name}
+        div
+          dt Customer email
+          dd #{email}
+        div 
+          dt Stripe Order ID
+          dd #{id}

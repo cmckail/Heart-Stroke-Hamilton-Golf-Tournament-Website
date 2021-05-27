@@ -1,18 +1,12 @@
-import { Request, Response, NextFunction } from "express";
-// import { MailOptions } from "nodemailer/lib/sendmail-transport";
 import Stripe from "stripe";
 import Registration from "../models/registration";
-import { InvalidArgumentError } from "../utils/errors";
-import { mailerObj } from "../config";
+import { mailerObj, emailFrom, emailTo } from "../config";
 import path from "path";
 import Email from "email-templates";
 
-/**
- * Mail Controller
- * WORK IN PROGRESS
- */
 export default class MailController {
     public static async sendRegistrationInfo(
+        id: string,
         registration: Registration[],
         customer: Stripe.Customer
     ) {
@@ -22,8 +16,8 @@ export default class MailController {
         );
         new Email({
             message: {
-                from: "from@test.com",
-                to: "testing@testing123.com",
+                from: emailFrom,
+                to: emailTo,
                 subject: "New Registration Received",
             },
             // send: true,
@@ -37,6 +31,7 @@ export default class MailController {
             .send({
                 template: templatePath,
                 locals: {
+                    id,
                     name: customer.name,
                     email: customer.email,
                     registrations: registration,
@@ -45,20 +40,39 @@ export default class MailController {
             .then(console.log)
             .catch(console.error);
     }
-
-    // public static async send(req: Request, res: Response, next: NextFunction) {
-    //     try {
-    //         let message: MailOptions = req.body;
-    //         if (!message.subject || (!message.text && !message.html)) {
-    //             throw new InvalidArgumentError();
-    //         }
-
-    //         let result = await mailerObj.sendMail(message);
-
-    //         res.json({ msg: "message sent." });
-    //     } catch (e) {
-    //         console.error(e);
-    //         next(e);
-    //     }
-    // }
+    public static async sendSponsorHoleInfo(
+        id: string,
+        holes: number,
+        customer: Stripe.Customer
+    ) {
+        let templatePath = path.join(
+            __dirname,
+            "../assets/mail-templates/sponsor-hole"
+        );
+        new Email({
+            message: {
+                from: emailFrom,
+                to: emailTo,
+                subject: "New Hole Sponsor Received",
+            },
+            // send: true,
+            transport: mailerObj,
+            juiceResources: {
+                webResources: {
+                    relativeTo: templatePath,
+                },
+            },
+        })
+            .send({
+                template: templatePath,
+                locals: {
+                    id,
+                    name: customer.name,
+                    email: customer.email,
+                    hole: holes,
+                },
+            })
+            .then(console.log)
+            .catch(console.error);
+    }
 }
