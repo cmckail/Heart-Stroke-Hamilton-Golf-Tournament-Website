@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: '56.25%', // 16:9
   },
   aboutPageHeader: {
-    backgroundImage: "url('./backgrounds/aboutPageSplash.png')",
+    backgroundImage: "url('./backgrounds/aboutPageSplash.jpg')",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     width: "100%",
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   '@media only screen and (min-width: 800px)' : {
     aboutPageHeader: {
-      height: '600px',
+      height: '500px',
     }
   },
   aboutPageContent: {
@@ -101,7 +101,7 @@ export default function Home() {
             <Grid item sm={12} md={6}>
             <CardMedia
                 className={classes.media}
-                image="pictures/examplePicture.png"
+                image="pictures/about_page_signs.jpg"
                 title="Paella dish"
               />
             </Grid>

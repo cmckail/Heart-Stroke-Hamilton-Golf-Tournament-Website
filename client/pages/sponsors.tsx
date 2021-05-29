@@ -30,14 +30,42 @@ const useStyles = makeStyles({
 });
 
 const companyName = [
-  "Microsoft",
-  "Amazon",
-  "Tesla",
-  "AMD",
-  "Intel",
-  "Johnson & Johnson",
-  "SpaceX",
-  "Suncor",
+  {
+    "name": "Gator Ted's",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "url": "https://amazon.ca",
+    "logoURL": "sponsors/gator_teds_logo.jpg"
+},
+{
+    "name": "Routes",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "url": "https://microsoft.ca",
+    "logoURL": "sponsors/routes_logo.png"
+},
+{
+    "name": "Landshark",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "url": "https://tesla.ca",
+    "logoURL": "sponsors/landshark_logo.png"
+},
+{
+    "name": "Flamborough Hills",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "url": "https://intel.com",
+    "logoURL": "sponsors/flamborough_hills_logo.png"
+},
+{
+    "name": "Waterloo Brewing",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "url": "https://amd.com",
+    "logoURL": "sponsors/waterloo_brewing_logo.png"
+},
+{
+    "name": "QB Cert",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "url": "https://amd.com",
+    "logoURL": "sponsors/qb_cert_logo.png"
+}
 ];
 
 export default function Home() {
@@ -77,15 +105,16 @@ export default function Home() {
       {sponsors && (
         <div className="sponsorsContainer">
           <Grid container spacing={3}>
-            {sponsors.map((sponsor, index) => {
+            {companyName.map((sponsor, index) => {
               return (
-                <Grid item key={index}>
+                <Grid item xs={3} key={index}>
                   <Card className={classes.root}>
                     <CardActionArea>
-                      <CardMedia
-                        className={classes.media}
+                    <CardMedia
+                        alt={sponsor.name}
                         image={sponsor.logoURL}
                         title={sponsor.name}
+                        component="img"
                       />
                       <CardContent>
                         <Typography gutterBottom variant="h5" component="h2">

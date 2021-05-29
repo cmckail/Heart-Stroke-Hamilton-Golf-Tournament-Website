@@ -1,50 +1,38 @@
 [
     {
-        "name": "Amazon",
+        "name": "Gator Ted's",
         "description": "Lorem ipsum",
         "url": "https://amazon.ca",
-        "logoURL": "src/assets/test-data/sponsors/amazon_logo.png"
+        "logoURL": "src/assets/test-data/sponsors/gator_teds_logo.png"
     },
     {
-        "name": "Microsoft",
+        "name": "Routes",
         "description": "Lorem ipsum",
         "url": "https://microsoft.ca",
-        "logoURL": "src/assets/test-data/sponsors/microsoft_logo.png"
+        "logoURL": "src/assets/test-data/sponsors/routes_logo.png"
     },
     {
-        "name": "Tesla",
+        "name": "Landshark",
         "description": "Lorem ipsum",
         "url": "https://tesla.ca",
-        "logoURL": "src/assets/test-data/sponsors/tesla_logo.png"
+        "logoURL": "src/assets/test-data/sponsors/landshark_logo.png"
     },
     {
-        "name": "Intel",
+        "name": "Flamborough Hills",
         "description": "Lorem ipsum",
         "url": "https://intel.com",
-        "logoURL": "src/assets/test-data/sponsors/intel_logo.png"
+        "logoURL": "src/assets/test-data/sponsors/flamborough_hills_logo.png"
     },
     {
-        "name": "AMD",
+        "name": "Waterloo Brewing",
         "description": "Lorem ipsum",
         "url": "https://amd.com",
-        "logoURL": "src/assets/test-data/sponsors/amd_logo.png"
+        "logoURL": "src/assets/test-data/sponsors/waterloo_brewing_logo.png"
     },
     {
-        "name": "Johnson & Johnson",
+        "name": "QB Cert",
         "description": "Lorem ipsum",
-        "url": "https://www.jnjcanada.com/",
-        "logoURL": "src/assets/test-data/sponsors/johnson_logo.png"
-    },
-    {
-        "name": "SpaceX",
-        "description": "Lorem ipsum",
-        "url": "https://spacex.com",
-        "logoURL": "src/assets/test-data/sponsors/spacex_logo.png"
-    },
-    {
-        "name": "Suncor",
-        "description": "Lorem ipsum",
-        "url": "https://suncor.com",
-        "logoURL": "src/assets/test-data/sponsors/suncor_logo.png"
+        "url": "https://amd.com",
+        "logoURL": "src/assets/test-data/sponsors/qb_cert_logo.png"
     }
 ]

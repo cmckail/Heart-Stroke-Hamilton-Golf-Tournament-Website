@@ -146,7 +146,7 @@ export default function NavigationBar({
               style={{ margin: 0 }}
             >
               <img
-                src="dds_logo.png"
+                src="dds_logo.jpg"
                 alt="Dan D Segin Memorial logo"
                 width="100"
                 height="50"
@@ -169,7 +169,7 @@ export default function NavigationBar({
             aria-label="menu"
           >
             <img
-              src="dds_logo.png"
+              src="dds_logo.jpg"
               alt="Dan D Segin Memorial logo"
               width="100"
               height="50"
