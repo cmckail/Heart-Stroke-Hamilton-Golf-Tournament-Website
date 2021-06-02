@@ -13,8 +13,11 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Questions/Comments/Sponsorship inquiries: info@ddsmemorial.ca
           <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
+          FACEBOOK: <a href="https://www.facebook.com/danseginmemorialgolf/"> https://www.facebook.com/danseginmemorialgolf/</a>
+          INSTAGRAM: <a href="https://www.instagram.com/dandseginmemorialgolf/"> https://www.instagram.com/dandseginmemorialgolf/?utm_source=ig_profile_share&igshid=xqzqiyezny1t/</a> 
+          TWITTER: <a href="https://twitter.com/ddseginmemorial">https://twitter.com/ddseginmemorial</a>
         </a>
       </footer>
     </div>
