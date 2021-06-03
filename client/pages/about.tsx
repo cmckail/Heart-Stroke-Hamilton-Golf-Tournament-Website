@@ -7,6 +7,7 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import { makeStyles } from '@material-ui/core/styles';
 import NavigationBar from './components/navigationBar'
+import DDSFooter from "./components/footer";
 import Grid from '@material-ui/core/Grid';
 import CardMedia from '@material-ui/core/CardMedia';
 import Hidden from '@material-ui/core/Hidden';
@@ -132,6 +133,7 @@ export default function Home() {
           </Grid>
         </div>
       </div>
+      <DDSFooter/>
     </div>
   )
 }

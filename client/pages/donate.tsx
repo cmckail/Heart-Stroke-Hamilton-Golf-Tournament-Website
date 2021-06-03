@@ -6,6 +6,7 @@
 import React, { useState, useEffect, FormEvent } from "react";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import DDSFooter from "./components/footer";
 import { makeStyles } from "@material-ui/core/styles";
 import NavigationBar from "./components/navigationBar";
 import FormControl from "@material-ui/core/FormControl";
@@ -159,6 +160,7 @@ export default function Home() {
         >
           Add to Cart
         </SubmitButton>
+        <DDSFooter/>
       </main>
     </>
   );

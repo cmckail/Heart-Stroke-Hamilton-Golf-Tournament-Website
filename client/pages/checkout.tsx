@@ -8,6 +8,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import { makeStyles } from "@material-ui/core/styles";
 import NavigationBar from "./components/navigationBar";
+import DDSFooter from "./components/footer";
 import FormControl from "@material-ui/core/FormControl";
 import { loadStripe } from "@stripe/stripe-js";
 import Typography from "@material-ui/core/Typography";
@@ -214,6 +215,7 @@ export default function Home() {
           )}
         </main>
       </div>
+      <DDSFooter/>
     </div>
   );
 }

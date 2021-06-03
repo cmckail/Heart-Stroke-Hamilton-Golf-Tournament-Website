@@ -8,6 +8,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import NavigationBar from "./components/navigationBar";
 import axios from "../utils/axios";
+import DDSFooter from "./components/footer";
 
 /* All state variables*/
 type State = {
@@ -54,6 +55,7 @@ export default function Home() {
           that all donations larger than $20 will receive a charitable tax
           receipt. (Please allow up to 4 weeks for processing of reciept)
         </p>
+        <DDSFooter/>
       </main>
     </>
   );

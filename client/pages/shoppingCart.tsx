@@ -14,6 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import axios from "../utils/axios";
 import ItemList from "./components/itemList";
 import SessionUserData from "@local/shared/view-models/session";
+import DDSFooter from "./components/footer";
 
 {/* JSS Styles for some of the objects. */}
 const useStyles = makeStyles((theme) => ({
@@ -104,6 +105,7 @@ export default function Home() {
           </Link>
         </main>
       </div>
+      <DDSFooter/>
     </div>
   );
 }

@@ -146,7 +146,7 @@ export default function NavigationBar({
               style={{ margin: 0 }}
             >
               <img
-                src="dds_logo.jpg"
+                src="dds_logo.png"
                 alt="Dan D Segin Memorial logo"
                 width="100"
                 height="50"
@@ -169,7 +169,7 @@ export default function NavigationBar({
             aria-label="menu"
           >
             <img
-              src="dds_logo.jpg"
+              src="dds_logo.png"
               alt="Dan D Segin Memorial logo"
               width="100"
               height="50"
@@ -200,7 +200,7 @@ export default function NavigationBar({
 
   return (
     <div>
-      <AppBar position="static" style={{ background: "#2a2929" }}>
+      <AppBar position="static" style={{ background: "#808080" }}>
         {mobile ? displayMobile() : displayDesktop()}
       </AppBar>
     </div>

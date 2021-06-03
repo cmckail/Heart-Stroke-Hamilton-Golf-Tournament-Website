@@ -18,6 +18,7 @@ import IRegistrationView, {
 } from "@local/shared/view-models/registration";
 import axios from "../utils/axios";
 import SubmitButton from "./components/submitButton";
+import DDSFooter from "./components/footer";
 
 const pricePerPerson = 175;
 
@@ -383,6 +384,7 @@ export default function Home() {
           </SubmitButton>
         </main>
       </div>
+      <DDSFooter/>
     </div>
   );
 }
