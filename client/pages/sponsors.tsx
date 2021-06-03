@@ -81,7 +81,7 @@ const companyName = [
 {
     "name": "The Judge & Jury",
     "description": "Andy Marcolini & Mark Hopkins, Owners of the Judge & Jury are another amazing friend of our tournament since day #1. The generosity provided makes our prize table a discussion piece each & every year. The ‘Judge’ is another long standing popular Burlington Pub that has lasted because of simple principles: Great Food , Outstanding Customer Service and Attention to detail. Our family is proud to have their support.",
-    "url": "https://www.fox40world.com/",
+    "url": "https://www.thejudgeandjury.ca/",
     "logoURL": "sponsors/judge_logo.png"
 }
 ];
@@ -122,6 +122,7 @@ export default function Home() {
       <NavigationBar />
       {sponsors && (
         <div className="sponsorsContainer">
+          <h2> Sponsors </h2>
           <p> We wish to thank our loyal Corporate Supporters That make our event possible each and every year. We invite you to take a peek at their websites and encourage you to support their business. You will not be disappointed. </p>
           <Grid container spacing={3}>
             {companyName.map((sponsor, index) => {

@@ -6,6 +6,7 @@
 import Head from "next/head";
 import { makeStyles } from "@material-ui/core/styles";
 import NavigationBar from "./components/navigationBar";
+import DDSFooter from "./components/footer";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -234,6 +235,7 @@ export default function Home() {
             </Link>
           </Grid>
         </Grid>
+        <DDSFooter/>
       </main>
     </>
   );
