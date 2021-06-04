@@ -18,6 +18,7 @@ import Grid from "@material-ui/core/Grid";
 import { useEffect, useState } from "react";
 import ISponsorView from "@local/shared/view-models/sponsor";
 import axios from "../utils/axios";
+import DDSFooter from "./components/footer";
 
 /* JSS used for some styles on the page. */
 const useStyles = makeStyles({
