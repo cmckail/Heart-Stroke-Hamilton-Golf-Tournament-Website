@@ -8,6 +8,7 @@ import helmet from "helmet";
 import express from "express";
 import expressSession from "express-session";
 import { createConnection } from "typeorm";
+import * as path from "path";
 
 import { env, port, connectionObj, logger, sessionSecret } from "./config";
 import { TypeormStore } from "connect-typeorm/out";
@@ -28,6 +29,10 @@ export default class Application {
         this.app.use(express.json());
         this.app.use(cookieParser());
         this.app.use(helmet());
+
+        if (env.toLowerCase() === "production") {
+            this.app.use(express.static(path.join(__dirname, "./out")));
+        }
     }
 
     /**
