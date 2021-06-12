@@ -20,7 +20,7 @@ export default class MailController {
                 to: emailTo,
                 subject: "New Registration Received",
             },
-            // send: true,
+            send: true,
             transport: mailerObj,
             juiceResources: {
                 webResources: {
@@ -55,7 +55,7 @@ export default class MailController {
                 to: emailTo,
                 subject: "New Hole Sponsor Received",
             },
-            // send: true,
+            send: true,
             transport: mailerObj,
             juiceResources: {
                 webResources: {

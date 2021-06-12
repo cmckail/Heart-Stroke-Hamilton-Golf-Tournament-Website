@@ -6,6 +6,7 @@
         "dev": "next dev",
         "dev:server": "ts-node server.ts",
         "build": "next build",
+        "export": "next export",
         "start": "next start"
     },
     "dependencies": {

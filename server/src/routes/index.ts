@@ -4,6 +4,7 @@
  * and a message will be shown
  */
 import { Router, Request, Response, NextFunction } from "express";
+import * as path from "path";
 
 import apiControllers from "./api";
 import controllers from "./non-api";
@@ -26,6 +27,13 @@ apiControllers.forEach((item) => {
 controllers.forEach((item) => {
     router.use(item.route, item.router);
 });
+
+if (env.toLowerCase() === "production") {
+    router.get("/", (req, res, next) => {
+        res.sendFile(path.join(__dirname, "./out/index.html"));
+        next();
+    });
+}
 
 const errorHandler = (
     err: HttpException,
